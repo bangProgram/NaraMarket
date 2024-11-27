@@ -1,0 +1,48 @@
+logging:
+  level:
+    org.hibernate.type: trace
+    org.hibernate.show-sql: DEBUG
+    org.hibernate.transaction: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.hibernate.pretty: TRACE
+
+jutopia:
+  jwt:
+    refresh:
+      duration: 36000
+    access:
+      duration: 3600
+
+#feign:
+#  client:
+#    config:
+#      default:
+#        loggerLevel: full
+
+#spring:
+#  cloud:
+#    openfeign:
+#      client:
+#        config:
+#          default:
+#            connect-timeout: 5000
+#            read-timeout: 5000
+#      circuitbreaker:
+#        enabled: true
+
+#resilience4j:
+#  timelimiter:
+#    configs:
+#      default:
+#        timeoutDuration: 5s
+#        cancelRunningFuture: true
+
+#cloud:
+#  aws:
+#    s3:
+#      public-bucket: ${data.S3_DATA}
+#      private-bucket: ${data.S3_DATA}
+#      max-upload-size: 10485760
+#      public-url: none
+#      region: ap-northeast-2
