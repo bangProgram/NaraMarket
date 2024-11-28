@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <nav th:fragment="headerFragment">
+        <div id="headerDiv">
+            <div id="headerDiv-button">
+                <div class="titleDiv">
+                    <button type="button" th:onclick="|location.href='@{/home/main}'|" >나라피아</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 페이지가 로드되자마자 실행될 JavaScript 코드
+            const serverMessage = '[[${serverMessage}]]';
+
+            if (serverMessage) {
+                alert(serverMessage); // 팝업 메시지
+            }
+        });
+    </script>
+</html>

@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <nav th:fragment="menuBarFragment">
+        <div id="menuBarDiv">
+            <div id="menuBarDiv-button">
+
+            </div>
+        </div>
+        <!--
+        <div id="childMenuBarDiv">
+            <div id="childMenuBarDiv-button">
+                <button th:each="topMenu : ${topMenuList}" th:onclick="|location.href='@{${topMenu.menuUrl}}'|" th:utext="${topMenu.menuName}" ></button>
+            </div>
+        </div>
+        -->
+    </nav>
+</html>
