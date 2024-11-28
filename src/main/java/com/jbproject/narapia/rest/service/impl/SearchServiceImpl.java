@@ -1,6 +1,6 @@
 package com.jbproject.narapia.rest.service.impl;
 
-import com.jbproject.narapia.rest.dto.payload.SearchPayload;
+import com.jbproject.narapia.rest.dto.payload.NotiSearchPayload;
 import com.jbproject.narapia.rest.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SearchServiceImpl implements SearchService {
 
-    public void getSearchList(SearchPayload payload) {
+    public void getSearchList(NotiSearchPayload payload) {
 
     }
 

@@ -3,7 +3,7 @@ package com.jbproject.narapia.rest.dto.payload;
 import lombok.Data;
 
 @Data
-public class SearchPayload {
+public class NotiSearchPayload {
 
     private String numOfRows;  // 한 페이지 결과 수
 
