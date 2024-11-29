@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-public class NotiController {
+public class BidNotiController {
 
     @GetMapping("/noti")
     public String goNotification(

@@ -17,14 +17,14 @@ public class BaseEntity {
 
     @CreatedDate
     @Column(name = "create_dttm", updatable = false)
-    private LocalDateTime createDate;
+    private LocalDateTime createDttm;
 
     @Column(name = "create_id", updatable = false)
     private String createId;
 
     @LastModifiedDate
     @Column(name = "update_dttm")
-    private LocalDateTime updateDate;
+    private LocalDateTime updateDttm;
 
     private String updateId;
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/noti")
-public class NotiApiController {
+public class BidNotiApiController {
 
     @PostMapping("/search/list")
     public String searchList(
