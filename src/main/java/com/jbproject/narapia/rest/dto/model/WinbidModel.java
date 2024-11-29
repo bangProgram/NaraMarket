@@ -1,9 +1,10 @@
 package com.jbproject.narapia.rest.dto.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter @Setter @ToString
+@NoArgsConstructor
 public class WinbidModel {
 
     @Schema(title = "입찰공고번호")

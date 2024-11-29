@@ -1,9 +1,13 @@
 package com.jbproject.narapia.rest.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jbproject.narapia.rest.common.CommonUtil;
 import com.jbproject.narapia.rest.constants.ServerConstant;
 import com.jbproject.narapia.rest.dto.model.ApiResponseModel;
+import com.jbproject.narapia.rest.dto.model.WinbidModel;
 import com.jbproject.narapia.rest.dto.payload.WinbidSearchPayload;
+import com.jbproject.narapia.rest.entity.WinbidEntity;
+import com.jbproject.narapia.rest.entity.keys.WinbidKey;
 import com.jbproject.narapia.rest.repository.WindbidRepository;
 import com.jbproject.narapia.rest.service.UtilService;
 import lombok.RequiredArgsConstructor;
@@ -60,41 +64,33 @@ public class UtilServiceImpl implements UtilService {
         String requestUri = apiUrl + path + method + parameter;
         System.out.println("test2");
 
-        UriComponents uri = UriComponentsBuilder
-                .fromUriString(apiUrl)
-                .path(path+method)
-                .queryParam("serviceKey", "qD8YVKAXvCbeS6RBeEUljGCFc1TZmIpdU%2B6pHSPegrp2pneNvgKA%2BasdTjCFqaYTRgcfKlYURMpU3b57bxgx%2Fg%3D%3D")
-                .queryParam("numOfRows", payload.getNumOfRows())
-                .queryParam("pageNo", payload.getPageNo())
-                .queryParam("inqryDiv", payload.getInqryDiv())
-                .queryParam("type", payload.getType())
-                .queryParam("bidNtceNo", payload.getBidNtceNo())
-                .build(false);
+        ApiResponseModel<WinbidModel> responseModel = CommonUtil.getNaraResponse(requestUri, "response",WinbidModel.class);
+        System.out.println("GET Header : " + responseModel.getHeader());
+        System.out.println("GET Body : " + responseModel.getBody());
+        System.out.println("GET Items : " + responseModel.getBody().getItems());
 
-        RestTemplate restTemplate1 = new RestTemplate();
+        List<WinbidModel> items = responseModel.getBody().getItems();
+        for(WinbidModel item : items){
+            WinbidKey key = WinbidKey.builder()
+                    .bidClsfcNo(item.getBidClsfcNo())
+                    .bidNtceNo(item.getBidNtceNo())
+                    .bidNtceOrd(item.getBidNtceOrd())
+                    .build();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+            Optional<WinbidEntity> entity = windbidRepository.findById(key);
+            if(entity.isPresent()){
+                WinbidEntity modEntity = entity.get();
+                modEntity.update(item);
 
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+                windbidRepository.save(modEntity);
+            }else{
+                WinbidEntity newEntity = new WinbidEntity(item);
 
+                windbidRepository.save(newEntity);
+            }
+        }
 
-        System.out.println("uri = " + uri);
-
-        RestTemplate restTemplate2 = new RestTemplate();
-        ResponseEntity<String> responseEntity1 = restTemplate1.exchange(uri.toUriString(), HttpMethod.GET, entity, String.class);
-
-        System.out.println("GET result: " + responseEntity1);
-
-        // HTTP GET 요청 보내기
-        System.out.println("requestUri : "+requestUri);
-        ResponseEntity<String> responseEntity = restTemplate2.getForEntity(requestUri, String.class);
-
-        // 응답 값
-        String responseBody = responseEntity.getBody();
-        System.out.println("GET Response: " + responseBody);
-
-
+        System.out.println("GET Items Instance check : " + (responseModel.getBody().getItems().getFirst() instanceof WinbidModel));
 
 //        Thread.sleep(Integer.parseInt(ServerUtilConstant.CORP_MERGE_DELAY.getValue()));
     }

@@ -10,19 +10,29 @@ import java.util.List;
 @Getter @Setter @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties
-public class ApiResponseModel {
+@JsonIgnoreProperties(ignoreUnknown = true,value = "response")
+public class ApiResponseModel<T> {
 
     @JsonProperty("header")
     private Header header;
     @JsonProperty("body")
-    private Object body;
+    private Body<T> body;
 
     @Getter @Setter @ToString
     @NoArgsConstructor
     public static class Header{
         private String resultCode;
         private String resultMsg;
+    }
+
+    @Getter @Setter @ToString
+    @NoArgsConstructor
+    public static class Body<T> {
+        private List<T> items;
+        private int numOfRows;
+        private int pageNo;
+        private int totalCount;
+
     }
 
 }

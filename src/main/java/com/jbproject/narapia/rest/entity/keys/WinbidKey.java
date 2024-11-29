@@ -12,6 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@Builder
 public class WinbidKey implements Serializable {
 
     @Column( name = "bid_ntce_no",columnDefinition="varchar(20)")
