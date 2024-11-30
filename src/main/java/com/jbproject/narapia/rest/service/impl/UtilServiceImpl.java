@@ -16,19 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriBuilder;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.util.*;
 import java.util.function.Function;
 
@@ -51,9 +38,7 @@ public class UtilServiceImpl implements UtilService {
 
         String apiUrl = ServerConstant.NARA_MAIN_URL;
         String path = ServerConstant.WINBID_PATH;
-        String method = ServerConstant.WINBID_MAIN_PATH;
-        payload.setNumOfRows("10");
-        payload.setPageNo("1");
+        String method = ServerConstant.WINBID_METHOD;
         payload.setInqryDiv("4");
         payload.setBidNtceNo("20230301028");
 
@@ -65,29 +50,49 @@ public class UtilServiceImpl implements UtilService {
         System.out.println("test2");
 
         ApiResponseModel<WinbidModel> responseModel = CommonUtil.getNaraResponse(requestUri, "response",WinbidModel.class);
-        System.out.println("GET Header : " + responseModel.getHeader());
-        System.out.println("GET Body : " + responseModel.getBody());
-        System.out.println("GET Items : " + responseModel.getBody().getItems());
 
-        List<WinbidModel> items = responseModel.getBody().getItems();
-        for(WinbidModel item : items){
-            WinbidKey key = WinbidKey.builder()
-                    .bidClsfcNo(item.getBidClsfcNo())
-                    .bidNtceNo(item.getBidNtceNo())
-                    .bidNtceOrd(item.getBidNtceOrd())
-                    .build();
+        ApiResponseModel.Body<WinbidModel> body = responseModel.getBody();
 
-            Optional<WinbidEntity> entity = windbidRepository.findById(key);
-            if(entity.isPresent()){
-                WinbidEntity modEntity = entity.get();
-                modEntity.update(item);
+        List<WinbidModel> items = body.getItems();
+        int totalCnt = body.getTotalCount();
+        int rowCnt = payload.getNumOfRows();
+        int curPageNo = payload.getPageNo();
 
-                windbidRepository.save(modEntity);
-            }else{
-                WinbidEntity newEntity = new WinbidEntity(item);
 
-                windbidRepository.save(newEntity);
+        while (totalCnt > 0){
+
+            for(WinbidModel item : items){
+                WinbidKey key = WinbidKey.builder()
+                        .bidClsfcNo(item.getBidClsfcNo())
+                        .bidNtceNo(item.getBidNtceNo())
+                        .bidNtceOrd(item.getBidNtceOrd())
+                        .build();
+
+                Optional<WinbidEntity> entity = windbidRepository.findById(key);
+                if(entity.isPresent()){
+                    WinbidEntity modEntity = entity.get();
+                    modEntity.update(item);
+
+                    windbidRepository.save(modEntity);
+                }else{
+                    WinbidEntity newEntity = new WinbidEntity(item);
+
+                    windbidRepository.save(newEntity);
+                }
             }
+            totalCnt = totalCnt - rowCnt;
+
+            if(totalCnt > 0){
+                curPageNo += 1;
+                payload.setPageNo(curPageNo);
+
+                parameter = setParameter(payload);
+                requestUri = apiUrl + path + method + parameter;
+                responseModel = CommonUtil.getNaraResponse(requestUri, "response",WinbidModel.class);
+                body = responseModel.getBody();
+                items = body.getItems();
+            }
+
         }
 
         System.out.println("GET Items Instance check : " + (responseModel.getBody().getItems().getFirst() instanceof WinbidModel));
@@ -99,10 +104,10 @@ public class UtilServiceImpl implements UtilService {
         String result = "?serviceKey=qD8YVKAXvCbeS6RBeEUljGCFc1TZmIpdU%2B6pHSPegrp2pneNvgKA%2BasdTjCFqaYTRgcfKlYURMpU3b57bxgx%2Fg%3D%3D";
 
 
-        if(hasText(payload.getNumOfRows())){
+        if(payload.getNumOfRows() != 0){
             result += "&numOfRows="+payload.getNumOfRows();
         }
-        if(hasText(payload.getPageNo())){
+        if(payload.getPageNo() != 0){
             result += "&pageNo="+payload.getPageNo();
         }
         if(hasText(payload.getInqryDiv())){
@@ -119,34 +124,6 @@ public class UtilServiceImpl implements UtilService {
         }
         if(hasText(payload.getBidNtceNo())){
             result += "&bidNtceNo="+payload.getBidNtceNo();
-        }
-
-        return result;
-    }
-
-    public Map<String,Object> setParameterMap(WinbidSearchPayload payload) {
-        Map<String,Object> result = new HashMap<>();
-
-        if(hasText(payload.getNumOfRows())){
-            result.put("numOfRows",payload.getNumOfRows());
-        }
-        if(hasText(payload.getPageNo())){
-            result.put("pageNo",payload.getPageNo());
-        }
-        if(hasText(payload.getInqryDiv())){
-            result.put("inqryDiv",payload.getInqryDiv());
-        }
-        if(hasText(payload.getType())){
-            result.put("type",payload.getType());
-        }
-        if(hasText(payload.getInqryBgnDt())){
-            result.put("inqryBgnDt",payload.getInqryBgnDt());
-        }
-        if(hasText(payload.getInqryEndDt())){
-            result.put("inqryEndDt",payload.getInqryEndDt());
-        }
-        if(hasText(payload.getBidNtceNo())){
-            result.put("bidNtceNo",payload.getBidNtceNo());
         }
 
         return result;

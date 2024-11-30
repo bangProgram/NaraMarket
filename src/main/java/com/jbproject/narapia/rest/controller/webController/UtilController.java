@@ -21,16 +21,9 @@ public class UtilController {
     HttpServletRequest request, Model model
     , WinbidSearchPayload payload
     ) {
-        System.out.println("여기도 안들어간거같은데1");
-        try {
-            System.out.println("여기도 안들어간거같은데2");
-            utilService.saveWinbid(payload);
-            return "/util/main";
-        }catch (Exception e){
-            System.out.println("여기도 안들어간거같은데3 : "+e);
-            return "/error/main";
-        }
 
+        model.addAttribute("winbidSearchPayload",payload);
+        return "/util/main";
     }
 
 }

@@ -29,9 +29,7 @@ class NarapiaApplicationTests {
 
 		String apiUrl = ServerConstant.NARA_MAIN_URL;
 		String path = ServerConstant.WINBID_PATH;
-		String method = ServerConstant.WINBID_MAIN_PATH;
-		payload.setNumOfRows("10");
-		payload.setPageNo("1");
+		String method = ServerConstant.WINBID_METHOD;
 		payload.setInqryDiv("4");
 		payload.setBidNtceNo("20230301028");
 
@@ -61,10 +59,10 @@ class NarapiaApplicationTests {
 		String result = "?serviceKey=qD8YVKAXvCbeS6RBeEUljGCFc1TZmIpdU%2B6pHSPegrp2pneNvgKA%2BasdTjCFqaYTRgcfKlYURMpU3b57bxgx%2Fg%3D%3D";
 
 
-		if(hasText(payload.getNumOfRows())){
+		if(payload.getNumOfRows() != 0){
 			result += "&numOfRows="+payload.getNumOfRows();
 		}
-		if(hasText(payload.getPageNo())){
+		if(payload.getPageNo() != 0){
 			result += "&pageNo="+payload.getPageNo();
 		}
 		if(hasText(payload.getInqryDiv())){
