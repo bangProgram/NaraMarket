@@ -14,7 +14,7 @@
     <div class="utilDiv">
         <div>
             낙찰결과 데이터 크롤링
-            <form action="/api/util/winbid" name="winbidForm" method="post"  th:object="${winbidSearchPayload}" >
+            <form action="/api/util/winbid/save" name="winbidForm" method="post"  th:object="${winbidSearchPayload}" >
                 <table>
                     <tr>
                         <td>
@@ -25,7 +25,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <select th:field="*{inqryDiv}" class="requiredChk" title="타입 선택">
+                            <select th:field="*{inqryDiv}" id="main_inqryDiv" class="requiredChk" title="타입 선택">
                                 <option value = "1" th:utext="둥록일시" ></option>
                                 <option value = "2" th:utext="공고일시" ></option>
                                 <option value = "3" th:utext="개찰일시" ></option>
@@ -34,12 +34,48 @@
                         </td>
                     </tr>
                     <tr>
-                        <td id="inqry_date">
+                        <td id="main_inqry_date">
                             <input type="text" th:field="*{inqryBgnDt}" placeholder="시작일(YYYYMMDDHHMM)">
                             ~
                             <input type="text" th:field="*{inqryEndDt}" placeholder="종료일(YYYYMMDDHHMM)">
                         </td>
-                        <td id="inqry_id">
+                        <td id="main_inqry_id" style="display: none">
+                            <input type="text" th:field="*{bidNtceNo}" placeholder="입찰공고번호">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><button onclick="submit()" >업데이트</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <div>
+            낙찰결과 상세 데이터 크롤링
+            <form action="/api/util/winbidDetail/save" name="winbidDetailForm" method="post"  th:object="${winbidDetailSearchPayload}" >
+                <table>
+                    <tr>
+                        <td>
+                            <input type="text" th:field="*{numOfRows}">
+                            <input type="text" th:field="*{pageNo}">
+                            <input type="text" th:field="*{type}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select th:field="*{inqryDiv}" id="detail_inqryDiv" class="requiredChk" title="타입 선택">
+                                <option value = "1" th:utext="입력일시" ></option>
+                                <option value = "2" th:utext="입찰공고번호" ></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="detail_inqry_date">
+                            <input type="text" th:field="*{inqryBgnDt}" placeholder="시작일(YYYYMMDDHHMM)">
+                            ~
+                            <input type="text" th:field="*{inqryEndDt}" placeholder="종료일(YYYYMMDDHHMM)">
+                        </td>
+                        <td id="detail_inqry_id" style="display: none">
                             <input type="text" th:field="*{bidNtceNo}" placeholder="입찰공고번호">
                         </td>
                     </tr>
@@ -51,5 +87,40 @@
         </div>
     </div>
 </h6>
+<script>
+    $("#main_inqryDiv").change(function(){
+        if($(this).val() == '4') {
+            $("#main_inqry_date").css("display","none");
+            $("#main_inqry_id").css("display","table-cell");
+        }else{
+            $("#main_inqry_date").css("display","table-cell");
+            $("#main_inqry_id").css("display","none");
+        }
+
+    });
+
+    $("#detail_inqryDiv").change(function(){
+        if($(this).val() == '2') {
+            $("#detail_inqry_date").css("display","none");
+            $("#detail_inqry_id").css("display","table-cell");
+        }else{
+            $("#detail_inqry_date").css("display","table-cell");
+            $("#detail_inqry_id").css("display","none");
+        }
+
+    });
+</script>
+
+<style>
+    .utilDiv > div {
+        border: 2px solid;
+        margin: 20px;
+    }
+
+    form > table > tr > td {
+        padding: 10px;
+    }
+</style>
+
 </body>
 </html>

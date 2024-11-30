@@ -2,6 +2,7 @@ package com.jbproject.narapia.rest.constants;
 
 public class ServerConstant {
 
+    public final static long NARA_DELAY_MILLI_SEC = 5 * 1000;
     public final static Long SEARCH_NUM_OF_ROWS = 100L;
     public final static int WINBID_NUM_OF_ROWS = 999;
     public final static String NARA_MAIN_URL = "https://apis.data.go.kr/1230000";

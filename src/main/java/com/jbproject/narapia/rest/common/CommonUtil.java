@@ -54,7 +54,6 @@ public class CommonUtil {
         Map responseModel = objectMapper.readValue(responseEntity,Map.class);
 
         TypeReference<ApiResponseModel<T>> typeReference = createTypeReference(type);
-
         return objectMapper.readValue(objectMapper.writeValueAsString(responseModel.get(rootName)), typeReference);
     }
 }

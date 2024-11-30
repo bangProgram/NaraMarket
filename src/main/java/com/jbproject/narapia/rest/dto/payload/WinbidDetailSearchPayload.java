@@ -5,8 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class WinbidSearchPayload extends WinbidSearch{
+public class WinbidDetailSearchPayload extends WinbidSearch{
 
-    private int winbidId;
+    private int winbidDetailId;
     private String searchText;
 }

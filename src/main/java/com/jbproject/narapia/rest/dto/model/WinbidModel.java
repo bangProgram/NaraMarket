@@ -1,7 +1,17 @@
 package com.jbproject.narapia.rest.dto.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter @Setter @ToString
 @NoArgsConstructor
@@ -21,7 +31,7 @@ public class WinbidModel {
     @Schema(title = "입찰공고명")
     private String bidNtceNm;
     @Schema(title = "참가업체수")
-    private String prtcptCnum;
+    private long prtcptCnum;
     @Schema(title = "최종낙찰업체명")
     private String bidwinnrNm;
     @Schema(title = "최종낙찰업체사업자등록번호")
@@ -33,19 +43,28 @@ public class WinbidModel {
     @Schema(title = "최종낙찰업체전화번호")
     private String bidwinnrTelNo;
     @Schema(title = "최종낙찰금액")
-    private String sucsfbidAmt;
+    private double sucsfbidAmt;
     @Schema(title = "최종낙찰률")
     private String sucsfbidRate;
     @Schema(title = "실개찰일시")
-    private String rlOpengDt;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime rlOpengDt;
     @Schema(title = "수요기관코드")
     private String dminsttCd;
     @Schema(title = "수요기관명")
     private String dminsttNm;
     @Schema(title = "등록일시")
-    private String rgstDt;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime rgstDt;
     @Schema(title = "최종낙찰일자")
-    private String fnlSucsfDate;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fnlSucsfDate;
     @Schema(title = "최종낙찰업체담당자")
     private String fnlSucsfCorpOfcl;
     @Schema(title = "연계기관명")

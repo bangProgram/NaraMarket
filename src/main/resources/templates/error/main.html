@@ -6,12 +6,49 @@
       layout:fragment="content"
 >
 <head>
-    <meta charset="UTF-8">
-    <title>에러 화면 입니다.</title>
+    <title>Error Page</title>
 </head>
 <body>
-<h6>
-    에러 화면 이라네요
-</h6>
+<h1>Error Page</h1>
+<p th:text="${message}">You are not authorized to access this page.</p>
+
+
+<script th:inline="javascript">
+    /* 타임리프 변수를 JavaScript 변수로 전달 */
+    let statusCode = /*[[${statusCode}]]*/ "500";
+    let errorCode = /*[[${errorCode}]]*/ "Auth.500.00";
+    let message = /*[[${message}]]*/ "Auth Error";
+    let refreshTokenUrl = "/auth/refresh";
+    let loginUrl = "/auth/login";
+    let homeUrl = "/home/main";
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 페이지가 로드되자마자 실행될 JavaScript 코드
+        sendRedirect();
+    });
+
+    function sendRedirect() {
+        if(errorCode.indexOf("JwtAuth") > -1 ) {
+            if(errorCode == "JwtAuth.500.07") {
+                    alert(message);
+                    location.href = loginUrl;
+                    return;
+            }
+            else {
+                if(confirm(message + "\n로그인 연장 하시겠습니까?")){
+                    location.href = refreshTokenUrl;
+                    return;
+                }else{
+                    location.href = loginUrl;
+                    return;
+                }
+            }
+        }else{
+            alert(message);
+            location.href = homeUrl;
+            return;
+        }
+    }
+</script>
 </body>
 </html>

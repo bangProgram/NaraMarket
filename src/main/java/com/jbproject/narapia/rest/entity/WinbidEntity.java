@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Persistable;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -26,19 +29,19 @@ public class WinbidEntity extends BaseEntity implements Persistable<WinbidKey> {
     private String rbidNo;
     private String ntceDivCd;
     private String bidNtceNm;
-    private String prtcptCnum;
+    private long prtcptCnum;
     private String bidwinnrNm;
     private String bidwinnrBizno;
     private String bidwinnrCeoNm;
     private String bidwinnrAdrs;
     private String bidwinnrTelNo;
-    private String sucsfbidAmt;
+    private double sucsfbidAmt;
     private String sucsfbidRate;
-    private String rlOpengDt;
+    private LocalDateTime rlOpengDt;
     private String dminsttCd;
     private String dminsttNm;
-    private String rgstDt;
-    private String fnlSucsfDate;
+    private LocalDateTime rgstDt;
+    private LocalDate fnlSucsfDate;
     private String fnlSucsfCorpOfcl;
     private String linkInsttNm;
 
@@ -46,10 +49,10 @@ public class WinbidEntity extends BaseEntity implements Persistable<WinbidKey> {
     @Builder
     public WinbidEntity(
             WinbidKey id, String rbidNo, String ntceDivCd, String bidNtceNm
-            , String prtcptCnum, String bidwinnrNm, String bidwinnrBizno, String bidwinnrCeoNm
-            , String bidwinnrAdrs, String bidwinnrTelNo, String sucsfbidAmt, String sucsfbidRate
-            , String rlOpengDt, String dminsttCd, String dminsttNm, String rgstDt
-            , String fnlSucsfDate, String fnlSucsfCorpOfcl, String linkInsttNm
+            , long prtcptCnum, String bidwinnrNm, String bidwinnrBizno, String bidwinnrCeoNm
+            , String bidwinnrAdrs, String bidwinnrTelNo, long sucsfbidAmt, String sucsfbidRate
+            , LocalDateTime rlOpengDt, String dminsttCd, String dminsttNm, LocalDateTime rgstDt
+            , LocalDate fnlSucsfDate, String fnlSucsfCorpOfcl, String linkInsttNm
     ) {
         this.id = id;
         this.rbidNo = rbidNo;
@@ -99,7 +102,7 @@ public class WinbidEntity extends BaseEntity implements Persistable<WinbidKey> {
         this.linkInsttNm = model.getLinkInsttNm();
     }
 
-    public void update(WinbidModel model){
+    public void update(WinbidModel model) {
 
         this.rbidNo = model.getRbidNo();
         this.ntceDivCd = model.getNtceDivCd();
