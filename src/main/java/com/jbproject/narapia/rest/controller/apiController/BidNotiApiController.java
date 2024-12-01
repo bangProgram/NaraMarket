@@ -1,6 +1,6 @@
 package com.jbproject.narapia.rest.controller.apiController;
 
-import com.jbproject.narapia.rest.dto.payload.NotiSearchPayload;
+import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +14,7 @@ public class BidNotiApiController {
     @PostMapping("/search/list")
     public String searchList(
             HttpServletRequest request, Model model
-            , NotiSearchPayload payload
+            , BidNotiSearchPayload payload
     ){
         return "";
     }

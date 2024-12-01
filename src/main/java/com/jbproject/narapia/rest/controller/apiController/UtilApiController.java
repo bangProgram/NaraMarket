@@ -1,6 +1,7 @@
 package com.jbproject.narapia.rest.controller.apiController;
 
 
+import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidDetailSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidSearchPayload;
 import com.jbproject.narapia.rest.service.UtilService;
@@ -8,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,6 +57,32 @@ public class UtilApiController {
                 redirectAttributes.addFlashAttribute("serverMessage","낙찰결과 상세 업데이트 되었습니다. / "+stDate+" ~ "+edDate);
             }else{
                 redirectAttributes.addFlashAttribute("serverMessage","낙찰결과 상세 업데이트 되었습니다.");
+            }
+        }catch (Exception e){
+            log.error("Exception : {}",e.getLocalizedMessage());
+            redirectAttributes.addFlashAttribute("serverMessage","업데이트에 실패하였습니다..");
+        }
+
+        return new RedirectView("/util");
+
+    }
+
+    @PostMapping("/bidNoti/save")
+    public RedirectView saveNoti(
+            HttpServletRequest request, Model model
+            , BidNotiSearchPayload payload
+            , RedirectAttributes redirectAttributes
+    ) {
+
+        try {
+            utilService.saveBidNoti(payload);
+
+            if(payload.getInqryDiv().equals("2")){
+                redirectAttributes.addFlashAttribute("serverMessage","입찰공고 업데이트 되었습니다.");
+            }else{
+                String stDate = payload.getInqryBgnDt();
+                String edDate = payload.getInqryEndDt();
+                redirectAttributes.addFlashAttribute("serverMessage","입찰공고 업데이트 되었습니다. / "+stDate+" ~ "+edDate);
             }
         }catch (Exception e){
             log.error("Exception : {}",e.getLocalizedMessage());

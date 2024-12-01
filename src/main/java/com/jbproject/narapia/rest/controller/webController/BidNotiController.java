@@ -1,6 +1,6 @@
 package com.jbproject.narapia.rest.controller.webController;
 
-import com.jbproject.narapia.rest.dto.payload.NotiSearchPayload;
+import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ public class BidNotiController {
     @GetMapping("/noti")
     public String goNotification(
             HttpServletRequest request, Model model
-            , NotiSearchPayload payload
+            , BidNotiSearchPayload payload
     ){
         return "/noti/main";
     }

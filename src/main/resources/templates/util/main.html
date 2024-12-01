@@ -25,7 +25,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <select th:field="*{inqryDiv}" id="main_inqryDiv" class="requiredChk" title="타입 선택">
+                            <select th:field="*{inqryDiv}" class="requiredChk" title="타입 선택">
                                 <option value = "1" th:utext="둥록일시" ></option>
                                 <option value = "2" th:utext="공고일시" ></option>
                                 <option value = "3" th:utext="개찰일시" ></option>
@@ -34,12 +34,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td id="main_inqry_date">
+                        <td class="inqry_date">
                             <input type="text" th:field="*{inqryBgnDt}" placeholder="시작일(YYYYMMDDHHMM)">
                             ~
                             <input type="text" th:field="*{inqryEndDt}" placeholder="종료일(YYYYMMDDHHMM)">
                         </td>
-                        <td id="main_inqry_id" style="display: none">
+                        <td class="inqry_id" style="display: none">
                             <input type="text" th:field="*{bidNtceNo}" placeholder="입찰공고번호">
                         </td>
                     </tr>
@@ -63,19 +63,56 @@
                     </tr>
                     <tr>
                         <td>
-                            <select th:field="*{inqryDiv}" id="detail_inqryDiv" class="requiredChk" title="타입 선택">
+                            <select th:field="*{inqryDiv}" class="requiredChk" title="타입 선택">
                                 <option value = "1" th:utext="입력일시" ></option>
                                 <option value = "2" th:utext="입찰공고번호" ></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <td id="detail_inqry_date">
+                        <td class="inqry_date">
                             <input type="text" th:field="*{inqryBgnDt}" placeholder="시작일(YYYYMMDDHHMM)">
                             ~
                             <input type="text" th:field="*{inqryEndDt}" placeholder="종료일(YYYYMMDDHHMM)">
                         </td>
-                        <td id="detail_inqry_id" style="display: none">
+                        <td class="inqry_id" style="display: none">
+                            <input type="text" th:field="*{bidNtceNo}" placeholder="입찰공고번호">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><button onclick="submit()" >업데이트</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <div>
+            입찰공고 데이터 크롤링
+            <form action="/api/util/bidNoti/save" name="notiForm" method="post"  th:object="${bidNotiSearchPayload}" >
+                <table>
+                    <tr>
+                        <td>
+                            <input type="text" th:field="*{numOfRows}">
+                            <input type="text" th:field="*{pageNo}">
+                            <input type="text" th:field="*{type}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select th:field="*{inqryDiv}" class="requiredChk" title="타입 선택">
+                                <option value = "1" th:utext="등록일시" ></option>
+                                <option value = "2" th:utext="입찰공고번호" ></option>
+                                <option value = "3" th:utext="변경일시" ></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="inqry_date">
+                            <input type="text" th:field="*{inqryBgnDt}" placeholder="시작일(YYYYMMDDHHMM)">
+                            ~
+                            <input type="text" th:field="*{inqryEndDt}" placeholder="종료일(YYYYMMDDHHMM)">
+                        </td>
+                        <td class="inqry_id" style="display: none">
                             <input type="text" th:field="*{bidNtceNo}" placeholder="입찰공고번호">
                         </td>
                     </tr>
@@ -88,26 +125,26 @@
     </div>
 </h6>
 <script>
-    $("#main_inqryDiv").change(function(){
-        if($(this).val() == '4') {
-            $("#main_inqry_date").css("display","none");
-            $("#main_inqry_id").css("display","table-cell");
-        }else{
-            $("#main_inqry_date").css("display","table-cell");
-            $("#main_inqry_id").css("display","none");
-        }
+    $(document).ready(function() {
+        // 각 form 안에 있는 selectbox 변화에 따른 스타일 변경
+        $("form").each(function() {
+            // form 안에 있는 selectbox에 이벤트 리스너 추가
+            $(this).find("select").on("change", function() {
+                // 선택된 option 값에 따라 특정 요소들의 스타일 변경
+                var selectedText = $(this).find("option:selected").text();
 
-    });
+                // form 내의 #noti_inqry_date, #noti_inqry_id 요소를 찾아서 스타일 변경
+                var form = $(this).closest("form"); // 현재 selectbox가 속한 form 찾기
 
-    $("#detail_inqryDiv").change(function(){
-        if($(this).val() == '2') {
-            $("#detail_inqry_date").css("display","none");
-            $("#detail_inqry_id").css("display","table-cell");
-        }else{
-            $("#detail_inqry_date").css("display","table-cell");
-            $("#detail_inqry_id").css("display","none");
-        }
-
+                if (selectedText == "입찰공고번호") {
+                    form.find(".inqry_date").hide();  // inqry_date를 보이게
+                    form.find(".inqry_id").show();   // inqry_id를 숨기기
+                } else {
+                    form.find(".inqry_date").show(); // inqry_date를 숨기기
+                    form.find(".inqry_id").hide();    // inqry_id를 보이게
+                }
+            });
+        });
     });
 </script>
 

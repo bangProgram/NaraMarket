@@ -5,22 +5,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jbproject.narapia.rest.common.CommonUtil;
 import com.jbproject.narapia.rest.constants.ServerConstant;
 import com.jbproject.narapia.rest.dto.model.ApiResponseModel;
+import com.jbproject.narapia.rest.dto.model.BidNotiModel;
 import com.jbproject.narapia.rest.dto.model.WinbidDetailModel;
 import com.jbproject.narapia.rest.dto.model.WinbidModel;
+import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidDetailSearchPayload;
-import com.jbproject.narapia.rest.dto.payload.WinbidSearch;
+import com.jbproject.narapia.rest.dto.payload.NaraSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidSearchPayload;
-import com.jbproject.narapia.rest.entity.WinbidDetailEntity;
-import com.jbproject.narapia.rest.entity.WinbidEntity;
-import com.jbproject.narapia.rest.entity.keys.WinbidDetailKey;
-import com.jbproject.narapia.rest.entity.keys.WinbidKey;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.util.StringUtils.hasText;
 
@@ -127,7 +124,34 @@ class NarapiaApplicationTests {
 
 	}
 
-	public String setParameter(WinbidSearch payload){
+	@Test
+	void saveNoti() throws Exception {
+
+		BidNotiSearchPayload payload = new BidNotiSearchPayload();
+		String apiUrl = ServerConstant.NARA_MAIN_URL;
+		String path = ServerConstant.NARA_BIDNOTI_PATH;
+		String method = ServerConstant.BIDNOTI_GOODS_METHOD;
+		payload.setInqryDiv("2");
+		payload.setBidNtceNo("20230301028");
+
+
+		String parameter = setParameter(payload);
+
+		// URL과 파라미터 조합
+		String requestUri = apiUrl + path + method + parameter;
+
+		ApiResponseModel<BidNotiModel> responseModel = CommonUtil.getNaraResponse(requestUri, "response", BidNotiModel.class);
+		ApiResponseModel.Body<BidNotiModel> body = responseModel.getBody();
+
+		List<BidNotiModel> items = body.getItems();
+		int totalCnt = body.getTotalCount();
+		int rowCnt = payload.getNumOfRows();
+		int curPageNo = payload.getPageNo();
+
+		System.out.println("totalCnt : "+totalCnt+" \n items : "+items);
+	}
+
+	public String setParameter(NaraSearchPayload payload){
 		String result = "?serviceKey="+secret;
 
 

@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class WinbidSearch {
+public class NaraSearchPayload {
 
 
     @Schema(title = "한 페이지 결과 수")

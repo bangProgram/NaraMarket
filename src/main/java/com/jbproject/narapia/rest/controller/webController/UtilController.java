@@ -1,5 +1,6 @@
 package com.jbproject.narapia.rest.controller.webController;
 
+import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidDetailSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidSearchPayload;
 import com.jbproject.narapia.rest.service.UtilService;
@@ -19,13 +20,15 @@ public class UtilController {
 
     @GetMapping("/util")
     public String goUtil(
-        HttpServletRequest request, Model model
+            HttpServletRequest request, Model model
         , WinbidSearchPayload winbidSearchPayload
         , WinbidDetailSearchPayload winbidDetailSearchPayload
+        , BidNotiSearchPayload bidNotiSearchPayload
     ) {
 
         model.addAttribute("winbidSearchPayload",winbidSearchPayload);
         model.addAttribute("winbidDetailSearchPayload",winbidDetailSearchPayload);
+        model.addAttribute("bidNotiSearchPayload", bidNotiSearchPayload);
         return "/util/main";
     }
 

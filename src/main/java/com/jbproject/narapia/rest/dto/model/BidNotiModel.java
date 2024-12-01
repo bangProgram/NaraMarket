@@ -1,6 +1,7 @@
 package com.jbproject.narapia.rest.dto.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -8,8 +9,10 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
-public class NotiModel {
+public class BidNotiModel {
 
 
     @Schema(title = "(방위사업청 오픈API 연계데이터 포함)입찰공고를 관리하기 위한 번호이며 조달청나라장터 공고건의 형식은 년도(4)+월(2)+순번(5)이며 자체전자조달시스템 보유기관은 각 기관별 형식 별도 사용")
@@ -18,8 +21,9 @@ public class NotiModel {
     private String bidNtceOrd;
 
 
+    @JsonProperty("VAT")
     @Schema(title = " 부가가치세")
-    private String VAT;
+    private String vat;
     @Schema(title = " 공동수급이라 함은 구성원을 2인 이상으로 하여 수급인이 해당계약을 공동으로 수행하기 위하여 잠정적으로 결성한 실체를 의미하며 공동수급체가도급을 받아 이행하는 방식을 구분하는 코드로1:공동이행, 2:분담이행, 3:공동+분담이행, 4:공동수급불허, 5:공동 or 분담, 6:주계약자관리방식으로 구분됨")
     private String cmmnSpldmdMethdCd;
     @Schema(title = "(방위사업청 오픈API 연계데이터 포함)공동수급이라 함은 구성원을 2인 이상으로 하여 수급인이 해당계약을 공동으로 수행하기 위하여 잠정적으로 결성한 실체를 의미하며 공동수급체가도급을 받아 이행하는 방식을 구분하는 명임")
@@ -34,7 +38,7 @@ public class NotiModel {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = " 공고의 등록일시 “YYYY-MM-DD HH:MM:SS”")
-    private String rgstDt;
+    private LocalDateTime rgstDt;
     @Schema(title = " 공고의 사전규격등록번호")
     private String bfSpecRgstNo;
     @Schema(title = "(방위사업청 오픈API 연계데이터 포함)낙찰방법명에 대한 코드")
@@ -49,14 +53,14 @@ public class NotiModel {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = "(방위사업청 오픈API 연계데이터 포함)입찰참가등록이란 입찰사무를 효과적으로 집행하기 위하여 사전에 입찰참가자격등록을 해두었다가 필요 시 입찰에 참여하는 제도로 해당 공고에 대한 입찰참가자격의 등록이 완료되어야 하는 시점을 의미함 “YYYY-MM-DD HH:MM:SS”")
-    private String bidQlfctRgstDt;
+    private LocalDateTime bidQlfctRgstDt;
     @Schema(title = " 공동수급협정서의 접수방식을 받지 않을 것인지 전자문서로 받을 것인지 또는 수기로 받을 것인지에 따라 “없음”,“전자문서”,“수기”")
     private String cmmnSpldmdAgrmntRcptdocMethd;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = " 공동계약이 허용된 공고에 대해 공동수급체를 구성하여 입찰에 참여하고자 할 경우 구성원이 일정 분담내용에 따라 나누어 공동으로 이행하는 약속을 한 공동수급협정서를 작성하여야 하며 이때 공동수급협정서의 등록(작성) 마감 시점을 의미함”YYYY-MM-DD HH:MM:SS”")
-    private String cmmnSpldmdAgrmntClseDt;
+    private LocalDateTime cmmnSpldmdAgrmntClseDt;
     @Schema(title = " 공동수급협정시 구성원의 지역제한을 적용할지 여부. 지역제한인경우 협정 구성업체가 참가제한지역에 포함되어야 함.(Y/N)")
     private String cmmnSpldmdCorpRgnLmtYn;
 
@@ -64,17 +68,17 @@ public class NotiModel {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = " 입찰서의 제출을 개시하는 일시 “YYYY-MM-DD HH:MM:SS”")
-    private String bidBeginDt;
+    private LocalDateTime bidBeginDt;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = "(방위사업청 오픈API 연계데이터 포함)입찰서의 제출을 마감하는 일시 “YYYY-MM-DD HH:MM:SS”")
-    private String bidClseDt;
+    private LocalDateTime bidClseDt;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = "(방위사업청 오픈API 연계데이터 포함)집행관이 개찰을 수행할 수 있는 시작일시이며 개찰일시 이후에 개찰이 가능함. 실제 개찰을 수행한 시간을 의미하지 않음 “YYYY-MM-DD HH:MM:SS”")
-    private String opengDt;
+    private LocalDateTime opengDt;
 
 
     @Schema(title = " 공고의 공고규격서URL")
@@ -117,7 +121,7 @@ public class NotiModel {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = " 공고의 납품기한일시 “YYYY-MM-DD HH:MM:SS”")
-    private String dlvrTmlmtDt;
+    private LocalDateTime dlvrTmlmtDt;
 
     @Schema(title = " 본 입찰공고의 재공고 여부(Y/N)")
     private String reNtceYn;
@@ -131,7 +135,7 @@ public class NotiModel {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = "(방위사업청 오픈API 연계데이터 포함)입찰공고서를 공고한 일시 “YYYY-MM-DD HH:MM:SS”")
-    private String bidNtceDt;
+    private LocalDateTime bidNtceDt;
     @Schema(title = " 조달청 입찰공고의 경우 참조공고번호는 자체 전자조달시스템에서 관리하는 공고번호를 의미하며 자체전자조달시스템의 경우 참조공고번호는 나라장터(G2B) 입찰공고번호를 의미함")
     private String refNo;
     @Schema(title = "(방위사업청 오픈API 연계데이터 포함)공사명 또는 사업명이라고도 하며 입찰공고 내용을 요약한 이름")
@@ -172,7 +176,7 @@ public class NotiModel {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = "(방위사업청 오픈API 연계데이터)방위사업청 중앙조달 품목 중 생산능력확인제도에 해당하는 입찰공고에서 생산능력확인서류를 제출해야 하는 마감일시 “YYYY-MM-DD HH:MM:SS”")
-    private String d2bMngPrdctnAbltySbmsnClseDt;
+    private LocalDateTime d2bMngPrdctnAbltySbmsnClseDt;
     @Schema(title = "(방위사업청 오픈API 연계데이터)방위사업청 입찰공고의 진행 상태 정보(진행중/공개협상완료/견적서제출마감/조달판단중/판단완료/공고확정/…)")
     private String d2bMngProgrsSttusNm;
     @Schema(title = "(방위사업청 오픈API 연계데이터)방위사업청 입찰 집행유형명. F(제조),N(제조/구매),M(구매),A(용역),L(리스),Z(기타),C(공사),K(공급),Z(기타)")
@@ -197,7 +201,7 @@ public class NotiModel {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = " 공고종류명이 ‘재입찰’ 일 경우 재입찰공고의 개찰을 수행할 수 있는 시작일시 “YYYY-MM-DD HH:MM:SS”")
-    private String rbidOpengDt;
+    private LocalDateTime rbidOpengDt;
     @Schema(title = " 주공종부가가치세")
     private String indutyVAT;
     @Schema(title = " 입찰공고를 구분하는 번호로 입찰공고번호이며 형식은 년도(4)+월(2)+순번(5)")
@@ -214,14 +218,14 @@ public class NotiModel {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = " 실적심사신청서 접수마감일시 “YYYY-MM-DD HH:MM:SS”")
-    private String arsltApplDocRcptDt;
+    private LocalDateTime arsltApplDocRcptDt;
     @Schema(title = " 정보화사업여부")
     private String infoBizYn;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = " 공고의 변경일시 “YYYY-MM-DD HH:MM:SS”")
-    private String chgDt;
+    private LocalDateTime chgDt;
     @Schema(title = "(방위사업청 오픈API 연계데이터 포함)나라장터에 연계를 통하여 입찰 및 계약을 등록한 기관명. * 방위사업청, 한국전력공사 등 (자체)전자조달시스템을 운영하는 기관명")
     private String linkInsttNm;
     @Schema(title = " 수요기관 담당자의 이메일주소")
@@ -230,7 +234,7 @@ public class NotiModel {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(title = "(방위사업청 오픈API 연계데이터)해당 공고에 대한 현장/입찰/과업 설명회를 실시하는 일시 ”YYYY-MM-DD HH:MM:SS”")
-    private String d2bMngDcmtgOprtnDt;
+    private LocalDateTime d2bMngDcmtgOprtnDt;
     @Schema(title = "(방위사업청 오픈API 연계데이터) 해당 공고에 대한 설명회를 실시하는 경우 현장/입찰/과업 설명회를 실시하는 장소")
     private String d2bMngDcmtgOprtnPlce;
     @Schema(title = "(방위사업청 오픈API 연계데이터)해당 공고 입찰 시 지역제한을 두는지의 여부. 예시)Y")
@@ -306,6 +310,8 @@ public class NotiModel {
     private String dlvrDaynum;
     @Schema(title = " 인도 받을 장소")
     private String dlvryCndtnNm;
+    @Schema(title = "파악불가")
+    private String rgnLmtBidLocplcJdgmBssCd;
     @Schema(title = "파악불가")
     private String rgnLmtBidLocplcJdgmBssNm;
 }

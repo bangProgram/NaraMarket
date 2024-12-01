@@ -52,6 +52,7 @@ public class CommonUtil {
         String responseEntity = restTemplate.getForObject(request, String.class);
 
         Map responseModel = objectMapper.readValue(responseEntity,Map.class);
+        System.out.println("test : "+responseModel);
 
         TypeReference<ApiResponseModel<T>> typeReference = createTypeReference(type);
         return objectMapper.readValue(objectMapper.writeValueAsString(responseModel.get(rootName)), typeReference);
