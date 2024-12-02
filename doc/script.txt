@@ -1,0 +1,64 @@
+물품번호 기준 조회쿼리
+
+select
+tb.bid_ntce_no
+,tb.bid_ntce_ord
+,tb.bid_ntce_nm
+,tb.dtil_prdct_clsfc_no
+,tb.dtil_prdct_clsfc_no_nm
+,tb.prdct_uprc
+,tb.ntce_instt_cd
+,tb.ntce_instt_nm
+,tb.dminstt_cd
+,tb.dminstt_nm
+,tb.prearng_prce_dcsn_mthd_nm
+,tb.openg_dt
+-- ,twd.bssamt
+,tw.sucsfbid_amt
+,tw.sucsfbid_rate
+from tb_bidnoti tb
+left join tb_winbid tw
+on tb.bid_ntce_no = tw.bid_ntce_no
+and tb.bid_ntce_ord = tw.bid_ntce_ord
+-- left join tb_winbid_detail twd
+-- on tw.bid_ntce_no = twd.bid_ntce_no
+-- and tw.bid_ntce_ord = twd.bid_ntce_ord
+-- and tw.bid_clsfc_no = twd.bid_clsfc_no
+-- and twd.compno_rsrvtn_prce_sno = '1'
+where tb.dtil_prdct_clsfc_no = '4218155001'
+-- and tw.bid_ntce_no is not null
+;
+
+
+관리기관코드 기준 조회쿼리
+
+select
+tb.bid_ntce_no
+,tb.bid_ntce_ord
+,tb.bid_ntce_nm
+,tb.dtil_prdct_clsfc_no
+,tb.dtil_prdct_clsfc_no_nm
+,tb.prdct_qty
+,tb.prdct_uprc
+,tb.ntce_instt_cd
+,tb.ntce_instt_nm
+,tb.dminstt_cd
+,tb.dminstt_nm
+,tb.prearng_prce_dcsn_mthd_nm
+,tb.openg_dt
+,twd.bssamt
+,tw.sucsfbid_amt
+,tw.sucsfbid_rate
+from tb_bidnoti tb
+left join tb_winbid tw
+on tb.bid_ntce_no = tw.bid_ntce_no
+and tb.bid_ntce_ord = tw.bid_ntce_ord
+ left join tb_winbid_detail twd
+ on tw.bid_ntce_no = twd.bid_ntce_no
+ and tw.bid_ntce_ord = twd.bid_ntce_ord
+ and tw.bid_clsfc_no = twd.bid_clsfc_no
+ and twd.compno_rsrvtn_prce_sno = '1'
+where tb.ntce_instt_cd = 'B550528'
+and tw.bid_ntce_no is not null
+;
+

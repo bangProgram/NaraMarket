@@ -1,0 +1,91 @@
+기초금액 (기초예비가격,배정예산) = 나라장터 공고문에서 확인
+예측사정률
+	- 국가계약법 입찰공고 : 98 ~ 102
+	- 지방계약법 입찰공고 : 97 ~ 103
+
+낙찰하한률 = 공고문 그대로 작성
+
+단일예가
+    - 복수예가방식을 상용하지 않고 담당자가 예정가격을 하나 만들어 사용.
+    - 기초금액, 복수예가, 번호추첨 과정 없이 재무관이 예정가격을 확정.
+
+비예가
+    - 협상에 의한 계약방식(예정가격을 작성하지 않음)
+    - 보통 100점 만점 중에서 제안서 평가 80점 + 입찰가겨 20점을 평가
+    - 제안서평가 배점 중 제안서평가배점의 85%이상의 합격점수를 받아야 가격협상 적격자가 되고 입찰가격은 최저가이므로 가격이 싸면 높은 점수를 받게 됨
+
+
+투찰금액 = 기초금액 * 예측사정률 * 낙찰하한율
+
+예측사정율 = 낙찰금액 / 기초금액 / 낙찰하한율
+
+20160430911
+20160500022
+
+한국전력 : G012301714-00
+나라장터 : 20230301028-00
+한국수자원 : B1202000445
+
+기초금액
+추정가격
+예측사정범위
+낙찰하한율
+
+api 1. 소싱요청 가격산정을 위한 공고조회
+공고번호로 조회 ( payload : 공고번호, 공고타입 (물품,용역,외자,공사) )
+출력 결과
+
+
+getBidPblancListInfoThng02 : bidNtceNo 			공고번호
+getBidPblancListInfoThng02 : bidNtceOrd			공고차수
+getBidPblancListInfoThngBsisAmount02 : bidNtceNm 		공고명
+getBidPblancListInfoThng02 : ntceInsttCd			공고기관코드
+getBidPblancListInfoThng02 : ntceInsttNm			공고기관명
+getBidPblancListInfoThng02 : dminsttCd			수요기관코드
+getBidPblancListInfoThng02 : dminsttNm			수요기관명
+getBidPblancListInfoThng02 : bidMethdNm			입찰방식명
+getBidPblancListInfoThng02 : prearngPrceDcsnMthdNm		예정가격결정방법명
+getBidPblancListInfoThngBsisAmount02 : bssamt			기초금액
+getBidPblancListInfoThng02 : presmptPrce			추정가격
+getBidPblancListInfoThngBsisAmount02 : rsrvtnPrceRngBgnRate	예비가격범위시작률
+getBidPblancListInfoThngBsisAmount02 : rsrvtnPrceRngEndRate	예비가격범위종료율
+getBidPblancListInfoThng02 : sucsfbidLwltRate			낙찰하한율
+
+getBidPblancListInfoThng02 : dtilPrdctClsfcNo			세부품명번호
+getBidPblancListInfoThng02 : dtilPrdctClsfcNoNm		세부품명
+getBidPblancListInfoThng02 : prdctSpecNm			물품규격명
+getBidPblancListInfoThng02 : prdctQty				물품수량
+getBidPblancListInfoThng02 : prdctUnit			물품단위
+getBidPblancListInfoThng02 : prdctUprc			물품단가
+
+
+
+
+1. 공고 물품 별 낙찰가격을 통한 예측사정율 분석 ( paylaod : 물품코드 )
+2. 공고 기관 별 낙찰가격을 통한 예측사정율 분석 ( payload : 공고기관코드 )
+2. 공고 기관 별, 공고 물품 별 낙찰가격을 통한 예측사정율 분석 ( payload : 물품코드, 공고기관코드 )
+낙찰가격 = 기초금액 * 예측사정율 * 낙찰하한율
+예측사정율 = 낙찰가격 / 기초금액 / 낙찰 하한율
+
+공고번호
+공고차수
+공고명
+공고기관코드
+공고기관명
+수요기관코드
+수요기관명
+입찰방식명
+예정가격결정방법명
+기초금액
+추정가격
+낙찰가격
+예비가격범위시작률
+예비가격범위종료율
+낙찰하한율
+
+
+
+위의 조회조건을 통해 나온 결과 데이터
+ex) 물픔코드, 공고기관코드 에 해당하는 입찰정보 가져오기
+
+공고번호, 공고차수, 공고명, 기초금액, 추정가격, 예측사정율 범위, 낙찰하한율, 낙찰가격

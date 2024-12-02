@@ -1,6 +1,7 @@
 package com.jbproject.narapia.rest.controller.webController;
 
 import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
+import com.jbproject.narapia.rest.dto.result.BidNotiResult;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class BidNotiController {
 
-    @GetMapping("/noti")
+    @GetMapping("/bidNoti")
     public String goNotification(
             HttpServletRequest request, Model model
-            , BidNotiSearchPayload payload
+            , BidNotiSearchPayload bidNotiSearchPayload
+            , BidNotiResult bidNotiResult
     ){
-        return "/noti/main";
+        model.addAttribute("bidNotiResult",bidNotiResult);
+        model.addAttribute("bidNotiSearchPayload", bidNotiSearchPayload);
+        return "/bidNoti/main";
     }
 }

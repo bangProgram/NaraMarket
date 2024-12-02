@@ -4,14 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jbproject.narapia.rest.common.CommonUtil;
 import com.jbproject.narapia.rest.constants.ServerConstant;
-import com.jbproject.narapia.rest.dto.model.ApiResponseModel;
-import com.jbproject.narapia.rest.dto.model.BidNotiModel;
-import com.jbproject.narapia.rest.dto.model.WinbidDetailModel;
-import com.jbproject.narapia.rest.dto.model.WinbidModel;
+import com.jbproject.narapia.rest.dto.model.*;
 import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidDetailSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.NaraSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidSearchPayload;
+import com.jbproject.narapia.rest.dto.result.BidNotiResult;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -149,6 +147,50 @@ class NarapiaApplicationTests {
 		int curPageNo = payload.getPageNo();
 
 		System.out.println("totalCnt : "+totalCnt+" \n items : "+items);
+	}
+
+	@Test
+	void getSearchList() throws Exception {
+		BidNotiSearchPayload payload = new BidNotiSearchPayload();
+		payload.setInqryDiv("2");
+		payload.setBidNtceNo("20230301028");
+
+		String bidNotiUrl = CommonUtil.naraUrlProvide(
+				ServerConstant.NARA_BIDNOTI_PATH
+				, ServerConstant.BIDNOTI_GOODS_METHOD
+				, payload
+		);
+
+		String bidNotiDetailUrl = CommonUtil.naraUrlProvide(
+				ServerConstant.NARA_BIDNOTI_PATH
+				, ServerConstant.BIDNOTI_GOODS_DETAIL_METHOD
+				, payload
+		);
+
+		ApiResponseModel<BidNotiModel> bidNotiRes = CommonUtil.getNaraResponse(bidNotiUrl, "response", BidNotiModel.class);
+		ApiResponseModel<BidNotiDetailModel> bidNotiDetailRes = CommonUtil.getNaraResponse(bidNotiDetailUrl, "response", BidNotiDetailModel.class);
+
+		BidNotiModel bidNotiModel = bidNotiRes.getBody().getItems().getFirst();
+		BidNotiDetailModel bidNotiDetailModel = bidNotiDetailRes.getBody().getItems().getFirst();
+
+		BidNotiResult result = BidNotiResult.builder()
+				.bidNtceNo(bidNotiModel.getBidNtceNo())
+				.bidNtceOrd(bidNotiModel.getBidNtceOrd())
+				.bidNtceNm(bidNotiDetailModel.getBidNtceNm())
+				.ntceInsttCd(bidNotiModel.getNtceInsttCd())
+				.ntceInsttNm(bidNotiModel.getNtceInsttNm())
+				.dminsttCd(bidNotiModel.getDminsttCd())
+				.dminsttNm(bidNotiModel.getDminsttNm())
+				.bidMethdNm(bidNotiModel.getBidMethdNm())
+				.prearngPrceDcsnMthdNm(bidNotiModel.getPrearngPrceDcsnMthdNm())
+				.bssamt(bidNotiDetailModel.getBssamt())
+				.presmptPrce(bidNotiModel.getPresmptPrce())
+				.rsrvtnPrceRngBgnRate(bidNotiDetailModel.getRsrvtnPrceRngBgnRate())
+				.rsrvtnPrceRngEndRate(bidNotiDetailModel.getRsrvtnPrceRngEndRate())
+				.sucsfbidLwltRate(bidNotiModel.getSucsfbidLwltRate())
+				.build();
+
+		System.out.println("result  : "+result);
 	}
 
 	public String setParameter(NaraSearchPayload payload){

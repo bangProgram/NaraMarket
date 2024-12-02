@@ -11,6 +11,7 @@ public class ServerConstant {
     public final static String BIDNOTI_CONSTRUCTION_PATH = "/getBidPblancListInfoCnstwk02";
     public final static String BIDNOTI_FORG_CAPITAL_PATH = "/getBidPblancListInfoFrgcpt02";
     public final static String BIDNOTI_SERVICE_PATH = "/getBidPblancListInfoServc02";
+    public final static String BIDNOTI_GOODS_DETAIL_METHOD = "/getBidPblancListInfoThngBsisAmount02";
     public final static String NARA_WINBID_PATH = "/ScsbidInfoService01";
     public final static String WINBID_PATH = "/ScsbidInfoService01";
     public final static String WINBID_METHOD = "/getScsbidListSttusThng01";
