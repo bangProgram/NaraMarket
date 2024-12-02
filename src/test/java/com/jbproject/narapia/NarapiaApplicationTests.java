@@ -173,24 +173,6 @@ class NarapiaApplicationTests {
 		BidNotiModel bidNotiModel = bidNotiRes.getBody().getItems().getFirst();
 		BidNotiDetailModel bidNotiDetailModel = bidNotiDetailRes.getBody().getItems().getFirst();
 
-		BidNotiResult result = BidNotiResult.builder()
-				.bidNtceNo(bidNotiModel.getBidNtceNo())
-				.bidNtceOrd(bidNotiModel.getBidNtceOrd())
-				.bidNtceNm(bidNotiDetailModel.getBidNtceNm())
-				.ntceInsttCd(bidNotiModel.getNtceInsttCd())
-				.ntceInsttNm(bidNotiModel.getNtceInsttNm())
-				.dminsttCd(bidNotiModel.getDminsttCd())
-				.dminsttNm(bidNotiModel.getDminsttNm())
-				.bidMethdNm(bidNotiModel.getBidMethdNm())
-				.prearngPrceDcsnMthdNm(bidNotiModel.getPrearngPrceDcsnMthdNm())
-				.bssamt(bidNotiDetailModel.getBssamt())
-				.presmptPrce(bidNotiModel.getPresmptPrce())
-				.rsrvtnPrceRngBgnRate(bidNotiDetailModel.getRsrvtnPrceRngBgnRate())
-				.rsrvtnPrceRngEndRate(bidNotiDetailModel.getRsrvtnPrceRngEndRate())
-				.sucsfbidLwltRate(bidNotiModel.getSucsfbidLwltRate())
-				.build();
-
-		System.out.println("result  : "+result);
 	}
 
 	public String setParameter(NaraSearchPayload payload){
