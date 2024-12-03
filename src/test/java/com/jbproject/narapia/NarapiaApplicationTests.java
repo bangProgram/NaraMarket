@@ -25,9 +25,6 @@ class NarapiaApplicationTests {
 	@Value("${naramarket.secret}")
 	private String secret;
 
-	@Test
-	void contextLoads() {
-	}
 
 	@Test
 	void naraAPICheck() throws URISyntaxException, JsonProcessingException {

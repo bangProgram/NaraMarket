@@ -3,28 +3,16 @@ package com.jbproject.narapia.rest.service.impl;
 import com.jbproject.narapia.rest.common.CommonUtil;
 import com.jbproject.narapia.rest.constants.ServerConstant;
 import com.jbproject.narapia.rest.dto.model.*;
-import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
-import com.jbproject.narapia.rest.dto.payload.WinbidDetailSearchPayload;
-import com.jbproject.narapia.rest.dto.payload.NaraSearchPayload;
-import com.jbproject.narapia.rest.dto.payload.WinbidSearchPayload;
-import com.jbproject.narapia.rest.entity.BidNotiEntity;
-import com.jbproject.narapia.rest.entity.BidNotiProductEntity;
-import com.jbproject.narapia.rest.entity.WinbidDetailEntity;
-import com.jbproject.narapia.rest.entity.WinbidEntity;
-import com.jbproject.narapia.rest.entity.keys.BidNotiKey;
-import com.jbproject.narapia.rest.entity.keys.BidNotiProductKey;
-import com.jbproject.narapia.rest.entity.keys.WinbidDetailKey;
-import com.jbproject.narapia.rest.entity.keys.WinbidKey;
-import com.jbproject.narapia.rest.repository.BidNotiProductRepository;
-import com.jbproject.narapia.rest.repository.BidNotiRepository;
-import com.jbproject.narapia.rest.repository.WindbidDetailRepository;
-import com.jbproject.narapia.rest.repository.WindbidRepository;
+import com.jbproject.narapia.rest.dto.payload.*;
+import com.jbproject.narapia.rest.entity.*;
+import com.jbproject.narapia.rest.entity.keys.*;
+import com.jbproject.narapia.rest.repository.*;
 import com.jbproject.narapia.rest.service.UtilService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.*;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -37,10 +25,12 @@ public class UtilServiceImpl implements UtilService {
     @Value("${naramarket.secret}")
     private String naraSecret;
 
-    private final WindbidRepository windbidRepository;
+    private final WinbidRepository winbidRepository;
+    private final WinbidDetailRepository winbidDetailRepository;
 
-    private final WindbidDetailRepository windbidDetailRepository;
     private final BidNotiRepository bidNotiRepository;
+    private final BidNotiDetailRepository bidNotiDetailRepository;
+
     private final BidNotiProductRepository bidNotiProductRepository;
 
     public void saveWinbid(WinbidSearchPayload payload) throws Exception {
@@ -74,16 +64,16 @@ public class UtilServiceImpl implements UtilService {
                         .bidNtceOrd(item.getBidNtceOrd())
                         .build();
 
-                Optional<WinbidEntity> entity = windbidRepository.findById(key);
+                Optional<WinbidEntity> entity = winbidRepository.findById(key);
                 if(entity.isPresent()){
                     WinbidEntity modEntity = entity.get();
                     modEntity.update(item);
 
-                    windbidRepository.save(modEntity);
+                    winbidRepository.save(modEntity);
                 }else{
                     WinbidEntity newEntity = new WinbidEntity(item);
 
-                    windbidRepository.save(newEntity);
+                    winbidRepository.save(newEntity);
                 }
             }
             totalCnt = totalCnt - rowCnt;
@@ -134,16 +124,16 @@ public class UtilServiceImpl implements UtilService {
                         .compnoRsrvtnPrceSno(item.getCompnoRsrvtnPrceSno())
                         .build();
 
-                Optional<WinbidDetailEntity> entity = windbidDetailRepository.findById(key);
+                Optional<WinbidDetailEntity> entity = winbidDetailRepository.findById(key);
                 if(entity.isPresent()){
                     WinbidDetailEntity modEntity = entity.get();
                     modEntity.update(item);
 
-                    windbidDetailRepository.save(modEntity);
+                    winbidDetailRepository.save(modEntity);
                 }else{
                     WinbidDetailEntity newEntity = new WinbidDetailEntity(item);
 
-                    windbidDetailRepository.save(newEntity);
+                    winbidDetailRepository.save(newEntity);
                 }
             }
             totalCnt = totalCnt - rowCnt;
@@ -265,7 +255,64 @@ public class UtilServiceImpl implements UtilService {
 
         }
 
+    }
 
+    public void saveBidNotiDetail(BidNotiDetailSearchPayload payload) throws Exception {
+        String apiUrl = ServerConstant.NARA_MAIN_URL;
+        String path = ServerConstant.NARA_BIDNOTI_PATH;
+        String method = ServerConstant.BIDNOTI_GOODS_DETAIL_METHOD;
+
+        String parameter = setParameter(payload);
+
+        // URL과 파라미터 조합
+        String requestUri = apiUrl + path + method + parameter;
+
+        ApiResponseModel<BidNotiDetailModel> responseModel = CommonUtil.getNaraResponse(requestUri, "response", BidNotiDetailModel.class);
+        ApiResponseModel.Body<BidNotiDetailModel> body = responseModel.getBody();
+
+        List<BidNotiDetailModel> items = body.getItems();
+        int totalCnt = body.getTotalCount();
+        int rowCnt = payload.getNumOfRows();
+        int curPageNo = payload.getPageNo();
+
+        while (totalCnt > 0) {
+
+            for (BidNotiDetailModel item : items) {
+                BidNotiDetailKey key = BidNotiDetailKey.builder()
+                        .bidNtceNo(item.getBidNtceNo())
+                        .bidNtceOrd(item.getBidNtceOrd())
+                        .bidClsfcNo(item.getBidClsfcNo())
+                        .build();
+
+                Optional<BidNotiDetailEntity> entity = bidNotiDetailRepository.findById(key);
+                if (entity.isPresent()) {
+                    BidNotiDetailEntity modEntity = entity.get();
+                    modEntity.update(item);
+
+                    bidNotiDetailRepository.save(modEntity);
+                } else {
+                    BidNotiDetailEntity newEntity = new BidNotiDetailEntity(item);
+
+                    bidNotiDetailRepository.save(newEntity);
+                }
+
+            }
+            totalCnt = totalCnt - rowCnt;
+
+            Thread.sleep(ServerConstant.NARA_DELAY_MILLI_SEC);
+
+            if (totalCnt > 0) {
+                curPageNo += 1;
+                payload.setPageNo(curPageNo);
+
+                parameter = setParameter(payload);
+                requestUri = apiUrl + path + method + parameter;
+                responseModel = CommonUtil.getNaraResponse(requestUri, "response", BidNotiDetailModel.class);
+                body = responseModel.getBody();
+                items = body.getItems();
+            }
+
+        }
     }
 
     public String setParameter(NaraSearchPayload payload){

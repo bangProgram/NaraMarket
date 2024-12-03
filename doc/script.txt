@@ -62,3 +62,40 @@ where tb.ntce_instt_cd = 'B550528'
 and tw.bid_ntce_no is not null
 ;
 
+
+select
+	tb.bid_ntce_no
+	,tb.bid_ntce_ord
+	,tb.bid_ntce_nm
+	,tb.ntce_instt_cd
+	,tb.ntce_instt_nm
+	,tb.dminstt_cd
+	,tb.dminstt_nm
+	,tb.bid_methd_nm
+	,tb.prearng_prce_dcsn_mthd_nm
+	,tb.openg_dt
+	,coalesce(tbd.bssamt, twd.bssamt) as bssamt
+	,tb.presmpt_prce
+	,tb.dtil_prdct_clsfc_no
+	,tb.dtil_prdct_clsfc_no_nm
+	,tb.prdct_qty
+	,tb.prdct_uprc
+	,tw.sucsfbid_amt
+	,tw.sucsfbid_rate
+	,tbd.rsrvtn_prce_rng_bgn_rate
+	,tbd.rsrvtn_prce_rng_end_rate
+	,(tb.prdct_qty * tb.prdct_uprc) prdct_amt
+	,(tw.sucsfbid_amt / nullif(coalesce(tbd.bssamt, twd.bssamt),0) / nullif(tw.sucsfbid_rate,0) * 10000 ) rsrvtn_rate
+from tb_bidnoti tb
+inner join tb_winbid tw
+on tb.bid_ntce_no = tw.bid_ntce_no
+and tb.bid_ntce_ord = tw.bid_ntce_ord
+left join tb_bidnoti_detail tbd
+on tw.bid_ntce_no = tbd.bid_ntce_no
+and tw.bid_ntce_ord = tbd.bid_ntce_ord
+and tw.bid_clsfc_no = tbd.bid_clsfc_no
+left join tb_winbid_detail twd
+on tw.bid_ntce_no = twd.bid_ntce_no
+and tw.bid_ntce_ord = twd.bid_ntce_ord
+and tw.bid_clsfc_no = twd.bid_clsfc_no
+and twd.compno_rsrvtn_prce_sno = 1

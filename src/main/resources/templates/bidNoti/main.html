@@ -103,23 +103,129 @@
             </tr>
         </table>
     </div>
+
+    <div>
+        입찰공고 검색
+        <form name="winbidAnalSearchForm" method="post"  th:object="${winbidAnalSearchPayload}" >
+            <table>
+                <tr>
+                    <td>
+                        <select id="prdctSelector" class="requiredChk" title="타입 선택">
+                            <option value = "1" >품명 번호</option>
+                            <option value = "2" >세부 품명</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" th:field="*{dtilPrdctClsfcNo}" placeholder="품명 번호">
+                        <input type="text" th:field="*{dtilPrdctClsfcNoNm}" placeholder="세부 품명">
+                    </td>
+
+                    <td>
+                        <input type="text" th:field="*{ntceInsttCd}" placeholder="관리기관 코드">
+                        <input type="text" th:field="*{dminsttCd}" placeholder="수요기관 코드">
+                    </td>
+                    <td><button type="button" th:onclick="searchWinbidAnal()" >조회</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div>
+        <table id="bidNotiAnalTable">
+            <tr>
+                <td>공고번호</td>
+                <td>공고차수</td>
+                <td>공고명</td>
+                <td>공고기관코드</td>
+                <td>공고기관명</td>
+                <td>수요기관코드</td>
+                <td>수요기관명</td>
+                <td>예정가격결정방법명</td>
+                <td>기초금액</td>
+                <td>추정가격</td>
+                <td>품명번호</td>
+                <td>세부품명</td>
+                <td>물품수량</td>
+                <td>물품단가</td>
+                <td>낙찰가격</td>
+                <td>낙찰하한율</td>
+                <td>예비가격범위시작률</td>
+                <td>예비가격범위종료율</td>
+                <td>물품가액</td>
+                <td>예측사정율</td>
+            </tr>
+            <tr th:each="result : ${winBidAnalResults}">
+                <td th:text="${result.bidNtceNo}" />
+                <td th:text="${result.bidNtceOrd}" />
+                <td th:text="${result.bidNtceNm}" />
+                <td th:text="${result.ntceInsttCd}" />
+                <td th:text="${result.ntceInsttNm}" />
+                <td th:text="${result.dminsttCd}" />
+                <td th:text="${result.dminsttNm}" />
+                <td th:text="${result.prearngPrceDcsnMthdNm}" />
+                <td th:text="${result.bssamt}" />
+                <td th:text="${result.presmptPrce}" />
+                <td th:text="${result.dtilPrdctClsfcNo}" />
+                <td th:text="${result.dtilPrdctClsfcNoNm}" />
+                <td th:text="${result.prdctQty}" />
+                <td th:text="${result.prdctUprc}" />
+                <td th:text="${result.sucsfbidAmt}" />
+                <td th:text="${result.sucsfbidLwltRate}" />
+                <td th:text="${result.rsrvtnPrceRngBgnRate}" />
+                <td th:text="${result.rsrvtnPrceRngEndRate}" />
+                <td th:text="${result.prdctAmt}" />
+                <td th:text="${result.rsrvtnRate}" />
+            </tr>
+        </table>
+    </div>
 </h6>
 <script>
-    function searchBidNoti(){
-        var bidNotiSearchPayload = $("form[name=bidNotiSearchForm]").serialize() ;
+    $(document).ready(function() {
+       $("#dtilPrdctClsfcNoNm").hide();;
+    });
 
-        console.log("queryString : "+bidNotiSearchPayload);
+   $("#prdctSelector").change(function(){
+       var check = $(this).val();
+       if(check == 1) {
+           $("#dtilPrdctClsfcNo").show();
+           $("#dtilPrdctClsfcNoNm").hide();;
+       }else{
+           $("#dtilPrdctClsfcNo").hide();;
+           $("#dtilPrdctClsfcNoNm").show();
+       }
+   });
 
-        $.ajax({
-            url: "/api/bidNoti/search",
-            data: bidNotiSearchPayload,
-            type: 'POST',
-            success:function(data){
-                console.log("data : "+data);
-                $("#bidNotiTable").replaceWith(data);
-            }
-        })
-    }
+   function searchWinbidAnal(){
+       var winbidAnalSearchPayload = $("form[name=winbidAnalSearchForm]").serialize() ;
+
+       console.log("queryString : "+winbidAnalSearchPayload);
+
+       $.ajax({
+           url: "/api/bidNoti/search/anal",
+           data: winbidAnalSearchPayload,
+           type: 'POST',
+           success:function(data){
+               console.log("data : "+data);
+               $("#bidNotiTable").replaceWith(data);
+           }
+       })
+   }
+
+   function searchBidNoti(){
+       var bidNotiSearchPayload = $("form[name=bidNotiSearchForm]").serialize() ;
+
+       console.log("queryString : "+bidNotiSearchPayload);
+
+       $.ajax({
+           url: "/api/bidNoti/search",
+           data: bidNotiSearchPayload,
+           type: 'POST',
+           success:function(data){
+               console.log("data : "+data);
+               $("#bidNotiTable").replaceWith(data);
+           }
+       })
+   }
 </script>
 </body>
 </html>

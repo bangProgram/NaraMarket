@@ -117,7 +117,7 @@ public class BidNotiModel {
     @Schema(title = "(방위사업청 오픈API 연계데이터 포함)공고의 물품규격명")
     private String prdctSpecNm;
     @Schema(title = " 공고의 물품수량")
-    private String prdctQty;
+    private double prdctQty;
     @Schema(title = " 공고의 물품단위")
     private String prdctUnit;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -308,7 +308,7 @@ public class BidNotiModel {
     @Schema(title = " 입찰보증금을 나라장터에서 전자로 납부가능하게 할지 여부(Y/N)")
     private String bidGrntymnyPaymntYn;
     @Schema(title = " 공고의 물품단가")
-    private String prdctUprc;
+    private double prdctUprc;
     @Schema(title = " 공고의 납품일수")
     private String dlvrDaynum;
     @Schema(title = " 인도 받을 장소")

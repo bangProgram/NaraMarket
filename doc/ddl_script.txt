@@ -1,0 +1,5 @@
+-- 기존 입찰공고 상세 primary key 삭제하기
+alter table tb_bidnoti_detail drop primary key;
+
+-- 신규 입찰공고 상세 primary key 추가하기
+alter table tb_bidnoti_detail add primary key(bid_ntce_no, bid_ntce_ord, bid_clsfc_no);

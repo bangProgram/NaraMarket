@@ -45,7 +45,7 @@ public class WinbidModel {
     @Schema(title = "최종낙찰금액")
     private double sucsfbidAmt;
     @Schema(title = "최종낙찰률")
-    private String sucsfbidRate;
+    private double sucsfbidRate;
     @Schema(title = "실개찰일시")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)

@@ -122,6 +122,42 @@
                 </table>
             </form>
         </div>
+
+        <div>
+            입찰공고 상세 데이터 크롤링
+            <form action="/api/util/bidNotiDetail/save" name="notiDetailForm" method="post"  th:object="${bidNotiDetailSearchPayload}" >
+                <table>
+                    <tr>
+                        <td>
+                            <input type="text" th:field="*{numOfRows}">
+                            <input type="text" th:field="*{pageNo}">
+                            <input type="text" th:field="*{type}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select th:field="*{inqryDiv}" class="requiredChk" title="타입 선택">
+                                <option value = "1" th:utext="입력일시" ></option>
+                                <option value = "2" th:utext="입찰공고번호" ></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="inqry_date">
+                            <input type="text" th:field="*{inqryBgnDt}" placeholder="시작일(YYYYMMDDHHMM)">
+                            ~
+                            <input type="text" th:field="*{inqryEndDt}" placeholder="종료일(YYYYMMDDHHMM)">
+                        </td>
+                        <td class="inqry_id" style="display: none">
+                            <input type="text" th:field="*{bidNtceNo}" placeholder="입찰공고번호">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><button onclick="submit()" >업데이트</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
     </div>
 </h6>
 <script>

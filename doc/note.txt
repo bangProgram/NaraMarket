@@ -84,6 +84,55 @@ getBidPblancListInfoThng02 : prdctUprc			물품단가
 낙찰하한율
 
 
+3. 낙찰 통계 테이블 설정
+
+bidNtceNo
+bidNtceOrd
+bidNtceNm
+ntceInsttCd
+ntceInsttNm
+dminsttCd
+dminsttNm
+bidMethdNm
+prearngPrceDcsnMthdNm
+bssamt
+presmptPrce
+dtilPrdctClsfcNo
+dtilPrdctClsfcNoNm
+prdctQty
+prdctUprc
+sucsfbidAmt
+sucsfbidLwltRate
+rsrvtnPrceRngBgnRate
+rsrvtnPrceRngEndRate
+prdctAmt
+rsrvtnRate
+
+
+공고번호
+공고차수
+공고명
+공고기관코드
+공고기관명
+수요기관코드
+수요기관명
+입찰방식명
+예정가격결정방법명
+기초금액
+추정가격
+세부품명번호
+세부품명
+물품수량
+물품단가
+낙찰가격
+낙찰하한율
+예비가격범위시작률
+예비가격범위종료율
+물품가액 ( 결과 객체에 추가할 것 : 물품가액 = 물품수량 * 물품단가 )
+예측사정율 ( 결과 객체에 추가할 것 : 예측사정율 = 낙찰금액  / 기초금액 / 낙찰하한율 )
+
+
+
 
 위의 조회조건을 통해 나온 결과 데이터
 ex) 물픔코드, 공고기관코드 에 해당하는 입찰정보 가져오기

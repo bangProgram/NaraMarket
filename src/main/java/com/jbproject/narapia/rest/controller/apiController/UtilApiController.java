@@ -1,6 +1,7 @@
 package com.jbproject.narapia.rest.controller.apiController;
 
 
+import com.jbproject.narapia.rest.dto.payload.BidNotiDetailSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidDetailSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidSearchPayload;
@@ -32,7 +33,15 @@ public class UtilApiController {
 
         try {
             utilService.saveWinbid(payload);
-            redirectAttributes.addFlashAttribute("serverMessage","낙찰결과 업데이트 되었습니다.");
+            String div = payload.getInqryDiv();
+
+            if(div.equals("4")){
+                redirectAttributes.addFlashAttribute("serverMessage","낙찰결과 업데이트 되었습니다.");
+            }else{
+                String stDate = payload.getInqryBgnDt();
+                String edDate = payload.getInqryEndDt();
+                redirectAttributes.addFlashAttribute("serverMessage","낙찰결과 업데이트 되었습니다. / "+div+". : "+stDate+" ~ "+edDate);
+            }
         }catch (Exception e){
             redirectAttributes.addFlashAttribute("serverMessage","업데이트에 실패하였습니다..");
         }
@@ -76,6 +85,33 @@ public class UtilApiController {
 
         try {
             utilService.saveBidNoti(payload);
+
+            if(payload.getInqryDiv().equals("2")){
+                redirectAttributes.addFlashAttribute("serverMessage","입찰공고 업데이트 되었습니다.");
+            }else{
+                String stDate = payload.getInqryBgnDt();
+                String edDate = payload.getInqryEndDt();
+                redirectAttributes.addFlashAttribute("serverMessage","입찰공고 업데이트 되었습니다. / "+stDate+" ~ "+edDate);
+            }
+        }catch (Exception e){
+            log.error("Exception : {}",e.getLocalizedMessage());
+            redirectAttributes.addFlashAttribute("serverMessage","업데이트에 실패하였습니다..");
+        }
+
+        return new RedirectView("/util");
+
+    }
+
+
+    @PostMapping("/bidNotiDetail/save")
+    public RedirectView saveNotiDetail(
+            HttpServletRequest request, Model model
+            , BidNotiDetailSearchPayload payload
+            , RedirectAttributes redirectAttributes
+    ) {
+
+        try {
+            utilService.saveBidNotiDetail(payload);
 
             if(payload.getInqryDiv().equals("2")){
                 redirectAttributes.addFlashAttribute("serverMessage","입찰공고 업데이트 되었습니다.");

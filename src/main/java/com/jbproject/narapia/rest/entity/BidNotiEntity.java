@@ -74,7 +74,7 @@ public class BidNotiEntity extends BaseEntity implements Persistable<BidNotiKey>
     private String dtilPrdctClsfcNoNm;
     private String prdctSpecNm;
     @Column(columnDefinition="varchar(20)")
-    private String prdctQty;
+    private double prdctQty;
     @Column(columnDefinition="varchar(20)")
     private String prdctUnit;
     private LocalDateTime dlvrTmlmtDt;
@@ -209,8 +209,7 @@ public class BidNotiEntity extends BaseEntity implements Persistable<BidNotiKey>
     private String bidPrtcptFee;
     @Column(columnDefinition="varchar(20)")
     private String bidGrntymnyPaymntYn;
-    @Column(columnDefinition="varchar(20)")
-    private String prdctUprc;
+    private double prdctUprc;
     @Column(columnDefinition="varchar(50)")
     private String dlvrDaynum;
     @Column(columnDefinition="varchar(50)")
@@ -229,7 +228,7 @@ public class BidNotiEntity extends BaseEntity implements Persistable<BidNotiKey>
             String ntceSpecDocUrl1, String ntceSpecDocUrl2, String ntceSpecFileNm1, String ntceSpecFileNm2, String rbidPermsnYn,
             String prdctClsfcLmtYn, String mnfctYn, String prearngPrceDcsnMthdNm, double asignBdgtAmt, double presmptPrce,
             String opengPlce, String bidNtceDtlUrl, String crdtrNm, String dtilPrdctClsfcNo, String dtilPrdctClsfcNoNm,
-            String prdctSpecNm, String prdctQty, String prdctUnit, LocalDateTime dlvrTmlmtDt, String reNtceYn,
+            String prdctSpecNm, double prdctQty, String prdctUnit, LocalDateTime dlvrTmlmtDt, String reNtceYn,
             String rgstTyNm, String ntceKindNm, String intrbidYn, LocalDateTime bidNtceDt, String refNo,
             String bidNtceNm, String ntceInsttCd, String ntceInsttNm, String dminsttCd, String dminsttNm,
             String bidMethdNm, String cntrctCnclsMthdNm, String ntceInsttOfclNm, String ntceInsttOfclTelNo, String ntceInsttOfclEmailAdrs,
@@ -245,7 +244,7 @@ public class BidNotiEntity extends BaseEntity implements Persistable<BidNotiKey>
             String ntceSpecDocUrl7, String ntceSpecDocUrl8, String ntceSpecDocUrl9, String ntceSpecDocUrl10, String ntceSpecFileNm3,
             String ntceSpecFileNm4, String ntceSpecFileNm5, String ntceSpecFileNm6, String ntceSpecFileNm7, String ntceSpecFileNm8,
             String ntceSpecFileNm9, String ntceSpecFileNm10, String totPrdprcNum, String drwtPrdprcNum, String bidNtceUrl,
-            String bidPrtcptFeePaymntYn, String bidPrtcptFee, String bidGrntymnyPaymntYn, String prdctUprc, String dlvrDaynum,
+            String bidPrtcptFeePaymntYn, String bidPrtcptFee, String bidGrntymnyPaymntYn, double prdctUprc, String dlvrDaynum,
             String dlvryCndtnNm, String rgnLmtBidLocplcJdgmBssCd, String rgnLmtBidLocplcJdgmBssNm
     ) {
         this.id = id;

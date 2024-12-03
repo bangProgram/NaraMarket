@@ -1,5 +1,6 @@
 package com.jbproject.narapia.rest.controller.webController;
 
+import com.jbproject.narapia.rest.dto.payload.BidNotiDetailSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidDetailSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidSearchPayload;
@@ -24,11 +25,13 @@ public class UtilController {
         , WinbidSearchPayload winbidSearchPayload
         , WinbidDetailSearchPayload winbidDetailSearchPayload
         , BidNotiSearchPayload bidNotiSearchPayload
+        , BidNotiDetailSearchPayload bidNotiDetailSearchPayload
     ) {
 
         model.addAttribute("winbidSearchPayload",winbidSearchPayload);
         model.addAttribute("winbidDetailSearchPayload",winbidDetailSearchPayload);
         model.addAttribute("bidNotiSearchPayload", bidNotiSearchPayload);
+        model.addAttribute("bidNotiDetailSearchPayload",bidNotiDetailSearchPayload);
         return "/util/main";
     }
 

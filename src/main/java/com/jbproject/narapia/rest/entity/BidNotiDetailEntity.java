@@ -18,14 +18,15 @@ import org.springframework.data.domain.Persistable;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "tb_bidnoti_detail")
 public class BidNotiDetailEntity extends BaseEntity implements Persistable<BidNotiDetailKey> {
 
     @EmbeddedId
     private BidNotiDetailKey id;
-    private String bidClsfcNo;
+
     private String bidNtceNm;
     private double bssamt;
     private LocalDateTime bssamtOpenDt;
@@ -50,14 +51,13 @@ public class BidNotiDetailEntity extends BaseEntity implements Persistable<BidNo
 
     @Builder
     public BidNotiDetailEntity(
-        BidNotiDetailKey id        ,String bidClsfcNo        ,String bidNtceNm        ,double bssamt        ,LocalDateTime bssamtOpenDt
-        ,String rsrvtnPrceRngBgnRate        ,String rsrvtnPrceRngEndRate        ,double evlBssAmt        ,String dfcltydgrCfcnt        ,String etcGnrlexpnsBssRate
-        ,String gnrlMngcstBssRate        ,String prftBssRate        ,String lbrcstBssRate        ,String industSftyHelthMngcst        ,String rtrfundNon
-        ,String envCnsrvcst        ,String scontrctPayprcePayGrntyFee        ,String mrfnHealthInsrprm        ,String npnInsrprm        ,String rmrk1
-        ,String rmrk2        ,double usefulAmt        ,LocalDateTime inptDt
+            BidNotiDetailKey id, String bidNtceNm, double bssamt, LocalDateTime bssamtOpenDt
+            , String rsrvtnPrceRngBgnRate, String rsrvtnPrceRngEndRate, double evlBssAmt, String dfcltydgrCfcnt, String etcGnrlexpnsBssRate
+            , String gnrlMngcstBssRate, String prftBssRate, String lbrcstBssRate, String industSftyHelthMngcst, String rtrfundNon
+            , String envCnsrvcst, String scontrctPayprcePayGrntyFee, String mrfnHealthInsrprm, String npnInsrprm, String rmrk1
+            , String rmrk2, double usefulAmt, LocalDateTime inptDt
     ) {
         this.id = id;
-        this.bidClsfcNo = bidClsfcNo;
         this.bidNtceNm = bidNtceNm;
         this.bssamt = bssamt;
         this.bssamtOpenDt = bssamtOpenDt;
@@ -85,9 +85,9 @@ public class BidNotiDetailEntity extends BaseEntity implements Persistable<BidNo
         this.id = BidNotiDetailKey.builder()
                 .bidNtceNo(model.getBidNtceNo())
                 .bidNtceOrd(model.getBidNtceOrd())
+                .bidClsfcNo(model.getBidClsfcNo())
                 .build();
 
-        this.bidClsfcNo = model.getBidClsfcNo();
         this.bidNtceNm = model.getBidNtceNm();
         this.bssamt = model.getBssamt();
         this.bssamtOpenDt = model.getBssamtOpenDt();
@@ -113,7 +113,6 @@ public class BidNotiDetailEntity extends BaseEntity implements Persistable<BidNo
 
     public void update(BidNotiDetailModel model) {
 
-        this.bidClsfcNo = model.getBidClsfcNo();
         this.bidNtceNm = model.getBidNtceNm();
         this.bssamt = model.getBssamt();
         this.bssamtOpenDt = model.getBssamtOpenDt();

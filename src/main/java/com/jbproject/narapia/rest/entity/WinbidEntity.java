@@ -36,7 +36,7 @@ public class WinbidEntity extends BaseEntity implements Persistable<WinbidKey> {
     private String bidwinnrAdrs;
     private String bidwinnrTelNo;
     private double sucsfbidAmt;
-    private String sucsfbidRate;
+    private double sucsfbidRate;
     private LocalDateTime rlOpengDt;
     private String dminsttCd;
     private String dminsttNm;
@@ -50,7 +50,7 @@ public class WinbidEntity extends BaseEntity implements Persistable<WinbidKey> {
     public WinbidEntity(
             WinbidKey id, String rbidNo, String ntceDivCd, String bidNtceNm
             , long prtcptCnum, String bidwinnrNm, String bidwinnrBizno, String bidwinnrCeoNm
-            , String bidwinnrAdrs, String bidwinnrTelNo, long sucsfbidAmt, String sucsfbidRate
+            , String bidwinnrAdrs, String bidwinnrTelNo, long sucsfbidAmt, double sucsfbidRate
             , LocalDateTime rlOpengDt, String dminsttCd, String dminsttNm, LocalDateTime rgstDt
             , LocalDate fnlSucsfDate, String fnlSucsfCorpOfcl, String linkInsttNm
     ) {
