@@ -10,7 +10,7 @@ alter table tb_bidnoti_detail add primary key(bid_ntce_no, bid_ntce_ord, bid_cls
 
 -- 통계테이블 쿼리
 
-
+쿼리 작업 해야함
 
 select
         bne1_0.bid_ntce_no,
