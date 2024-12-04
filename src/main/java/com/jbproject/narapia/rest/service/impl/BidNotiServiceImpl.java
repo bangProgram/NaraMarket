@@ -88,9 +88,10 @@ public class BidNotiServiceImpl implements BidNotiService {
             throw new RuntimeException();
         }
     }
-
+    /*
     public List<WinBidAnalResult> searchWinbidAnalList(WinbidAnalSearchPayload payload) {
         return winbidRepository.searchWinbidAnalList(payload);
     }
+    */
 
 }

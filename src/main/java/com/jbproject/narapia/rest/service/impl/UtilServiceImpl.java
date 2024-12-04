@@ -32,6 +32,7 @@ public class UtilServiceImpl implements UtilService {
     private final BidNotiDetailRepository bidNotiDetailRepository;
 
     private final BidNotiProductRepository bidNotiProductRepository;
+    private final WinbidAnalRepository winbidAnalRepository;
 
     public void saveWinbid(WinbidSearchPayload payload) throws Exception {
 

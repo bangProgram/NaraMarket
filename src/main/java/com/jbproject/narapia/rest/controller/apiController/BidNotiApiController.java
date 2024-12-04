@@ -31,12 +31,12 @@ public class BidNotiApiController {
             HttpServletRequest request, Model model
             , BidNotiSearchPayload bidNotiSearchPayload
     ){
-
         BidNotiResult bidNotiResult = bidNotiService.searchBidnoti(bidNotiSearchPayload);
         model.addAttribute("bidNotiResult",bidNotiResult);
         return "/bidNoti/main::#bidNotiTable";
     }
 
+    /*
     @PostMapping("/search/anal")
     public String searchBidnoti(
             HttpServletRequest request, Model model
@@ -48,4 +48,5 @@ public class BidNotiApiController {
 
         return "/bidNoti/main::#bidNotiAnalTable";
     }
+    */
 }

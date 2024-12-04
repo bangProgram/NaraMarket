@@ -129,4 +129,22 @@ public class UtilApiController {
 
     }
 
+    @PostMapping("/api/util/winbidAnal/merge")
+    public RedirectView mergeWinbidAnal(
+            HttpServletRequest request, Model model
+            , RedirectAttributes redirectAttributes
+    ) {
+
+        try {
+
+            redirectAttributes.addFlashAttribute("serverMessage","입찰공고 업데이트 되었습니다.");
+        }catch (Exception e){
+            log.error("Exception : {}",e.getLocalizedMessage());
+            redirectAttributes.addFlashAttribute("serverMessage","업데이트에 실패하였습니다..");
+        }
+
+        return new RedirectView("/util");
+
+    }
+
 }

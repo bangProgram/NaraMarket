@@ -75,7 +75,7 @@ public class BidNotiEntity extends BaseEntity implements Persistable<BidNotiKey>
     private String prdctSpecNm;
     @Column(columnDefinition="varchar(20)")
     private double prdctQty;
-    @Column(columnDefinition="varchar(20)")
+    @Column(columnDefinition="varchar(40)")
     private String prdctUnit;
     private LocalDateTime dlvrTmlmtDt;
 

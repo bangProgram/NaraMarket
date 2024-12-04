@@ -1,5 +1,6 @@
 package com.jbproject.narapia.rest.repository.custom.impl;
 
+import com.jbproject.narapia.rest.dto.model.WinBidAnalModel;
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
 import com.jbproject.narapia.rest.dto.result.WinBidAnalResult;
 import com.jbproject.narapia.rest.repository.custom.WinbidCustom;
@@ -28,13 +29,10 @@ public class WinbidCustomImpl implements WinbidCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<WinBidAnalResult> searchWinbidAnalList(WinbidAnalSearchPayload payload){
-
-        BooleanBuilder whereCondition = whereSearchWinbidAnalList(payload);
-
+    public List<WinBidAnalModel> searchWinbidAnalList(){
         return jpaQueryFactory.select(
                 Projections.fields(
-                        WinBidAnalResult.class
+                        WinBidAnalModel.class
                         ,bidNotiEntity.id.bidNtceNo
                         ,bidNotiEntity.id.bidNtceOrd
                         ,bidNotiEntity.bidNtceNm
@@ -44,6 +42,7 @@ public class WinbidCustomImpl implements WinbidCustom {
                         ,bidNotiEntity.dminsttNm
                         ,bidNotiEntity.bidMethdNm
                         ,bidNotiEntity.prearngPrceDcsnMthdNm
+                        ,bidNotiEntity.opengDt
                         ,bidNotiDetailEntity.bssamt.coalesce(winbidDetailEntity.bssamt).as("bssamt")
                         ,bidNotiEntity.presmptPrce
                         ,bidNotiEntity.dtilPrdctClsfcNo
@@ -57,7 +56,7 @@ public class WinbidCustomImpl implements WinbidCustom {
                         ,bidNotiEntity.prdctQty.multiply(bidNotiEntity.prdctUprc).as("prdctAmt")
                         ,winbidEntity.sucsfbidAmt.divide(
                                 bidNotiDetailEntity.bssamt.coalesce(winbidDetailEntity.bssamt)
-                        ).divide(winbidEntity.sucsfbidRate).as("rsrvtnRate")
+                        ).divide(winbidEntity.sucsfbidRate).multiply(10000).as("rsrvtnRate")
                 )
         ).from(bidNotiEntity)
         .innerJoin(winbidEntity).on(
@@ -73,8 +72,8 @@ public class WinbidCustomImpl implements WinbidCustom {
                 winbidEntity.id.bidNtceNo.eq(winbidDetailEntity.id.bidNtceNo)
                 .and(winbidEntity.id.bidNtceOrd.eq(winbidDetailEntity.id.bidNtceOrd))
                 .and(winbidEntity.id.bidClsfcNo.eq(winbidDetailEntity.id.bidClsfcNo))
+                .and(winbidDetailEntity.id.compnoRsrvtnPrceSno.eq("1"))
         )
-        .where(whereCondition)
         .fetch();
     }
 

@@ -1,11 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
-    <nav th:fragment="menuBarFragment">
-        <div id="menuBarDiv">
+    <nav th:fragment="menuBarFragment" id="menuBarDiv">
             <div id="menuBarDiv-button">
                 <button th:onclick="|location.href='@{/bidNoti}'|">입찰공고 조회</button>
                 <button th:onclick="|location.href='@{/util}'|">공고데이터 관리</button>
             </div>
-        </div>
         <!--
         <div id="childMenuBarDiv">
             <div id="childMenuBarDiv-button">

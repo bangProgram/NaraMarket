@@ -1,10 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
-    <nav th:fragment="headerFragment">
-        <div id="headerDiv">
-            <div id="headerDiv-button">
-                <div class="titleDiv">
-                    <button type="button" th:onclick="|location.href='@{/home}'|" >나라피아</button>
-                </div>
+    <nav th:fragment="headerFragment" id="headerDiv">
+        <div id="headerDiv-button">
+            <div class="titleDiv">
+                <button type="button" th:onclick="|location.href='@{/home}'|" >나라피아</button>
             </div>
         </div>
     </nav>
