@@ -34,28 +34,31 @@ public class WinbidAnalEntity extends BaseEntity implements Persistable<WinbidAn
     private String bidMethdNm;
     private String prearngPrceDcsnMthdNm;
     private LocalDateTime opengDt;
-    private double bssamt;
-    private double presmptPrce;
     private String dtilPrdctClsfcNo;
     private String dtilPrdctClsfcNoNm;
     private double prdctQty;
     private double prdctUprc;
+    private double prdctAmt;
+    private double bssamt;
+    private double presmptPrce;
+    private double presmptBssamt;
     private double sucsfbidAmt;
     private double sucsfbidLwltRate;
     private String rsrvtnPrceRngBgnRate;
     private String rsrvtnPrceRngEndRate;
-    private double prdctAmt;
-    private double rsrvtnRate;
+    private double bssamtRate;
+    private double presmptRate;
 
     @Builder
     public WinbidAnalEntity(
             WinbidAnalKey id, String bidNtceNm, String ntceInsttCd, String ntceInsttNm, String dminsttCd,
-            String dminsttNm, String bidMethdNm, String prearngPrceDcsnMthdNm, LocalDateTime opengDt, double bssamt,
-            double presmptPrce, String dtilPrdctClsfcNo, String dtilPrdctClsfcNoNm, double prdctQty, double prdctUprc,
-            double sucsfbidAmt, double sucsfbidLwltRate, String rsrvtnPrceRngBgnRate, String rsrvtnPrceRngEndRate, double prdctAmt,
-            double rsrvtnRate
+            String dminsttNm, String bidMethdNm, String prearngPrceDcsnMthdNm, LocalDateTime opengDt, String dtilPrdctClsfcNo,
+            String dtilPrdctClsfcNoNm, double prdctQty, double prdctUprc, double prdctAmt, double bssamt,
+            double presmptPrce, double presmptBssamt, double sucsfbidAmt, double sucsfbidLwltRate, String rsrvtnPrceRngBgnRate,
+            String rsrvtnPrceRngEndRate, double bssamtRate, double presmptRate
     ) {
         this.id = id;
+
         this.bidNtceNm = bidNtceNm;
         this.ntceInsttCd = ntceInsttCd;
         this.ntceInsttNm = ntceInsttNm;
@@ -64,18 +67,20 @@ public class WinbidAnalEntity extends BaseEntity implements Persistable<WinbidAn
         this.bidMethdNm = bidMethdNm;
         this.prearngPrceDcsnMthdNm = prearngPrceDcsnMthdNm;
         this.opengDt = opengDt;
-        this.bssamt = bssamt;
-        this.presmptPrce = presmptPrce;
         this.dtilPrdctClsfcNo = dtilPrdctClsfcNo;
         this.dtilPrdctClsfcNoNm = dtilPrdctClsfcNoNm;
         this.prdctQty = prdctQty;
         this.prdctUprc = prdctUprc;
+        this.prdctAmt = prdctAmt;
+        this.bssamt = bssamt;
+        this.presmptPrce = presmptPrce;
+        this.presmptBssamt = presmptBssamt;
         this.sucsfbidAmt = sucsfbidAmt;
         this.sucsfbidLwltRate = sucsfbidLwltRate;
         this.rsrvtnPrceRngBgnRate = rsrvtnPrceRngBgnRate;
         this.rsrvtnPrceRngEndRate = rsrvtnPrceRngEndRate;
-        this.prdctAmt = prdctAmt;
-        this.rsrvtnRate = rsrvtnRate;
+        this.bssamtRate = bssamtRate;
+        this.presmptRate = presmptRate;
 
     }
 

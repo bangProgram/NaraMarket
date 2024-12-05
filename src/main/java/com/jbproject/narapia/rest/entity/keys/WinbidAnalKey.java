@@ -18,5 +18,7 @@ public class WinbidAnalKey implements Serializable {
     private String bidNtceNo;
     @Column( name = "bid_ntce_ord",columnDefinition="varchar(10)")
     private String bidNtceOrd;
+    @Column( name = "bid_clsfc_no",columnDefinition="varchar(10)")
+    private String bidClsfcNo;
 
 }

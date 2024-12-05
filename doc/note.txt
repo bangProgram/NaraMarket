@@ -88,6 +88,7 @@ getBidPblancListInfoThng02 : prdctUprc			물품단가
 
 bidNtceNo
 bidNtceOrd
+bidClsfcNo
 bidNtceNm
 ntceInsttCd
 ntceInsttNm
@@ -95,22 +96,25 @@ dminsttCd
 dminsttNm
 bidMethdNm
 prearngPrceDcsnMthdNm
-bssamt
-presmptPrce
+opengDt
 dtilPrdctClsfcNo
 dtilPrdctClsfcNoNm
 prdctQty
 prdctUprc
+prdctAmt
+bssamt
+presmptPrce
+presmptBssamt
 sucsfbidAmt
 sucsfbidLwltRate
 rsrvtnPrceRngBgnRate
 rsrvtnPrceRngEndRate
-prdctAmt
-rsrvtnRate
-
+bssamtRate
+presmptRate
 
 공고번호
 공고차수
+입찰분류번호
 공고명
 공고기관코드
 공고기관명
@@ -118,18 +122,21 @@ rsrvtnRate
 수요기관명
 입찰방식명
 예정가격결정방법명
-기초금액
-추정가격
+개찰일시
 세부품명번호
 세부품명
 물품수량
 물품단가
+물품총액 ( 결과 객체에 추가할 것 : 물품가액 = 물품수량 * 물품단가 )
+기초금액
+추정가격
+추정가격을 통한 기초금액 추정금액
 낙찰가격
 낙찰하한율
 예비가격범위시작률
 예비가격범위종료율
-물품가액 ( 결과 객체에 추가할 것 : 물품가액 = 물품수량 * 물품단가 )
 예측사정율 ( 결과 객체에 추가할 것 : 예측사정율 = 낙찰금액  / 기초금액 / 낙찰하한율 )
+예측사정율 ( 추정금액을 통한 예측사정율 )
 
 
 

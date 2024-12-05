@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface BidNotiService {
     BidNotiResult searchBidnoti(BidNotiSearchPayload payload);
-    //List<WinBidAnalResult> searchWinbidAnalList(WinbidAnalSearchPayload payload);
+    List<WinBidAnalResult> searchWinbidAnalList(WinbidAnalSearchPayload payload);
 }

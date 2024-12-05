@@ -99,3 +99,37 @@ on tw.bid_ntce_no = twd.bid_ntce_no
 and tw.bid_ntce_ord = twd.bid_ntce_ord
 and tw.bid_clsfc_no = twd.bid_clsfc_no
 and twd.compno_rsrvtn_prce_sno = 1
+
+
+
+
+
+-- 추정금액에 의한 기초금액 비율 쿼리
+           select
+           round(a.presmpt_bss_rate,2), count(1) cnt
+           from (
+select
+        (nullif(coalesce(bnde1_0.bssamt, wde1_0.bssamt)/bne1_0.presmpt_prce,0)-1)*100  as presmpt_bss_rate
+    from
+        tb_bidnoti bne1_0
+    join
+        tb_winbid we1_0
+            on bne1_0.bid_ntce_no=we1_0.bid_ntce_no
+            and bne1_0.bid_ntce_ord=we1_0.bid_ntce_ord
+    left join
+        tb_bidnoti_detail bnde1_0
+            on we1_0.bid_ntce_no=bnde1_0.bid_ntce_no
+            and we1_0.bid_ntce_ord=bnde1_0.bid_ntce_ord
+            and we1_0.bid_clsfc_no=bnde1_0.bid_clsfc_no
+    left join
+        tb_winbid_detail wde1_0
+            on we1_0.bid_ntce_no=wde1_0.bid_ntce_no
+            and we1_0.bid_ntce_ord=wde1_0.bid_ntce_ord
+            and we1_0.bid_clsfc_no=wde1_0.bid_clsfc_no
+            and wde1_0.compno_rsrvtn_prce_sno = 1
+            where bnde1_0.bssamt is not null
+            and bne1_0.presmpt_prce is not null
+            ) a
+            group by round(a.presmpt_bss_rate,2)
+            order by count(1) desc
+            ;

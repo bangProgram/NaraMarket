@@ -15,6 +15,7 @@ alter table tb_bidnoti_detail add primary key(bid_ntce_no, bid_ntce_ord, bid_cls
 select
         bne1_0.bid_ntce_no,
         bne1_0.bid_ntce_ord,
+        we1_0.bid_clsfc_no,
         bne1_0.bid_ntce_nm,
         bne1_0.ntce_instt_cd,
         bne1_0.ntce_instt_nm,
@@ -23,18 +24,20 @@ select
         bne1_0.bid_methd_nm,
         bne1_0.prearng_prce_dcsn_mthd_nm,
         bne1_0.openg_dt,
-        coalesce(bnde1_0.bssamt, wde1_0.bssamt) as bssamt,
-        bne1_0.presmpt_prce,
         bne1_0.dtil_prdct_clsfc_no,
         bne1_0.dtil_prdct_clsfc_no_nm,
         bne1_0.prdct_qty,
         bne1_0.prdct_uprc,
+        ifnull((bne1_0.prdct_qty*bne1_0.prdct_uprc),0) as prdct_amt,
+        ifnull(coalesce(bnde1_0.bssamt, wde1_0.bssamt),0) as bssamt,
+        bne1_0.presmpt_prce,
+        round(bne1_0.presmpt_prce*1.1,0) as presmpt_bssamt,
         we1_0.sucsfbid_amt,
-        we1_0.sucsfbid_rate,
+        ifnull(nullif(coalesce(bne1_0.sucsfbid_lwlt_rate, we1_0.sucsfbid_rate),0),0) sucsfbid_lwlt_rate,
         bnde1_0.rsrvtn_prce_rng_bgn_rate,
         bnde1_0.rsrvtn_prce_rng_end_rate,
-        (bne1_0.prdct_qty*bne1_0.prdct_uprc) as prdct_amt,
-        (((we1_0.sucsfbid_amt/nullif(coalesce(bnde1_0.bssamt, wde1_0.bssamt),0))/nullif(we1_0.sucsfbid_rate,0))*10000) as rsrvtn_rate
+        ifnull((((we1_0.sucsfbid_amt/nullif(coalesce(bnde1_0.bssamt, coalesce(wde1_0.bssamt,round(bne1_0.presmpt_prce*1.1,0))),0))/ifnull(nullif(coalesce(bne1_0.sucsfbid_lwlt_rate, we1_0.sucsfbid_rate),0),100))*10000),0) as bssamt_rate,
+        ifnull((((we1_0.sucsfbid_amt/nullif(presmpt_prce,0))/nullif(coalesce(bne1_0.sucsfbid_lwlt_rate, we1_0.sucsfbid_rate),0))*10000),0) as presmpt_rate
     from
         tb_bidnoti bne1_0
     join
@@ -53,3 +56,60 @@ select
             and we1_0.bid_clsfc_no=wde1_0.bid_clsfc_no
             and wde1_0.compno_rsrvtn_prce_sno = 1
             ;
+
+
+
+--
+분석 테이블 쿼리
+
+delete from tb_winbid_anal;
+
+insert into tb_winbid_anal (
+    bid_ntce_no,bid_ntce_ord,bid_clsfc_no,bid_ntce_nm,ntce_instt_cd,ntce_instt_nm,dminstt_cd,dminstt_nm,bid_methd_nm,prearng_prce_dcsn_mthd_nm,openg_dt,
+    dtil_prdct_clsfc_no,dtil_prdct_clsfc_no_nm,prdct_qty,prdct_uprc,prdct_amt,bssamt,presmpt_prce,presmpt_bssamt,sucsfbid_amt,sucsfbid_lwlt_rate,
+    rsrvtn_prce_rng_bgn_rate,rsrvtn_prce_rng_end_rate,bssamt_rate,presmpt_rate
+)
+select
+        bne1_0.bid_ntce_no,
+        bne1_0.bid_ntce_ord,
+        we1_0.bid_clsfc_no,
+        bne1_0.bid_ntce_nm,
+        bne1_0.ntce_instt_cd,
+        bne1_0.ntce_instt_nm,
+        bne1_0.dminstt_cd,
+        bne1_0.dminstt_nm,
+        bne1_0.bid_methd_nm,
+        bne1_0.prearng_prce_dcsn_mthd_nm,
+        bne1_0.openg_dt,
+        bne1_0.dtil_prdct_clsfc_no,
+        bne1_0.dtil_prdct_clsfc_no_nm,
+        bne1_0.prdct_qty,
+        bne1_0.prdct_uprc,
+        ifnull((bne1_0.prdct_qty*bne1_0.prdct_uprc),0) as prdct_amt,
+        ifnull(coalesce(bnde1_0.bssamt, wde1_0.bssamt),0) as bssamt,
+        bne1_0.presmpt_prce,
+        round(bne1_0.presmpt_prce*1.1,0) as presmpt_bssamt,
+        we1_0.sucsfbid_amt,
+        ifnull(nullif(coalesce(bne1_0.sucsfbid_lwlt_rate, we1_0.sucsfbid_rate),0),0) sucsfbid_lwlt_rate,
+        bnde1_0.rsrvtn_prce_rng_bgn_rate,
+        bnde1_0.rsrvtn_prce_rng_end_rate,
+        ifnull((((we1_0.sucsfbid_amt/nullif(coalesce(bnde1_0.bssamt, coalesce(wde1_0.bssamt,round(bne1_0.presmpt_prce*1.1,0))),0))/ifnull(nullif(coalesce(bne1_0.sucsfbid_lwlt_rate, we1_0.sucsfbid_rate),0),100))*10000),0) as bssamt_rate,
+        ifnull((((we1_0.sucsfbid_amt/nullif(presmpt_prce,0))/nullif(coalesce(bne1_0.sucsfbid_lwlt_rate, we1_0.sucsfbid_rate),0))*10000),0) as presmpt_rate
+    from
+        tb_bidnoti bne1_0
+    join
+        tb_winbid we1_0
+            on bne1_0.bid_ntce_no=we1_0.bid_ntce_no
+            and bne1_0.bid_ntce_ord=we1_0.bid_ntce_ord
+    left join
+        tb_bidnoti_detail bnde1_0
+            on we1_0.bid_ntce_no=bnde1_0.bid_ntce_no
+            and we1_0.bid_ntce_ord=bnde1_0.bid_ntce_ord
+            and we1_0.bid_clsfc_no=bnde1_0.bid_clsfc_no
+    left join
+        tb_winbid_detail wde1_0
+            on we1_0.bid_ntce_no=wde1_0.bid_ntce_no
+            and we1_0.bid_ntce_ord=wde1_0.bid_ntce_ord
+            and we1_0.bid_clsfc_no=wde1_0.bid_clsfc_no
+            and wde1_0.compno_rsrvtn_prce_sno = 1
+;

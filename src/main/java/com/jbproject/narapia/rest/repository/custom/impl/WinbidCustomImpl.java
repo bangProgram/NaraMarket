@@ -77,22 +77,5 @@ public class WinbidCustomImpl implements WinbidCustom {
         .fetch();
     }
 
-    private BooleanBuilder whereSearchWinbidAnalList(WinbidAnalSearchPayload payload){
-        BooleanBuilder where = new BooleanBuilder();
 
-        if(hasText(payload.getDtilPrdctClsfcNo())){
-            where.and(bidNotiEntity.dtilPrdctClsfcNo.eq(payload.getDtilPrdctClsfcNo()));
-        }
-        if(hasText(payload.getDtilPrdctClsfcNoNm())){
-            where.and(bidNotiEntity.dtilPrdctClsfcNoNm.like("%"+payload.getDtilPrdctClsfcNoNm()+"%"));
-        }
-        if(hasText(payload.getNtceInsttCd())){
-            where.and(bidNotiEntity.ntceInsttCd.eq(payload.getNtceInsttCd()));
-        }
-        if(hasText(payload.getDminsttCd())){
-            where.and(bidNotiEntity.dminsttCd.eq(payload.getDminsttCd()));
-        }
-
-        return where;
-    }
 }

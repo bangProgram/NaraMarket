@@ -1,6 +1,7 @@
 package com.jbproject.narapia.rest.dto.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -70,4 +71,14 @@ public class WinbidModel {
     @Schema(title = "연계기관명")
     private String linkInsttNm;
 
+    @JsonSetter("sucsfbidRate")
+    public void setSucsfbidRate(String value) {
+        System.out.println("test value : "+value);
+        try {
+            this.sucsfbidRate = Double.valueOf(value);
+        } catch (NumberFormatException e) {
+            // 잘못된 형식의 데이터가 들어오면 무시
+            this.sucsfbidRate = 0;
+        }
+    }
 }

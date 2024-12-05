@@ -9,6 +9,7 @@ import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
 import com.jbproject.narapia.rest.dto.result.BidNotiResult;
 import com.jbproject.narapia.rest.dto.result.WinBidAnalResult;
+import com.jbproject.narapia.rest.repository.WinbidAnalRepository;
 import com.jbproject.narapia.rest.repository.WinbidRepository;
 import com.jbproject.narapia.rest.service.BidNotiService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class BidNotiServiceImpl implements BidNotiService {
     private String naraSecret;
 
     private final WinbidRepository winbidRepository;
+    private final WinbidAnalRepository winbidAnalRepository;
 
     public BidNotiResult searchBidnoti(BidNotiSearchPayload payload) {
         try {
@@ -88,10 +90,9 @@ public class BidNotiServiceImpl implements BidNotiService {
             throw new RuntimeException();
         }
     }
-    /*
+
     public List<WinBidAnalResult> searchWinbidAnalList(WinbidAnalSearchPayload payload) {
-        return winbidRepository.searchWinbidAnalList(payload);
+        return winbidAnalRepository.searchWinbidAnalList(payload);
     }
-    */
 
 }

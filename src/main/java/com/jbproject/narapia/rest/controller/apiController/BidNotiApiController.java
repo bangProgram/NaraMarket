@@ -36,7 +36,7 @@ public class BidNotiApiController {
         return "/bidNoti/main::#bidNotiTable";
     }
 
-    /*
+
     @PostMapping("/search/anal")
     public String searchBidnoti(
             HttpServletRequest request, Model model
@@ -48,5 +48,5 @@ public class BidNotiApiController {
 
         return "/bidNoti/main::#bidNotiAnalTable";
     }
-    */
+
 }

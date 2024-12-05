@@ -43,6 +43,7 @@ public class UtilApiController {
                 redirectAttributes.addFlashAttribute("serverMessage","낙찰결과 업데이트 되었습니다. / "+div+". : "+stDate+" ~ "+edDate);
             }
         }catch (Exception e){
+            log.error("Exception : {}",e.getLocalizedMessage());
             redirectAttributes.addFlashAttribute("serverMessage","업데이트에 실패하였습니다..");
         }
 
