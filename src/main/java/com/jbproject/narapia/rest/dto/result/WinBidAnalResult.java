@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.jbproject.narapia.rest.common.CommonUtil;
 import com.jbproject.narapia.rest.entity.WinbidAnalEntity;
 import com.jbproject.narapia.rest.entity.keys.WinbidAnalKey;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -53,13 +54,13 @@ public class WinBidAnalResult {
     @Schema(title = "물품총액")
     private double prdctAmt;
     @Schema(title = "기초금액")
-    private double bssamt;
+    private String bssamt;
     @Schema(title = "추정가격")
-    private double presmptPrce;
+    private String presmptPrce;
     @Schema(title = "추정가격을 통한 기초금액 추정금액")
-    private double presmptBssamt;
+    private String presmptBssamt;
     @Schema(title = "낙찰가격")
-    private double sucsfbidAmt;
+    private String sucsfbidAmt;
     @Schema(title = "낙찰하한율")
     private double sucsfbidLwltRate;
     @Schema(title = "예비가격범위시작률")
@@ -91,10 +92,10 @@ public class WinBidAnalResult {
         result.setPrdctQty(entity.getPrdctQty());
         result.setPrdctUprc(entity.getPrdctUprc());
         result.setPrdctAmt(entity.getPrdctAmt());
-        result.setBssamt(entity.getBssamt());
-        result.setPresmptPrce(entity.getPresmptPrce());
-        result.setPresmptBssamt(entity.getPresmptBssamt());
-        result.setSucsfbidAmt(entity.getSucsfbidAmt());
+        result.setBssamt(CommonUtil.convertDouble(entity.getBssamt()));
+        result.setPresmptPrce(CommonUtil.convertDouble(entity.getPresmptPrce()));
+        result.setPresmptBssamt(CommonUtil.convertDouble(entity.getPresmptBssamt()));
+        result.setSucsfbidAmt(CommonUtil.convertDouble(entity.getSucsfbidAmt()));
         result.setSucsfbidLwltRate(entity.getSucsfbidLwltRate());
         result.setRsrvtnPrceRngBgnRate(entity.getRsrvtnPrceRngBgnRate());
         result.setRsrvtnPrceRngEndRate(entity.getRsrvtnPrceRngEndRate());

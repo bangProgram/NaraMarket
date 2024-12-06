@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "tb_winbid_anal")
+@Table(name = "tb_winbid_anal_real")
 public class WinbidAnalEntity extends BaseEntity implements Persistable<WinbidAnalKey> {
 
     @EmbeddedId
@@ -48,6 +48,8 @@ public class WinbidAnalEntity extends BaseEntity implements Persistable<WinbidAn
     private String rsrvtnPrceRngEndRate;
     private double bssamtRate;
     private double presmptRate;
+
+
 
     @Builder
     public WinbidAnalEntity(

@@ -9,6 +9,7 @@ import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
 import com.jbproject.narapia.rest.dto.result.BidNotiResult;
 import com.jbproject.narapia.rest.dto.result.WinBidAnalResult;
+import com.jbproject.narapia.rest.dto.result.WinbidAnalSearchResult;
 import com.jbproject.narapia.rest.repository.WinbidAnalRepository;
 import com.jbproject.narapia.rest.repository.WinbidRepository;
 import com.jbproject.narapia.rest.service.BidNotiService;
@@ -92,7 +93,12 @@ public class BidNotiServiceImpl implements BidNotiService {
     }
 
     public List<WinBidAnalResult> searchWinbidAnalList(WinbidAnalSearchPayload payload) {
-        return winbidAnalRepository.searchWinbidAnalList(payload);
+
+        return winbidAnalRepository.searchWinbidAnalList(payload).stream().map(WinBidAnalResult::create).toList();
+    }
+
+    public List<WinbidAnalSearchResult> searchWinbidAnalSearch(WinbidAnalSearchPayload payload){
+        return winbidAnalRepository.searchWinbidAnalSearch(payload);
     }
 
 }

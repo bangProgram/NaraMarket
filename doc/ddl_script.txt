@@ -60,7 +60,8 @@ select
 
 
 --
-분석 테이블 쿼리
+분석 테이블 쿼리 ( 추정금액 변환 : tb_winbid_anal)
+분석 테이블 쿼리 ( 추정금액 변환 : tb_winbid_anal_real)
 
 delete from tb_winbid_anal;
 

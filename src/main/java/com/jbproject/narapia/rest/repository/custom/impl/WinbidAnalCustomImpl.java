@@ -2,14 +2,27 @@ package com.jbproject.narapia.rest.repository.custom.impl;
 
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
 import com.jbproject.narapia.rest.dto.result.WinBidAnalResult;
+import com.jbproject.narapia.rest.dto.result.WinbidAnalSearchResult;
+import com.jbproject.narapia.rest.entity.WinbidAnalEntity;
+import com.jbproject.narapia.rest.entity.keys.WinbidAnalKey;
 import com.jbproject.narapia.rest.repository.custom.WinbidAnalCustom;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.TemplateExpression;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.SimpleTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.jbproject.narapia.rest.entity.QBidNotiEntity.bidNotiEntity;
@@ -23,14 +36,16 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<WinBidAnalResult> searchWinbidAnalList(WinbidAnalSearchPayload payload){
+    public List<WinbidAnalEntity> searchWinbidAnalList(WinbidAnalSearchPayload payload){
             BooleanBuilder whereCondition = whereSearchWinbidAnalList(payload);
 
             return jpaQueryFactory.select(
-                    Projections.fields(WinBidAnalResult.class,
-                        winbidAnalEntity.id.bidNtceNo,
-                        winbidAnalEntity.id.bidNtceOrd,
-                        winbidAnalEntity.id.bidClsfcNo,
+                    Projections.fields(WinbidAnalEntity.class,
+                        Projections.fields(WinbidAnalKey.class,
+                                winbidAnalEntity.id.bidNtceNo,
+                                winbidAnalEntity.id.bidNtceOrd,
+                                winbidAnalEntity.id.bidClsfcNo
+                        ).as("id"),
                         winbidAnalEntity.bidNtceNm,
                         winbidAnalEntity.ntceInsttCd,
                         winbidAnalEntity.ntceInsttNm,
@@ -59,7 +74,7 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
             .fetch();
     }
 
-    private BooleanBuilder whereSearchWinbidAnalList(WinbidAnalSearchPayload payload){
+    private static BooleanBuilder whereSearchWinbidAnalList(WinbidAnalSearchPayload payload){
         BooleanBuilder where = new BooleanBuilder();
 
         if(hasText(payload.getDtilPrdctClsfcNo())){
@@ -75,6 +90,42 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
             where.and(winbidAnalEntity.dminsttCd.eq(payload.getDminsttCd()));
         }
 
+        if(payload.getBssamtRate() != null){
+            int pow = Integer.parseInt(payload.getRateLevel());
+
+            Double dwValue = payload.getBssamtRate() - (5 * Math.pow(10, -pow));
+            double upValue = payload.getBssamtRate() + (5 * Math.pow(10, -pow));
+            BigDecimal roundedNumber = new BigDecimal(upValue).setScale(pow, RoundingMode.HALF_UP);
+
+            where.and(winbidAnalEntity.bssamtRate.between(dwValue,roundedNumber));
+        }else{
+            where.and(winbidAnalEntity.bssamtRate.between(99D,101D));
+        }
+
         return where;
+    }
+
+
+    public List<WinbidAnalSearchResult> searchWinbidAnalSearch(WinbidAnalSearchPayload payload) {
+
+        SimpleTemplate<Double> roundField = Expressions.template(Double.class, "ROUND({0},"+payload.getRateLevel()+")",winbidAnalEntity.bssamtRate);
+
+        List<WinbidAnalSearchResult> result = jpaQueryFactory.select(
+                Projections.fields(
+                        WinbidAnalSearchResult.class
+                        , roundField.as("bssamtRate"),
+                        winbidAnalEntity.count().as("rateCount")
+                )
+        ).from(winbidAnalEntity)
+        .where(
+                winbidAnalEntity.bssamtRate.ne(0D)
+                .and(whereSearchWinbidAnalList(payload))
+        )
+        .groupBy(roundField)
+        .fetch();
+
+        result.sort(Comparator.comparingDouble(WinbidAnalSearchResult::getBssamtRate));
+
+        return result;
     }
 }

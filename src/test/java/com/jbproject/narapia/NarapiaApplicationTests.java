@@ -5,12 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jbproject.narapia.rest.common.CommonUtil;
 import com.jbproject.narapia.rest.constants.ServerConstant;
 import com.jbproject.narapia.rest.dto.model.*;
-import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
-import com.jbproject.narapia.rest.dto.payload.WinbidDetailSearchPayload;
-import com.jbproject.narapia.rest.dto.payload.NaraSearchPayload;
-import com.jbproject.narapia.rest.dto.payload.WinbidSearchPayload;
+import com.jbproject.narapia.rest.dto.payload.*;
 import com.jbproject.narapia.rest.dto.result.BidNotiResult;
+import com.jbproject.narapia.rest.dto.result.WinbidAnalSearchResult;
+import com.jbproject.narapia.rest.repository.WinbidAnalRepository;
+import com.jbproject.narapia.rest.service.BidNotiService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -24,6 +25,9 @@ class NarapiaApplicationTests {
 
 	@Value("${naramarket.secret}")
 	private String secret;
+
+	@Autowired
+	private WinbidAnalRepository winbidAnalRepository;
 
 
 	@Test
@@ -202,4 +206,15 @@ class NarapiaApplicationTests {
 	}
 
 
+	@Test
+	void searchWinbidAnalSearch(){
+		WinbidAnalSearchPayload payload = new WinbidAnalSearchPayload();
+		payload.setDtilPrdctClsfcNo("4511170501");
+		payload.setBssamtRate(100.13D);
+		payload.setRateLevel("3");
+
+		System.out.println("payload : "+payload.getBssamtRate());
+
+		List<WinbidAnalSearchResult> result = winbidAnalRepository.searchWinbidAnalSearch(payload);
+	}
 }

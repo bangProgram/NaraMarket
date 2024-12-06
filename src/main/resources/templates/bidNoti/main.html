@@ -135,13 +135,9 @@
         <table id="bidNotiAnalTable">
             <thead>
                 <tr>
-                    <td>공고번호</td>
-                    <td>공고명</td>
                     <td>공고기관명</td>
                     <td>수요기관명</td>
-                    <td>입찰방식명</td>
-                    <td>예정가격결정방법명</td>
-                    <td>세부품명</td>
+                    <td>결정방법명</td>
                     <td>물품수량</td>
                     <td>물품단가</td>
                     <td>물품총액</td>
@@ -150,20 +146,17 @@
                     <td>(추정)기초금액</td>
                     <td>낙찰가격</td>
                     <td>낙찰하한율</td>
-                    <td>예비가격범위시작률</td>
-                    <td>예비가격범위종료율</td>
-                    <td>예측사정율(기초)</td>
-                    <td>예측사정율(추정)</td>
+                    <td>범위</td>
+                    <td>범위</td>
+                    <td>사정율(기초)</td>
+                    <td>사정율(추정)</td>
                 </tr>
             </thead>
             <tbody class="trTest">
                 <tr th:each="result : ${winBidAnalResults}">
-                    <td th:text="${result.bidNtceNm}"/>
                     <td th:text="${result.ntceInsttNm}"/>
                     <td th:text="${result.dminsttNm}"/>
-                    <td th:text="${result.bidMethdNm}"/>
                     <td th:text="${result.prearngPrceDcsnMthdNm}"/>
-                    <td th:text="${result.dtilPrdctClsfcNoNm}"/>
                     <td th:text="${result.prdctQty}"/>
                     <td th:text="${result.prdctUprc}"/>
                     <td th:text="${result.prdctAmt}"/>
