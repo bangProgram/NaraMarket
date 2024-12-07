@@ -210,11 +210,11 @@ class NarapiaApplicationTests {
 	void searchWinbidAnalSearch(){
 		WinbidAnalSearchPayload payload = new WinbidAnalSearchPayload();
 		payload.setDtilPrdctClsfcNo("4511170501");
-		payload.setBssamtRate(100.13D);
-		payload.setRateLevel("3");
+		payload.setBssamtRate(100.1D);
+		payload.setRateLevel("2");
 
 		System.out.println("payload : "+payload.getBssamtRate());
 
-		List<WinbidAnalSearchResult> result = winbidAnalRepository.searchWinbidAnalSearch(payload);
+		List<WinbidAnalSearchResult> result = winbidAnalRepository.searchWinbidAnalList(payload);
 	}
 }

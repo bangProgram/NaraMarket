@@ -22,12 +22,10 @@ public class BidNotiController {
             , BidNotiSearchPayload bidNotiSearchPayload
             , WinbidAnalSearchPayload winbidAnalSearchPayload
             , BidNotiResult bidNotiResult
-            , WinBidAnalResult winBidAnalResults
     ){
         model.addAttribute("bidNotiResult",bidNotiResult);
         model.addAttribute("bidNotiSearchPayload", bidNotiSearchPayload);
         model.addAttribute("winbidAnalSearchPayload", winbidAnalSearchPayload);
-        model.addAttribute("winBidAnalResults",winBidAnalResults);
 
         return "/bidNoti/main";
     }

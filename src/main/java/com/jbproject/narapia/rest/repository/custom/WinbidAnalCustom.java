@@ -8,7 +8,7 @@ import com.jbproject.narapia.rest.entity.WinbidAnalEntity;
 import java.util.List;
 
 public interface WinbidAnalCustom  {
-    List<WinbidAnalEntity> searchWinbidAnalList(WinbidAnalSearchPayload payload);
+//    List<WinbidAnalEntity> searchWinbidAnalList(WinbidAnalSearchPayload payload);
 
-    List<WinbidAnalSearchResult> searchWinbidAnalSearch(WinbidAnalSearchPayload payload);
+    List<WinbidAnalSearchResult> searchWinbidAnalList(WinbidAnalSearchPayload payload);
 }

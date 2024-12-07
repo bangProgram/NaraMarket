@@ -19,5 +19,7 @@ public class WinbidAnalSearchPayload {
     private Double bssamtRate;
     @Schema(title = "레벨")
     private String rateLevel = "1";
+    @Schema(title = "조회 타입")
+    private String searchType;
 
 }

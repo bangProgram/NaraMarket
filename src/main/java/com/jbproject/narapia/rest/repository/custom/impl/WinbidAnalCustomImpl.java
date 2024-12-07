@@ -36,7 +36,8 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<WinbidAnalEntity> searchWinbidAnalList(WinbidAnalSearchPayload payload){
+    /*
+        public List<WinbidAnalEntity> searchWinbidAnalList(WinbidAnalSearchPayload payload){
             BooleanBuilder whereCondition = whereSearchWinbidAnalList(payload);
 
             return jpaQueryFactory.select(
@@ -73,6 +74,7 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
             .where(whereCondition)
             .fetch();
     }
+    */
 
     private static BooleanBuilder whereSearchWinbidAnalList(WinbidAnalSearchPayload payload){
         BooleanBuilder where = new BooleanBuilder();
@@ -106,14 +108,16 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
     }
 
 
-    public List<WinbidAnalSearchResult> searchWinbidAnalSearch(WinbidAnalSearchPayload payload) {
+    public List<WinbidAnalSearchResult> searchWinbidAnalList(WinbidAnalSearchPayload payload) {
 
-        SimpleTemplate<Double> roundField = Expressions.template(Double.class, "ROUND({0},"+payload.getRateLevel()+")",winbidAnalEntity.bssamtRate);
+        int level = Integer.valueOf(payload.getRateLevel());
 
-        List<WinbidAnalSearchResult> result = jpaQueryFactory.select(
+        SimpleTemplate<Double> roundField = Expressions.template(Double.class, "ROUND({0},{1})",winbidAnalEntity.bssamtRate,level);
+
+        List<WinbidAnalSearchResult> results = jpaQueryFactory.select(
                 Projections.fields(
                         WinbidAnalSearchResult.class
-                        , roundField.as("bssamtRate"),
+                        , roundField.as("bssamtRateData"),
                         winbidAnalEntity.count().as("rateCount")
                 )
         ).from(winbidAnalEntity)
@@ -124,8 +128,14 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
         .groupBy(roundField)
         .fetch();
 
-        result.sort(Comparator.comparingDouble(WinbidAnalSearchResult::getBssamtRate));
+        for(WinbidAnalSearchResult result : results){
+            BigDecimal value = new BigDecimal(result.getBssamtRateData());
+            System.out.println("newValue : "+value.setScale(level, RoundingMode.HALF_UP));
+            result.setBssamtRate(value.setScale(level, RoundingMode.HALF_UP));
+        }
 
-        return result;
+        results.sort(Comparator.comparingDouble(WinbidAnalSearchResult::getBssamtRateData));
+
+        return results;
     }
 }

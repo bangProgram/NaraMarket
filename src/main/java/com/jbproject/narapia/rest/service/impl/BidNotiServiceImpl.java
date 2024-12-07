@@ -92,13 +92,16 @@ public class BidNotiServiceImpl implements BidNotiService {
         }
     }
 
+/*
     public List<WinBidAnalResult> searchWinbidAnalList(WinbidAnalSearchPayload payload) {
 
         return winbidAnalRepository.searchWinbidAnalList(payload).stream().map(WinBidAnalResult::create).toList();
     }
+*/
 
-    public List<WinbidAnalSearchResult> searchWinbidAnalSearch(WinbidAnalSearchPayload payload){
-        return winbidAnalRepository.searchWinbidAnalSearch(payload);
+
+    public List<WinbidAnalSearchResult> searchWinbidAnalList(WinbidAnalSearchPayload payload){
+        return winbidAnalRepository.searchWinbidAnalList(payload);
     }
 
 }
