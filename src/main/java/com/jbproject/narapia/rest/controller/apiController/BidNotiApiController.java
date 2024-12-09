@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -35,6 +36,21 @@ public class BidNotiApiController {
         BidNotiResult bidNotiResult = bidNotiService.searchBidnoti(bidNotiSearchPayload);
         model.addAttribute("bidNotiResult",bidNotiResult);
         return "/bidNoti/main::#bidNotiTable";
+    }
+
+
+
+    @PostMapping("/search/test")
+    public RedirectView searchBidnotiTest(
+            HttpServletRequest request, Model model
+            , BidNotiSearchPayload bidNotiSearchPayload
+            , RedirectAttributes redirectAttributes
+    ){
+        BidNotiResult bidNotiResult = bidNotiService.searchBidnoti(bidNotiSearchPayload);
+//        model.addAttribute("bidNotiResult",bidNotiResult);
+        System.out.println("bidNotiResult : "+bidNotiResult);
+        redirectAttributes.addFlashAttribute("bidNotiResult",bidNotiResult);
+        return new RedirectView("/bidNoti");
     }
 
 

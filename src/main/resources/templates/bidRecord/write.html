@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/common/layout/defaultLayout}"
+      layout:fragment="content"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>검색 화면 입니다.</title>
+</head>
+<body>
+    <div>
+        <form name="bidRecordForm" method="post"  th:object="${bidRecordCudPayload}" >
+            <table id="bidNotiTable">
+                <colgroup>
+                    <col style="width:15%;"/>
+                    <col style="width:15%;"/>
+                    <col style="width:15%;"/>
+                    <col style="width:15%;"/>
+                    <col style="width:15%;"/>
+                    <col style="width:15%;"/>
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>조달사이트</td>
+                        <td colspan="2">
+                            <select id="marketSelector">
+                                <option value="">-전체-</option>
+                                <option th:each="market : ${markets}" th:utext="${market.codeName}" th:value="${market.code}" ></option>
+                            </select>
+                            <input type="hidden" th:field="*{marketCd}">
+                            <input type="hidden" th:field="*{marketNm}">
+                        </td>
+                        <td>공고번호</td>
+                        <td colspan="2">
+                            <input type="text" th:field="*{bidNtceNo}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>공고차수</td>
+                        <td colspan="2">
+                            <input type="text" th:field="*{bidNtceOrd}">
+                        </td>
+                        <td>입찰분류번호</td>
+                        <td colspan="2">
+                            <input type="text" th:field="*{bidClsfcNo}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>공고명</td>
+                        <td colspan="5">
+                            <input type="text" th:field="*{bidNtceNm}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>공고기관명</td>
+                        <td colspan="2">
+                            <input type="hidden" th:field="*{ntceInsttCd}">
+                            <input type="text" th:field="*{ntceInsttNm}">
+                        </td>
+                        <td>수요기관명</td>
+                        <td colspan="2">
+                            <input type="hidden" th:field="*{dminsttCd}">
+                            <input type="text" th:field="*{dminsttNm}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>기초금액</td>
+                        <td colspan="2">
+                            <input type="text" th:field="*{bssamt}">
+                        </td>
+                        <td>추정가격</td>
+                        <td colspan="2" >
+                            <input type="text" th:field="*{presmptPrce}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>예비가격범위시작률</td>
+                        <td colspan="2">
+                            <input type="text" th:field="*{rsrvtnPrceRngRate}">
+                        </td>
+                        <td >낙찰하한율</td>
+                        <td colspan="2">
+                            <input type="text" th:field="*{sucsfbidLwltRate}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>투찰가</td>
+                        <td colspan="2">
+                            <input type="text" th:field="*{bidAmt}" >
+                        </td>
+                        <td >낙찰예정가</td>
+                        <td colspan="2">
+                            <input type="text" th:field="*{sucsfbidAmt}" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>사정율</td>
+                        <td >
+                            <input type="text" th:field="*{bidAmtRate}" >
+                        </td>
+                        <td>낙찰순위</td>
+                        <td >
+                            <input type="text" th:field="*{sucsfbidRank}">
+                        </td>
+                        <td >투찰편차</td>
+                        <td >
+                            <input type="text" th:field="*{bidAmtDiff}">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button type="submit">저장</button>
+        </form>
+    </div>
+    <script>
+
+        $(document).ready(function() {
+        });
+
+
+        $("#marketSelector").change(function(){
+            var code = $(this).val();
+            var codeName = $(this).find("option:selected").text();
+
+            $("#marketCd").val(code);
+            $("#marketNm").val(codeName);
+        });
+
+       function searchBidNoti(){
+           var bidNotiSearchPayload = $("form[name=bidNotiSearchForm]").serialize() ;
+
+           console.log("queryString : "+bidNotiSearchPayload);
+
+           $.ajax({
+               url: "/api/bidNoti/search",
+               data: bidNotiSearchPayload,
+               type: 'POST',
+               success:function(data){
+                   console.log("data : "+data);
+                   $("#bidNotiTable").replaceWith(data);
+               }
+           })
+       }
+    </script>
+
+    <style>
+        .trTest {
+            overflow-y: auto
+        }
+
+        #bidNotiTable > tbody > tr {
+            height: 55px;
+            font-size: 17px;
+        }
+
+    </style>
+
+</body>
+</html>

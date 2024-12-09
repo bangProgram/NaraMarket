@@ -8,8 +8,11 @@ import com.jbproject.narapia.rest.dto.model.ApiResponseModel;
 import com.jbproject.narapia.rest.dto.model.WinbidModel;
 import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.NaraSearchPayload;
+import com.jbproject.narapia.rest.entity.CommCodeEntity;
+import com.jbproject.narapia.rest.repository.CommCodeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +23,7 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Map;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -30,6 +34,12 @@ import static org.springframework.util.StringUtils.hasText;
 public class CommonUtil {
 
     public static String naraSecret;
+    private static CommCodeRepository commCodeRepository;
+
+    @Autowired
+    public CommonUtil(CommCodeRepository commCodeRepository) {
+        this.commCodeRepository = commCodeRepository;
+    }
 
     @Value("${naramarket.secret}")
     public void setName(String naraSecret) {
@@ -122,6 +132,10 @@ public class CommonUtil {
         DecimalFormat formatter = new DecimalFormat("###,###.##");
 
         return formatter.format(value);
+    }
+
+    public static List<CommCodeEntity> getCommCodeListByGroupCode(String groupCode) {
+        return commCodeRepository.findByGroupCodeOrderBySeqAsc(groupCode);
     }
 
 }

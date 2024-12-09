@@ -7,6 +7,8 @@ public class BidNotiResult {
 
     private String bidNtceNo;
     private String bidNtceOrd;
+    private String bidClsfcNo;
+
     private String bidNtceNm;
     private String ntceInsttCd;
     private String ntceInsttNm;

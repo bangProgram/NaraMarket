@@ -1,6 +1,7 @@
 package com.jbproject.narapia.rest.controller.webController;
 
 import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
+import com.jbproject.narapia.rest.dto.payload.BidRecordCudPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
 import com.jbproject.narapia.rest.dto.result.BidNotiResult;
 import com.jbproject.narapia.rest.dto.result.WinBidAnalResult;
@@ -22,10 +23,12 @@ public class BidNotiController {
             , BidNotiSearchPayload bidNotiSearchPayload
             , WinbidAnalSearchPayload winbidAnalSearchPayload
             , BidNotiResult bidNotiResult
+            , BidRecordCudPayload bidRecordCudPayload
     ){
         model.addAttribute("bidNotiResult",bidNotiResult);
         model.addAttribute("bidNotiSearchPayload", bidNotiSearchPayload);
         model.addAttribute("winbidAnalSearchPayload", winbidAnalSearchPayload);
+        model.addAttribute("bidRecordCudPayload", bidRecordCudPayload);
 
         return "/bidNoti/main";
     }

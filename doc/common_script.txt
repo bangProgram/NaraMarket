@@ -1,0 +1,39 @@
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_01', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, '나라장터', 1, 'Y');
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_02', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, '국방전자조달', 2, 'Y');
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_03', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, '한국전력', 3, 'Y');
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_04', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, '수자원', 4, 'Y');
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_05', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, '한수원', 5, 'Y');
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_06', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, 'LH공사', 6, 'Y');
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_07', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, '도로공사', 7, 'Y');
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_08', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, '인천공항', 8, 'Y');
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_09', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, '철도공사', 9, 'Y');
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_10', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, '석유공사', 10, 'Y');
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_11', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, '학교장터', 11, 'Y');
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_12', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, '가스공사', 12, 'Y');
+INSERT INTO tb_comm_code
+(code, group_code, create_dttm, create_id, update_dttm, update_id, code_name, seq, use_yn)
+VALUES('MARKET_13', 'MARKET_TYPE', '2024-11-14 16:56:31', 'SYSTEM', NULL, NULL, '마사회', 13, 'Y');

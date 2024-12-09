@@ -78,13 +78,13 @@ public class BidNotiServiceImpl implements BidNotiService {
             if(bidNotiDetailRes.getBody().getItems() != null) {
                 BidNotiDetailModel bidNotiDetailModel = bidNotiDetailRes.getBody().getItems().getFirst();
 
+                result.setBidClsfcNo(bidNotiDetailModel.getBidClsfcNo());
                 result.setBidNtceNm(bidNotiDetailModel.getBidNtceNm());
                 result.setBssamt(CommonUtil.convertDouble(bidNotiDetailModel.getBssamt()));
                 result.setRsrvtnPrceRngBgnRate(bidNotiDetailModel.getRsrvtnPrceRngBgnRate());
                 result.setRsrvtnPrceRngEndRate(bidNotiDetailModel.getRsrvtnPrceRngEndRate());
             }
 
-            System.out.println("result : "+result);
             return result;
         }catch (Exception e){
             log.error("searchBidnoti Error : {} ",e.getLocalizedMessage());

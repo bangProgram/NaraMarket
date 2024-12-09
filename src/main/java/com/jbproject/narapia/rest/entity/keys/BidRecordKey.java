@@ -1,0 +1,25 @@
+package com.jbproject.narapia.rest.entity.keys;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import lombok.*;
+
+import java.io.Serializable;
+
+@Getter @Setter
+@Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@Builder
+public class BidRecordKey implements Serializable {
+
+    @Column( name = "market_cd",columnDefinition="varchar(20)")
+    private String marketCd;
+    @Column( name = "bid_ntce_no",columnDefinition="varchar(20)")
+    private String bidNtceNo;
+    @Column( name = "bid_ntce_ord",columnDefinition="varchar(10)")
+    private String bidNtceOrd;
+    @Column( name = "bid_clsfc_no",columnDefinition="varchar(10)")
+    private String bidClsfcNo;
+}
