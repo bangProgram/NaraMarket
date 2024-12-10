@@ -25,23 +25,25 @@ public class BidRecordCudPayload {
     @Schema(title = "수요기관명")
     private String dminsttNm;
     @Schema(title = "기초금액 ")
-    private String bssamt;
+    private Double bssamt;
     @Schema(title = "추정가격")
-    private String presmptPrce;
+    private Double presmptPrce;
     @Schema(title = "예비가격범위 ")
     private String rsrvtnPrceRngRate;
     @Schema(title = "조달사이트명")
     private String marketNm;
+    @Schema(title = "예정금액")
+    private Double expectAmt;
     @Schema(title = "낙찰예정금액")
     private String sucsfbidAmt;
     @Schema(title = "투찰금액")
-    private String bidAmt;
+    private Double bidAmt;
     @Schema(title = "순위")
     private String sucsfbidRank;
     @Schema(title = "입찰금액편차")
-    private String bidAmtDiff;
+    private Double bidAmtDiff;
     @Schema(title = "낙찰하한율")
-    private String sucsfbidLwltRate;
+    private Double sucsfbidLwltRate;
     @Schema(title = "예측사정율")
     private Double bidAmtRate;
 

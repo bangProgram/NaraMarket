@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
-@Controller
+@RestController
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/bidNoti")
@@ -28,6 +28,7 @@ public class BidNotiApiController {
 
     private final BidNotiService bidNotiService;
 
+    /*
     @PostMapping("/search")
     public String searchBidnoti(
             HttpServletRequest request, Model model
@@ -37,10 +38,11 @@ public class BidNotiApiController {
         model.addAttribute("bidNotiResult",bidNotiResult);
         return "/bidNoti/main::#bidNotiTable";
     }
+    */
 
 
 
-    @PostMapping("/search/test")
+    @PostMapping("/search")
     public RedirectView searchBidnotiTest(
             HttpServletRequest request, Model model
             , BidNotiSearchPayload bidNotiSearchPayload

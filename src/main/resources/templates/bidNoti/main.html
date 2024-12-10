@@ -11,8 +11,6 @@
 </head>
 <body>
     <form name="bidRecordForm" action="/bidRecord/write" method="post" >
-        <input type="hidden" name="marketCd">
-        <input type="hidden" name="marketNm">
         <input type="text" name="bidNtceNo"  th:value="${bidNotiResult.bidNtceNo}">
         <input type="hidden" name="bidNtceOrd"  th:value="${bidNotiResult.bidNtceOrd}">
         <input type="hidden" name="bidClsfcNo"  th:value="${bidNotiResult.bidClsfcNo}">
@@ -21,20 +19,15 @@
         <input type="hidden" name="ntceInsttNm"  th:value="${bidNotiResult.ntceInsttNm}">
         <input type="hidden" name="dminsttCd"  th:value="${bidNotiResult.dminsttCd}">
         <input type="hidden" name="dminsttNm"  th:value="${bidNotiResult.dminsttNm}">
-        <input type="hidden" name="bssamt"  th:value="${bidNotiResult.bssamt}">
-        <input type="hidden" name="presmptPrce"  th:value="${bidNotiResult.presmptPrce}">
-        <input type="hidden" name="rsrvtnPrceRngRate"  th:value="${bidNotiResult.rsrvtnPrceRngBgnRate}">
-        <input type="hidden" name="sucsfbidLwltRate"  th:value="${bidNotiResult.sucsfbidLwltRate}">
-        <input type="hidden" name="bidAmt">
-        <input type="hidden" name="sucsfbidAmt" >
-        <input type="hidden" name="bidAmtRate" >
-        <input type="hidden" name="sucsfbidRank">
-        <input type="hidden" name="bidAmtDiff">
+        <input type="text" name="bssamt" th:if="${bidNotiResult.bssamt != null }" th:value="${bidNotiResult.bssamt}" id="bssamt">
+        <input type="text" name="presmptPrce" th:if="${bidNotiResult.presmptPrce != null }"  th:value="${bidNotiResult.presmptPrce}" id="presmptPrce" >
+        <input type="hidden" name="rsrvtnPrceRngRate" th:if="${bidNotiResult.rsrvtnPrceRngBgnRate != null }" th:value="${bidNotiResult.rsrvtnPrceRngBgnRate}">
+        <input type="hidden" name="sucsfbidLwltRate" th:if="${bidNotiResult.sucsfbidLwltRate != null }"  th:value="${bidNotiResult.sucsfbidLwltRate}" >
     </form>
 
     <div>
         입찰공고 검색
-        <form action="/api/bidNoti/search/test" name="bidNotiSearchForm" method="post"  th:object="${bidNotiSearchPayload}" >
+        <form action="/api/bidNoti/search" name="bidNotiSearchForm" method="post"  th:object="${bidNotiSearchPayload}" >
             <input type="hidden" th:field="*{numOfRows}">
             <input type="hidden" th:field="*{pageNo}">
             <input type="hidden" th:field="*{type}">
@@ -74,82 +67,104 @@
             <tbody>
                 <tr>
                     <td>공고번호</td>
-                    <td colspan="2" th:text="${bidNotiResult.bidNtceNo}" id="bidNtceNo"></td>
+                    <td colspan="2" th:text="${bidNotiResult.bidNtceNo}" ></td>
                     <td>공고차수</td>
-                    <td colspan="2" th:text="${bidNotiResult.bidNtceOrd}" id="bidNtceOrd"></td>
+                    <td colspan="2" th:text="${bidNotiResult.bidNtceOrd}" ></td>
                 </tr>
                 <tr>
                     <td>공고명</td>
-                    <td colspan="5" th:text="${bidNotiResult.bidNtceNm}" id="bidNtceNm"></td>
+                    <td colspan="5" th:text="${bidNotiResult.bidNtceNm}"></td>
                 </tr>
                 <tr>
                     <td>공고기관코드</td>
-                    <td colspan="2" th:text="${bidNotiResult.ntceInsttCd}" id="ntceInsttCd"></td>
+                    <td colspan="2" th:text="${bidNotiResult.ntceInsttCd}" ></td>
                     <td>공고기관명</td>
-                    <td colspan="2" th:text="${bidNotiResult.ntceInsttNm}" id="ntceInsttNm"></td>
+                    <td colspan="2" th:text="${bidNotiResult.ntceInsttNm}" ></td>
                 </tr>
                 <tr>
                     <td>수요기관코드</td>
-                    <td colspan="2" th:text="${bidNotiResult.dminsttCd}" id="dminsttCd"></td>
+                    <td colspan="2" th:text="${bidNotiResult.dminsttCd}" ></td>
                     <td>수요기관명</td>
-                    <td colspan="2" th:text="${bidNotiResult.dminsttNm}" id="dminsttNm"></td>
+                    <td colspan="2" th:text="${bidNotiResult.dminsttNm}" ></td>
                 </tr>
                 <tr>
                     <td >입찰방식명</td>
-                    <td  colspan="2" th:text="${bidNotiResult.bidMethdNm}" id="bidMethdNm"></td>
+                    <td  colspan="2" th:text="${bidNotiResult.bidMethdNm}"></td>
                     <td >예정가격결정방법명</td>
-                    <td  colspan="2" th:text="${bidNotiResult.prearngPrceDcsnMthdNm}" id="prearngPrceDcsnMthdNm"></td>
+                    <td  colspan="2" th:text="${bidNotiResult.prearngPrceDcsnMthdNm}" ></td>
                 </tr>
                 <tr>
                     <td>기초금액</td>
-                    <td colspan="2" th:text="${bidNotiResult.bssamt}" id="bssamt"></td>
+                    <td colspan="2" th:text="${bidNotiResult.bssamt}"></td>
                     <td>추정가격</td>
-                    <td colspan="2" th:text="${bidNotiResult.presmptPrce}" id="presmptPrce"></td>
+                    <td colspan="2" th:text="${bidNotiResult.presmptPrce}" ></td>
                 </tr>
                 <tr>
                     <td>품명번호</td>
-                    <td colspan="2" th:text="${bidNotiResult.dtilPrdctClsfcNo}" id="dtilPrdctClsfcNo"></td>
+                    <td colspan="2" th:text="${bidNotiResult.dtilPrdctClsfcNo}"></td>
                     <td>품명</td>
                     <td colspan="2" th:text="${bidNotiResult.dtilPrdctClsfcNoNm}" id="dtilPrdctClsfcNoNm"></td>
                 </tr>
                 <tr>
                     <td>물품수량</td>
-                    <td colspan="2" th:text="${bidNotiResult.prdctQty}" id="prdctQty"></td>
+                    <td colspan="2" th:text="${bidNotiResult.prdctQty}" ></td>
                     <td >물품단가</td>
-                    <td colspan="2" th:text="${bidNotiResult.prdctUprc}" id="prdctUprc"></td>
+                    <td colspan="2" th:text="${bidNotiResult.prdctUprc}"></td>
                 </tr>
                 <tr>
                     <td>예비가격범위시작률</td>
-                    <td th:text="${bidNotiResult.rsrvtnPrceRngBgnRate}" id="rsrvtnPrceRngBgnRate"></td>
+                    <td th:text="${bidNotiResult.rsrvtnPrceRngBgnRate}" ></td>
                     <td>예비가격범위종료율</td>
-                    <td th:text="${bidNotiResult.rsrvtnPrceRngEndRate}" id="rsrvtnPrceRngEndRate"></td>
+                    <td th:text="${bidNotiResult.rsrvtnPrceRngEndRate}" ></td>
                     <td >낙찰하한율</td>
-                    <td th:text="${bidNotiResult.sucsfbidLwltRate}" id="sucsfbidLwltRate"></td>
+                    <td th:text="${bidNotiResult.sucsfbidLwltRate}"></td>
                 </tr>
             </tbody>
         </table>
     </div>
 <script>
-
-
     $(document).ready(function() {
-       $("#dtilPrdctClsfcNoNm").hide();;
+       $("#dtilPrdctClsfcNoNm").hide();
     });
 
    $("#prdctSelector").change(function(){
        var check = $(this).val();
        if(check == 1) {
            $("#dtilPrdctClsfcNo").show();
-           $("#dtilPrdctClsfcNoNm").hide();;
+           $("#dtilPrdctClsfcNoNm").hide();
        }else{
-           $("#dtilPrdctClsfcNo").hide();;
+           $("#dtilPrdctClsfcNo").hide();
            $("#dtilPrdctClsfcNoNm").show();
        }
    });
 
    function goBidRecord() {
+        console.log("test input" );
+        transNumber("bssamt");
+
+        console.log("test input : " +$("#bssamt").val());
+        transNumber("presmptPrce");
+
+        console.log("test input : " +$("#presmptPrce").val());
         $("form[name=bidRecordForm]").submit();
    }
+
+    function transNumber(id) {
+        console.log("id 1 : "+id);
+        var value = $("#"+id).val();
+        console.log("id 1 value : "+value);
+        var format = numFormatter(value);
+        console.log("id 1 format : "+format);
+
+        $("#"+id).val(format);
+    }
+
+    function numFormatter(value) {
+        console.log("value 1 : "+value);
+        var format = Number(value.replaceAll(",",""));
+        return format;
+    }
+
 
    function searchWinbidAnal(){
        var winbidAnalSearchPayload = $("form[name=winbidAnalSearchForm]").serialize() ;
@@ -164,7 +179,7 @@
                console.log("data : "+data);
                $("#bidNotiAnalTable").replaceWith(data);
            }
-       })
+       });
    }
 
    function searchBidNoti(){
@@ -179,7 +194,7 @@
            success:function(data){
                console.log("data : "+data);
            }
-       })
+       });
    }
 </script>
 

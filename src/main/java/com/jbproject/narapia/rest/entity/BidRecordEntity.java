@@ -3,11 +3,9 @@ package com.jbproject.narapia.rest.entity;
 import com.jbproject.narapia.rest.dto.model.BidRecordModel;
 import com.jbproject.narapia.rest.dto.model.WinbidModel;
 import com.jbproject.narapia.rest.entity.base.BaseEntity;
-import com.jbproject.narapia.rest.entity.keys.BidRecordKey;
 import com.jbproject.narapia.rest.entity.keys.WinbidKey;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +20,20 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Table(name = "tb_bid_record")
-public class BidRecordEntity extends BaseEntity implements Persistable<BidRecordKey> {
+public class BidRecordEntity extends BaseEntity {
 
-    @EmbeddedId
-    private BidRecordKey id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column(name = "market_cd", columnDefinition = "varchar(20)")
+    private String marketCd;
+    @Column(name = "bid_ntce_no", columnDefinition = "varchar(20)")
+    private String bidNtceNo;
+    @Column(name = "bid_ntce_ord", columnDefinition = "varchar(10)")
+    private String bidNtceOrd;
+    @Column(name = "bid_clsfc_no", columnDefinition = "varchar(10)")
+    private String bidClsfcNo;
     private String bidNtceNm;
     private String ntceInsttCd;
     private String ntceInsttNm;
@@ -35,8 +42,8 @@ public class BidRecordEntity extends BaseEntity implements Persistable<BidRecord
     private Double bssamt;
     private Double presmptPrce;
     private String rsrvtnPrceRngRate;
-
     private String marketNm;
+    private Double expectAmt;
     private Double sucsfbidAmt;
     private Double bidAmt;
     private Integer sucsfbidRank;
@@ -47,13 +54,16 @@ public class BidRecordEntity extends BaseEntity implements Persistable<BidRecord
 
     @Builder
     public BidRecordEntity(
-            BidRecordKey id
+            String marketCd, String bidNtceNo, String bidNtceOrd, String bidClsfcNo
             , String bidNtceNm, String ntceInsttCd, String ntceInsttNm, String dminsttCd, String dminsttNm
-            , double bssamt, double presmptPrce, String rsrvtnPrceRngRate
-            , String marketNm, double sucsfbidAmt, double bidAmt, Integer sucsfbidRank, double bidAmtDiff
-            , double sucsfbidLwltRate, double bidAmtRate
+            , Double bssamt, Double presmptPrce, String rsrvtnPrceRngRate
+            , String marketNm, Double expectAmt, Double sucsfbidAmt, Double bidAmt, Integer sucsfbidRank, Double bidAmtDiff
+            , Double sucsfbidLwltRate, Double bidAmtRate
     ) {
-        this.id = id;
+        this.marketCd = marketCd;
+        this.bidNtceNo = bidNtceNo;
+        this.bidNtceOrd = bidNtceOrd;
+        this.bidClsfcNo = bidClsfcNo;
         this.bidNtceNm = bidNtceNm;
         this.ntceInsttCd = ntceInsttCd;
         this.ntceInsttNm = ntceInsttNm;
@@ -63,6 +73,7 @@ public class BidRecordEntity extends BaseEntity implements Persistable<BidRecord
         this.presmptPrce = presmptPrce;
         this.rsrvtnPrceRngRate = rsrvtnPrceRngRate;
         this.marketNm = marketNm;
+        this.expectAmt = expectAmt;
         this.sucsfbidAmt = sucsfbidAmt;
         this.bidAmt = bidAmt;
         this.sucsfbidRank = sucsfbidRank;
@@ -72,13 +83,11 @@ public class BidRecordEntity extends BaseEntity implements Persistable<BidRecord
     }
 
     public BidRecordEntity(BidRecordModel model) {
-        this.id = BidRecordKey.builder()
-                .marketCd(model.getMarketCd())
-                .bidNtceNo(model.getBidNtceNo())
-                .bidNtceOrd(model.getBidNtceOrd())
-                .bidClsfcNo(model.getBidClsfcNo())
-                .build();
 
+        this.marketCd = model.getMarketCd();
+        this.bidNtceNo = model.getBidNtceNo();
+        this.bidNtceOrd = model.getBidNtceOrd();
+        this.bidClsfcNo = model.getBidClsfcNo();
         this.bidNtceNm = model.getBidNtceNm();
         this.ntceInsttCd = model.getNtceInsttCd();
         this.ntceInsttNm = model.getNtceInsttNm();
@@ -88,6 +97,7 @@ public class BidRecordEntity extends BaseEntity implements Persistable<BidRecord
         this.presmptPrce = model.getPresmptPrce();
         this.rsrvtnPrceRngRate = model.getRsrvtnPrceRngRate();
         this.marketNm = model.getMarketNm();
+        this.expectAmt = model.getExpectAmt();
         this.sucsfbidAmt = model.getSucsfbidAmt();
         this.bidAmt = model.getBidAmt();
         this.sucsfbidRank = model.getSucsfbidRank();
@@ -98,6 +108,10 @@ public class BidRecordEntity extends BaseEntity implements Persistable<BidRecord
 
     public void update(BidRecordModel model) {
 
+        this.marketCd = model.getMarketCd();
+        this.bidNtceNo = model.getBidNtceNo();
+        this.bidNtceOrd = model.getBidNtceOrd();
+        this.bidClsfcNo = model.getBidClsfcNo();
         this.bidNtceNm = model.getBidNtceNm();
         this.ntceInsttCd = model.getNtceInsttCd();
         this.ntceInsttNm = model.getNtceInsttNm();
@@ -107,6 +121,7 @@ public class BidRecordEntity extends BaseEntity implements Persistable<BidRecord
         this.presmptPrce = model.getPresmptPrce();
         this.rsrvtnPrceRngRate = model.getRsrvtnPrceRngRate();
         this.marketNm = model.getMarketNm();
+        this.expectAmt = model.getExpectAmt();
         this.sucsfbidAmt = model.getSucsfbidAmt();
         this.bidAmt = model.getBidAmt();
         this.sucsfbidRank = model.getSucsfbidRank();
@@ -114,16 +129,5 @@ public class BidRecordEntity extends BaseEntity implements Persistable<BidRecord
         this.sucsfbidLwltRate = model.getSucsfbidLwltRate();
         this.bidAmtRate = model.getBidAmtRate();
 
-    }
-
-
-    @Override
-    public BidRecordKey getId() {
-        return id;
-    }
-
-    @Override
-    public boolean isNew() {
-        return getCreateDttm() == null;
     }
 }

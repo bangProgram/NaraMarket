@@ -11,7 +11,7 @@
 </head>
 <body>
     <div>
-        <form name="bidRecordForm" method="post"  th:object="${bidRecordCudPayload}" >
+        <form action="/api/bidRecord/cud" name="bidRecordForm" method="post"  th:object="${bidRecordCudPayload}" >
             <table id="bidNotiTable">
                 <colgroup>
                     <col style="width:15%;"/>
@@ -68,11 +68,11 @@
                     <tr>
                         <td>기초금액</td>
                         <td colspan="2">
-                            <input type="text" th:field="*{bssamt}">
+                            <input type="text" th:field="*{bssamt}" class="decimalFormat">
                         </td>
                         <td>추정가격</td>
                         <td colspan="2" >
-                            <input type="text" th:field="*{presmptPrce}">
+                            <input type="text" th:field="*{presmptPrce}" class="decimalFormat">
                         </td>
                     </tr>
                     <tr>
@@ -86,13 +86,17 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>투찰가</td>
-                        <td colspan="2">
-                            <input type="text" th:field="*{bidAmt}" >
+                        <td >예정가</td>
+                        <td >
+                            <input type="text" th:field="*{expectAmt}" class="integerFormat" >
                         </td>
-                        <td >낙찰예정가</td>
-                        <td colspan="2">
+                        <td >낙찰가</td>
+                        <td >
                             <input type="text" th:field="*{sucsfbidAmt}" >
+                        </td>
+                        <td>투찰가</td>
+                        <td >
+                            <input type="text" th:field="*{bidAmt}" class="integerFormat">
                         </td>
                     </tr>
                     <tr>
@@ -106,18 +110,67 @@
                         </td>
                         <td >투찰편차</td>
                         <td >
-                            <input type="text" th:field="*{bidAmtDiff}">
+                            <input type="text" th:field="*{bidAmtDiff}" >
                         </td>
                     </tr>
                 </tbody>
             </table>
-
-            <button type="submit">저장</button>
+            <div>
+                <button type="submit">저장</button>
+            </div>
         </form>
     </div>
     <script>
 
         $(document).ready(function() {
+             $('.decimalFormat').each(function() {
+                var value = $(this).val();
+                console.log("value1 : "+value);
+                var format = decimalFormatter(value,2);
+                console.log("value2 : "+value);
+                $(this).val(format);
+            });
+        });
+
+        $(".integerFormat").change(function(){
+            var value = $(this).val();
+            const format = integerFormatter(Number(value.replaceAll(",","")));
+
+            $(this).val(format);
+        });
+
+        $(".decimalFormat").change(function(){
+            var value = $(this).val();
+            const format = decimalFormatter(Number(value.replaceAll(",","")),2);
+
+            $(this).val(format);
+        });
+
+        function integerFormatter(value) {
+            const format = value.toLocaleString();
+            return format;
+        }
+
+        function decimalFormatter(value,place) {
+            console.log("value3 : "+value+" / "+place);
+            const format = value.toFixed(place)
+                .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            console.log("value4 : "+value);
+            return format;
+        }
+
+        $("#sucsfbidLwltRate").change(function(){
+            calcSucsfbidAmt();
+        });
+        $("#expectAmt").change(function(){
+            calcBidAmtRate();
+            calcSucsfbidAmt();
+        });
+        $("#bssamt").change(function(){
+            calcBidAmtRate();
+        });
+        $("#bidAmt").change(function(){
+            calcBidAmtDiff();
         });
 
 
@@ -144,6 +197,70 @@
                }
            })
        }
+
+        function calcBidAmtRate(){
+            var expectAmt = $("#expectAmt").val();
+            var bssamt = $("#bssamt").val();
+
+            if(expectAmt != null || expectAmt != ""){
+                expectAmt = expectAmt.replaceAll(",","");
+            }else{
+                expectAmt = 0;
+            }
+            if(bssamt != null || bssamt != ""){
+                bssamt = bssamt.replaceAll(",","");
+            }else{
+                bssamt = 0;
+            }
+
+            var calcValue = Number(expectAmt) / Number(bssamt) * 100 ;
+            var format = decimalFormatter(calcValue,5);
+            $("#bidAmtRate").val(format);
+        }
+
+        function calcBidAmtDiff(){
+
+            var sucsfbidAmt = $("#sucsfbidAmt").val();
+            var bidAmt = $("#bidAmt").val();
+
+            if(sucsfbidAmt != null || sucsfbidAmt != ""){
+                sucsfbidAmt = sucsfbidAmt.replaceAll(",","");
+            }else{
+                sucsfbidAmt = 0;
+            }
+            if(bidAmt != null || bidAmt != ""){
+                bidAmt = bidAmt.replaceAll(",","");
+            }else{
+                bidAmt = 0;
+            }
+
+            var calcValue = Number(sucsfbidAmt) - Number(bidAmt);
+            var format = integerFormatter(calcValue);
+            $("#bidAmtDiff").val(format);
+        }
+
+        function calcSucsfbidAmt(){
+
+            var expectAmt = $("#expectAmt").val();
+            var sucsfbidLwltRate = $("#sucsfbidLwltRate").val();
+
+            if(expectAmt != null || expectAmt != ""){
+                expectAmt = expectAmt.replaceAll(",","");
+            }else{
+                expectAmt = 0;
+            }
+            if(sucsfbidLwltRate != null || sucsfbidLwltRate != ""){
+                sucsfbidLwltRate = sucsfbidLwltRate.replaceAll(",","");
+            }else{
+                sucsfbidLwltRate = 0;
+            }
+
+            var calcValue = Number(expectAmt) * Number(sucsfbidLwltRate) / 100;
+            var format = integerFormatter(Math.round(calcValue));
+            $("#sucsfbidAmt").val(format);
+
+            calcBidAmtDiff();
+        }
     </script>
 
     <style>
