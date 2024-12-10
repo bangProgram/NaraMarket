@@ -124,7 +124,7 @@
 
         $(document).ready(function() {
              $('.decimalFormat').each(function() {
-                var value = $(this).val();
+                var value = Number($(this).val());
                 console.log("value1 : "+value);
                 var format = decimalFormatter(value,2);
                 console.log("value2 : "+value);
