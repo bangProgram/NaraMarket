@@ -146,28 +146,22 @@
    });
 
    function goBidRecord() {
-        console.log("test input" );
         transNumber("bssamt");
-
-        console.log("test input : " +$("#bssamt").val());
         transNumber("presmptPrce");
-
-        console.log("test input : " +$("#presmptPrce").val());
         $("form[name=bidRecordForm]").submit();
    }
 
     function transNumber(id) {
-        console.log("id 1 : "+id);
-        var value = $("#"+id).val();
-        console.log("id 1 value : "+value);
-        var format = numFormatter(value);
-        console.log("id 1 format : "+format);
+        console.log(" test : "+$("#"+id).length);
 
-        $("#"+id).val(format);
+        if($("#"+id).length > 0) {
+            var value = $("#"+id).val();
+            var format = numFormatter(value);
+            $("#"+id).val(format);
+        }
     }
 
     function numFormatter(value) {
-        console.log("value 1 : "+value);
         var format = Number(value.replaceAll(",",""));
         return format;
     }
@@ -183,7 +177,6 @@
            data: winbidAnalSearchPayload,
            type: 'POST',
            success:function(data){
-               console.log("data : "+data);
                $("#bidNotiAnalTable").replaceWith(data);
            }
        });
