@@ -12,111 +12,123 @@
 <body>
     <div>
         <form action="/api/bidRecord/cud" name="bidRecordForm" method="post"  th:object="${bidRecordCudPayload}" >
+            <input type="hidden" th:field="*{id}">
             <table id="bidNotiTable">
                 <colgroup>
-                    <col style="width:15%;"/>
-                    <col style="width:15%;"/>
-                    <col style="width:15%;"/>
-                    <col style="width:15%;"/>
-                    <col style="width:15%;"/>
-                    <col style="width:15%;"/>
+                    <col style="width:8%;"/>
+                    <col style="width:8%;"/>
+                    <col style="width:8%;"/>
+                    <col style="width:8%;"/>
+                    <col style="width:8%;"/>
+                    <col style="width:8%;"/>
+                    <col style="width:8%;"/>
+                    <col style="width:8%;"/>
+                    <col style="width:8%;"/>
+                    <col style="width:8%;"/>
+                    <col style="width:8%;"/>
+                    <col style="width:8%;"/>
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td>조달사이트</td>
-                        <td colspan="2">
-                            <select id="marketSelector">
-                                <option value="">-전체-</option>
+                        <td colspan="3">조달사이트</td>
+                        <td colspan="3">
+                            <select th:field="*{marketCd}">
+                                <option value="00">-전체-</option>
                                 <option th:each="market : ${markets}" th:utext="${market.codeName}" th:value="${market.code}" ></option>
                             </select>
-                            <input type="hidden" th:field="*{marketCd}">
                             <input type="hidden" th:field="*{marketNm}">
                         </td>
-                        <td>공고번호</td>
-                        <td colspan="2">
+                        <td colspan="3">공고번호</td>
+                        <td colspan="3">
                             <input type="text" th:field="*{bidNtceNo}">
                         </td>
                     </tr>
                     <tr>
-                        <td>공고차수</td>
-                        <td colspan="2">
+                        <td colspan="3">공고차수</td>
+                        <td colspan="3">
                             <input type="text" th:field="*{bidNtceOrd}">
                         </td>
-                        <td>입찰분류번호</td>
-                        <td colspan="2">
+                        <td colspan="3">입찰분류번호</td>
+                        <td colspan="3">
                             <input type="text" th:field="*{bidClsfcNo}">
                         </td>
                     </tr>
                     <tr>
-                        <td>공고명</td>
-                        <td colspan="5">
-                            <input type="text" th:field="*{bidNtceNm}">
+                        <td colspan="3">공고명</td>
+                        <td colspan="9">
+                            <input type="text" th:field="*{bidNtceNm}" style="width: 86%;">
                         </td>
                     </tr>
                     <tr>
-                        <td>공고기관명</td>
-                        <td colspan="2">
+                        <td colspan="3">공고기관명</td>
+                        <td colspan="3">
                             <input type="hidden" th:field="*{ntceInsttCd}">
                             <input type="text" th:field="*{ntceInsttNm}">
                         </td>
-                        <td>수요기관명</td>
-                        <td colspan="2">
+                        <td colspan="3">수요기관명</td>
+                        <td colspan="3">
                             <input type="hidden" th:field="*{dminsttCd}">
                             <input type="text" th:field="*{dminsttNm}">
                         </td>
                     </tr>
                     <tr>
-                        <td>기초금액</td>
-                        <td colspan="2">
+                        <td colspan="3">기초금액</td>
+                        <td colspan="3">
                             <input type="text" th:field="*{bssamt}" class="decimalFormat">
                         </td>
-                        <td>추정가격</td>
-                        <td colspan="2" >
+                        <td colspan="3">추정가격</td>
+                        <td colspan="3">
                             <input type="text" th:field="*{presmptPrce}" class="decimalFormat">
                         </td>
                     </tr>
                     <tr>
-                        <td>예비가격범위시작률</td>
-                        <td colspan="2">
+                        <td colspan="3">예비가격범위시작률</td>
+                        <td colspan="3">
                             <input type="text" th:field="*{rsrvtnPrceRngRate}">
                         </td>
-                        <td >낙찰하한율</td>
-                        <td colspan="2">
+                        <td colspan="3">낙찰하한율</td>
+                        <td colspan="3">
                             <input type="text" th:field="*{sucsfbidLwltRate}">
                         </td>
                     </tr>
                     <tr>
-                        <td >예정가</td>
-                        <td >
-                            <input type="text" th:field="*{expectAmt}" class="integerFormat" >
+                        <td colspan="2">예정가</td>
+                        <td colspan="2">
+                            <input type="text" th:field="*{expectAmt}" class="decimalFormat" >
                         </td>
-                        <td >낙찰가</td>
-                        <td >
-                            <input type="text" th:field="*{sucsfbidAmt}" >
+                        <td colspan="2">낙찰가</td>
+                        <td colspan="2">
+                            <input type="text" th:field="*{sucsfbidAmt}" class="decimalFormat" >
                         </td>
-                        <td>투찰가</td>
-                        <td >
-                            <input type="text" th:field="*{bidAmt}" class="integerFormat">
+                        <td colspan="2">투찰가</td>
+                        <td colspan="2">
+                            <input type="text" th:field="*{bidAmt}" class="decimalFormat">
                         </td>
                     </tr>
                     <tr>
-                        <td>사정율</td>
-                        <td >
+                        <td colspan="3">사정율</td>
+                        <td colspan="3">
+                            <input type="text" th:field="*{sucsfbidAmtRate}" >
+                        </td>
+                        <td colspan="3">투찰사정율</td>
+                        <td colspan="3">
                             <input type="text" th:field="*{bidAmtRate}" >
                         </td>
-                        <td>낙찰순위</td>
-                        <td >
+                    </tr>
+                    <tr>
+                        <td colspan="3">낙찰순위</td>
+                        <td colspan="3">
                             <input type="text" th:field="*{sucsfbidRank}">
                         </td>
-                        <td >투찰편차</td>
-                        <td >
+                        <td colspan="3">투찰편차</td>
+                        <td colspan="3">
                             <input type="text" th:field="*{bidAmtDiff}" >
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div>
-                <button type="submit">저장</button>
+                <button type="button" th:onclick="cudBidRecord()">저장</button>
             </div>
         </form>
     </div>
@@ -124,13 +136,40 @@
 
         $(document).ready(function() {
              $('.decimalFormat').each(function() {
-                var value = Number($(this).val());
-                console.log("value1 : "+value);
+                var value = $(this).val();
                 var format = decimalFormatter(value,2);
-                console.log("value2 : "+value);
                 $(this).val(format);
             });
         });
+
+        function cudBidRecord() {
+
+            if($("#marketCd").val() == "00" ){
+                alert("조달청사이트 구분을 선택해주세요");
+                return;
+            }
+
+            transNumber("bssamt");
+            transNumber("presmptPrce");
+            transNumber("expectAmt");
+            transNumber("sucsfbidAmt");
+            transNumber("bidAmt");
+            transNumber("bidAmtDiff");
+
+            $("form[name=bidRecordForm]").submit();
+        }
+
+        function transNumber(id) {
+            var value = $("#"+id).val();
+            var format = numFormatter(value);
+
+            $("#"+id).val(format);
+        }
+
+        function numFormatter(value) {
+            var format = Number(value.replaceAll(",",""));
+            return format;
+        }
 
         $(".integerFormat").change(function(){
             var value = $(this).val();
@@ -141,7 +180,7 @@
 
         $(".decimalFormat").change(function(){
             var value = $(this).val();
-            const format = decimalFormatter(Number(value.replaceAll(",","")),2);
+            const format = decimalFormatter(value.replaceAll(",",""),2);
 
             $(this).val(format);
         });
@@ -152,10 +191,8 @@
         }
 
         function decimalFormatter(value,place) {
-            console.log("value3 : "+value+" / "+place);
-            const format = value.toFixed(place)
+            const format = Number.parseFloat(value).toFixed(place)
                 .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-            console.log("value4 : "+value);
             return format;
         }
 
@@ -163,18 +200,19 @@
             calcSucsfbidAmt();
         });
         $("#expectAmt").change(function(){
-            calcBidAmtRate();
+            calcSucsfbidAmtRate();
             calcSucsfbidAmt();
         });
         $("#bssamt").change(function(){
             calcBidAmtRate();
         });
         $("#bidAmt").change(function(){
+            calcBidAmtRate();
             calcBidAmtDiff();
         });
 
 
-        $("#marketSelector").change(function(){
+        $("#marketCd").change(function(){
             var code = $(this).val();
             var codeName = $(this).find("option:selected").text();
 
@@ -182,23 +220,7 @@
             $("#marketNm").val(codeName);
         });
 
-       function searchBidNoti(){
-           var bidNotiSearchPayload = $("form[name=bidNotiSearchForm]").serialize() ;
-
-           console.log("queryString : "+bidNotiSearchPayload);
-
-           $.ajax({
-               url: "/api/bidNoti/search",
-               data: bidNotiSearchPayload,
-               type: 'POST',
-               success:function(data){
-                   console.log("data : "+data);
-                   $("#bidNotiTable").replaceWith(data);
-               }
-           })
-       }
-
-        function calcBidAmtRate(){
+        function calcSucsfbidAmtRate(){
             var expectAmt = $("#expectAmt").val();
             var bssamt = $("#bssamt").val();
 
@@ -214,6 +236,33 @@
             }
 
             var calcValue = Number(expectAmt) / Number(bssamt) * 100 ;
+            var format = decimalFormatter(calcValue,5);
+            $("#sucsfbidAmtRate").val(format);
+        }
+
+        function calcBidAmtRate(){
+            var bidAmt = $("#bidAmt").val();
+            var bssamt = $("#bssamt").val();
+            var sucsfbidLwltRate = $("#sucsfbidLwltRate").val();
+
+            if(expectAmt != null || expectAmt != ""){
+                bidAmt = bidAmt.replaceAll(",","");
+            }else{
+                bidAmt = 0;
+            }
+            if(bssamt != null || bssamt != ""){
+                bssamt = bssamt.replaceAll(",","");
+            }else{
+                bssamt = 0;
+            }
+            if(sucsfbidLwltRate != null || sucsfbidLwltRate != ""){
+                sucsfbidLwltRate = sucsfbidLwltRate.replaceAll(",","");
+            }else{
+                sucsfbidLwltRate = 0;
+            }
+
+
+            var calcValue = Number(bidAmt) / Number(bssamt) / Number(sucsfbidLwltRate) * 10000 ;
             var format = decimalFormatter(calcValue,5);
             $("#bidAmtRate").val(format);
         }
@@ -234,9 +283,14 @@
                 bidAmt = 0;
             }
 
-            var calcValue = Number(sucsfbidAmt) - Number(bidAmt);
+            var calcValue = Number(bidAmt) - Number(sucsfbidAmt);
             var format = integerFormatter(calcValue);
             $("#bidAmtDiff").val(format);
+            if(calcValue < 0 ) {
+                $("#sucsfbidRank").val("탈락");
+            }else{
+                $("#sucsfbidRank").val("");
+            }
         }
 
         function calcSucsfbidAmt(){
@@ -256,7 +310,7 @@
             }
 
             var calcValue = Number(expectAmt) * Number(sucsfbidLwltRate) / 100;
-            var format = integerFormatter(Math.round(calcValue));
+            var format = decimalFormatter(calcValue,2);
             $("#sucsfbidAmt").val(format);
 
             calcBidAmtDiff();

@@ -3,13 +3,20 @@ package com.jbproject.narapia;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jbproject.narapia.rest.dto.payload.BidRecordCudPayload;
 import com.jbproject.narapia.rest.dto.result.BidNotiResult;
+import com.jbproject.narapia.rest.entity.BidRecordEntity;
+import com.jbproject.narapia.rest.repository.BidRecordRepository;
 import groovy.util.logging.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Optional;
 
 @SpringBootTest
 @Slf4j
 public class BidRecordTests {
+    @Autowired
+    private BidRecordRepository bidRecordRepository;
 
     @Test
     void test(){
@@ -22,4 +29,7 @@ public class BidRecordTests {
             System.out.println("error : "+e.getMessage());
         }
     }
+
+
+
 }

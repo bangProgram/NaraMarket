@@ -1,11 +1,16 @@
 package com.jbproject.narapia.rest.dto.payload;
 
+import com.jbproject.narapia.rest.dto.model.BidRecordModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class BidRecordCudPayload {
 
+    @Schema(title = "투찰기록 ID")
+    private Long id;
     @Schema(title = "조달사이트 코드")
     private String marketCd;
     @Schema(title = "공고번호")
@@ -35,7 +40,7 @@ public class BidRecordCudPayload {
     @Schema(title = "예정금액")
     private Double expectAmt;
     @Schema(title = "낙찰예정금액")
-    private String sucsfbidAmt;
+    private Double sucsfbidAmt;
     @Schema(title = "투찰금액")
     private Double bidAmt;
     @Schema(title = "순위")
@@ -44,61 +49,35 @@ public class BidRecordCudPayload {
     private Double bidAmtDiff;
     @Schema(title = "낙찰하한율")
     private Double sucsfbidLwltRate;
-    @Schema(title = "예측사정율")
+    @Schema(title = "투찰예측사정율")
     private Double bidAmtRate;
+    @Schema(title = "예측사정율")
+    private Double sucsfbidAmtRate;
 
-/*
-    public void setBssamt(String value) {
-        if(!value.isEmpty()) {
-            this.bssamt = Double.valueOf(value.replace(",",""));
-        }else{
-            this.bssamt = 0D;
-        }
-    }
-    public void setPresmptPrce(String value) {
-        if(!value.isEmpty()) {
-            this.presmptPrce = Double.valueOf(value.replace(",",""));
-        }else{
-            this.presmptPrce = 0D;
-        }
-    }
-    public void setSucsfbidAmt(String value) {
-        System.out.println("test setSucsfbidAmt : "+value);
-        if(!value.isEmpty()) {
-            this.sucsfbidAmt = Double.valueOf(value.replace(",",""));
-        }else{
-            this.sucsfbidAmt = 0D;
-        }
-        System.out.println("test setSucsfbidAmt : "+this.sucsfbidAmt);
-    }
-    public void setBidAmt(String value) {
-        if(!value.isEmpty()) {
-            this.bidAmt = Double.valueOf(value.replace(",",""));
-        }else{
-            this.bidAmt = 0D;
-        }
-    }
-    public void setBidAmtDiff(String value) {
-        if(!value.isEmpty()) {
-            this.bidAmtDiff = Double.valueOf(value.replace(",",""));
-        }else{
-            this.bidAmtDiff = 0D;
-        }
-    }
-    public void setSucsfbidLwltRate(String value) {
-        if(!value.isEmpty()) {
-            this.sucsfbidLwltRate = Double.valueOf(value.replace(",",""));
-        }else{
-            this.sucsfbidLwltRate = 0D;
-        }
-    }
-    public void setBidAmtRate(String value) {
-        if(!value.isEmpty()) {
-            this.bidAmtRate = Double.valueOf(value.replace(",",""));
-        }else{
-            this.bidAmtRate = 0D;
-        }
-    }
 
-    */
+    public BidRecordCudPayload(BidRecordModel model) {
+
+        this.id = model.getId();
+        this.marketCd = model.getMarketCd();
+        this.bidNtceNo = model.getBidNtceNo();
+        this.bidNtceOrd = model.getBidNtceOrd();
+        this.bidClsfcNo = model.getBidClsfcNo();
+        this.bidNtceNm = model.getBidNtceNm();
+        this.ntceInsttCd = model.getNtceInsttCd();
+        this.ntceInsttNm = model.getNtceInsttNm();
+        this.dminsttCd = model.getDminsttCd();
+        this.dminsttNm = model.getDminsttNm();
+        this.bssamt = model.getBssamt();
+        this.presmptPrce = model.getPresmptPrce();
+        this.rsrvtnPrceRngRate = model.getRsrvtnPrceRngRate();
+        this.marketNm = model.getMarketNm();
+        this.expectAmt = model.getExpectAmt();
+        this.sucsfbidAmt = model.getSucsfbidAmt();
+        this.bidAmt = model.getBidAmt();
+        this.sucsfbidRank = model.getSucsfbidRank();
+        this.bidAmtDiff = model.getBidAmtDiff();
+        this.sucsfbidLwltRate = model.getSucsfbidLwltRate();
+        this.bidAmtRate = model.getBidAmtRate();
+        this.sucsfbidAmtRate = model.getSucsfbidAmtRate();
+    }
 }

@@ -10,8 +10,8 @@
     <title>검색 화면 입니다.</title>
 </head>
 <body>
-    <form name="bidRecordForm" action="/bidRecord/write" method="post" >
-        <input type="text" name="bidNtceNo"  th:value="${bidNotiResult.bidNtceNo}">
+    <form name="bidRecordForm" action="/bidRecord/write" method="get" >
+        <input type="hidden" name="bidNtceNo"  th:value="${bidNotiResult.bidNtceNo}">
         <input type="hidden" name="bidNtceOrd"  th:value="${bidNotiResult.bidNtceOrd}">
         <input type="hidden" name="bidClsfcNo"  th:value="${bidNotiResult.bidClsfcNo}">
         <input type="hidden" name="bidNtceNm"  th:value="${bidNotiResult.bidNtceNm}">
@@ -19,8 +19,8 @@
         <input type="hidden" name="ntceInsttNm"  th:value="${bidNotiResult.ntceInsttNm}">
         <input type="hidden" name="dminsttCd"  th:value="${bidNotiResult.dminsttCd}">
         <input type="hidden" name="dminsttNm"  th:value="${bidNotiResult.dminsttNm}">
-        <input type="text" name="bssamt" th:if="${bidNotiResult.bssamt != null }" th:value="${bidNotiResult.bssamt}" id="bssamt">
-        <input type="text" name="presmptPrce" th:if="${bidNotiResult.presmptPrce != null }"  th:value="${bidNotiResult.presmptPrce}" id="presmptPrce" >
+        <input type="hidden" name="bssamt" th:if="${bidNotiResult.bssamt != null }" th:value="${bidNotiResult.bssamt}" id="bssamt">
+        <input type="hidden" name="presmptPrce" th:if="${bidNotiResult.presmptPrce != null }"  th:value="${bidNotiResult.presmptPrce}" id="presmptPrce" >
         <input type="hidden" name="rsrvtnPrceRngRate" th:if="${bidNotiResult.rsrvtnPrceRngBgnRate != null }" th:value="${bidNotiResult.rsrvtnPrceRngBgnRate}">
         <input type="hidden" name="sucsfbidLwltRate" th:if="${bidNotiResult.sucsfbidLwltRate != null }"  th:value="${bidNotiResult.sucsfbidLwltRate}" >
     </form>
@@ -33,6 +33,11 @@
             <input type="hidden" th:field="*{type}">
             <input type="hidden" name="inqryDiv" value="2">
             <table>
+                <colgroup>
+                    <col style="width:20%;">
+                    <col style="width:60%;">
+                    <col style="width:20%;">
+                </colgroup>
                 <tr>
                     <td>
                         <select th:field="*{bidNtceType}" class="requiredChk" title="타입 선택">
@@ -46,8 +51,10 @@
                         <input type="text" th:field="*{bidNtceNo}" placeholder="입찰공고번호">
                     </td>
                     <td>
-                        <button type="submit" >조회</button>
-                        <button type="button" th:onclick="goBidRecord()" >투찰기록 작성</button>
+                        <div style="display: flex;">
+                            <button type="submit" style="width: 150px; margin-right: 25px;">조회</button>
+                            <button type="button" style="width: 150px;" th:onclick="goBidRecord()" >투찰기록 작성</button>
+                        </div>
                     </td>
                 </tr>
             </table>

@@ -11,218 +11,131 @@
 </head>
 <body>
     <div>
-        입찰공고 검색
-        <form name="bidNotiSearchForm" method="post"  th:object="${bidNotiSearchPayload}" >
-            <input type="hidden" th:field="*{numOfRows}">
-            <input type="hidden" th:field="*{pageNo}">
-            <input type="hidden" th:field="*{type}">
-            <input type="hidden" name="inqryDiv" value="2">
+        투찰이력 검색
+        <form name="bidRecordSearchForm" method="post"  th:object="${bidRecordSearchPayload}" >
             <table>
                 <tr>
                     <td>
-                        <select th:field="*{bidNtceType}" class="requiredChk" title="타입 선택">
-                            <option value = "1" th:utext="물품" ></option>
-                            <option value = "2" th:utext="공사" ></option>
-                            <option value = "3" th:utext="외자" ></option>
-                            <option value = "4" th:utext="용역" ></option>
-                        </select>
+                        사이트 구분
                     </td>
-                    <td class="inqry_id" >
-                        <input type="text" th:field="*{bidNtceNo}" placeholder="입찰공고번호">
-                    </td>
-                    <td><button type="button" th:onclick="searchBidNoti()" >조회</button></td>
-                </tr>
-            </table>
-        </form>
-    </div>
-
-    <div>
-        <table id="bidNotiTable">
-            <colgroup>
-                <col style="width:15%;"/>
-                <col style="width:15%;"/>
-                <col style="width:15%;"/>
-                <col style="width:15%;"/>
-                <col style="width:15%;"/>
-                <col style="width:15%;"/>
-            </colgroup>
-            <tbody>
-                <tr>
-                    <td>공고번호</td>
-                    <td colspan="2" th:text="${bidNotiResult.bidNtceNo}"></td>
-                    <td>공고차수</td>
-                    <td colspan="2" th:text="${bidNotiResult.bidNtceNo}"></td>
-                </tr>
-                <tr>
-                    <td>공고명</td>
-                    <td colspan="5" th:text="${bidNotiResult.bidNtceNm}"></td>
-                </tr>
-                <tr>
-                    <td>공고기관코드</td>
-                    <td colspan="2" th:text="${bidNotiResult.ntceInsttCd}"></td>
-                    <td>공고기관명</td>
-                    <td colspan="2" th:text="${bidNotiResult.ntceInsttNm}"></td>
-                </tr>
-                <tr>
-                    <td>수요기관코드</td>
-                    <td colspan="2" th:text="${bidNotiResult.dminsttCd}"></td>
-                    <td>수요기관명</td>
-                    <td colspan="2" th:text="${bidNotiResult.dminsttNm}"></td>
-                </tr>
-                <tr>
-                    <td >입찰방식명</td>
-                    <td  colspan="2" th:text="${bidNotiResult.bidMethdNm}"></td>
-                    <td >예정가격결정방법명</td>
-                    <td  colspan="2" th:text="${bidNotiResult.prearngPrceDcsnMthdNm}"></td>
-                </tr>
-                <tr>
-                    <td>기초금액</td>
-                    <td colspan="2" th:text="${bidNotiResult.bssamt}"></td>
-                    <td>추정가격</td>
-                    <td colspan="2" th:text="${bidNotiResult.presmptPrce}"></td>
-                </tr>
-                <tr>
-                    <td>품명번호</td>
-                    <td colspan="2" th:text="${bidNotiResult.dtilPrdctClsfcNo}"></td>
-                    <td>품명</td>
-                    <td colspan="2" th:text="${bidNotiResult.dtilPrdctClsfcNoNm}"></td>
-                </tr>
-                <tr>
-                    <td>물품수량</td>
-                    <td colspan="2" th:text="${bidNotiResult.prdctQty}"></td>
-                    <td >물품단가</td>
-                    <td colspan="2" th:text="${bidNotiResult.prdctUprc}"></td>
-                </tr>
-                <tr>
-                    <td>예비가격범위시작률</td>
-                    <td th:text="${bidNotiResult.rsrvtnPrceRngBgnRate}"></td>
-                    <td>예비가격범위종료율</td>
-                    <td th:text="${bidNotiResult.rsrvtnPrceRngEndRate}"></td>
-                    <td >낙찰하한율</td>
-                    <td th:text="${bidNotiResult.sucsfbidLwltRate}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div>
-        입찰공고 검색
-        <form name="winbidAnalSearchForm" method="post"  th:object="${winbidAnalSearchPayload}" >
-            <table>
-                <tr>
                     <td>
-                        <select id="prdctSelector" class="requiredChk" title="타입 선택">
-                            <option value = "1" >품명 번호</option>
-                            <option value = "2" >세부 품명</option>
+                        <select th:field="*{marketCd}" title="조달사이트 구분">
+                            <option value= "" >전체</option>
+                            <option th:each="market : ${markets}" th:utext="${market.codeName}" th:value="${market.code}" ></option>
                         </select>
                     </td>
                     <td>
-                        <input type="text" th:field="*{dtilPrdctClsfcNo}" placeholder="품명 번호">
-                        <input type="text" th:field="*{dtilPrdctClsfcNoNm}" placeholder="세부 품명">
+                        품명 번호
                     </td>
-
+                    <td>
+                        <input type="text" th:field="*{bidNtceNo}" placeholder="품명 번호">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        관리기관 코드
+                    </td>
                     <td>
                         <input type="text" th:field="*{ntceInsttCd}" placeholder="관리기관 코드">
+                    </td>
+                    <td>
+                        수요기관 코드
+                    </td>
+                    <td>
                         <input type="text" th:field="*{dminsttCd}" placeholder="수요기관 코드">
                     </td>
-                    <td><button type="button" th:onclick="searchWinbidAnal()" >조회</button></td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="padding: 8px 30px;">
+                        <button type="button" th:onclick="searchBidRecordList()" style="float: right; width: 150px;">조회</button>
+                    </td>
                 </tr>
             </table>
         </form>
     </div>
 
     <div>
-        <table id="bidNotiAnalTable">
+        <table id="bidRecordList">
+            <colgroup>
+                <col style="width:6.5%">
+                <col style="width:6.5%">
+                <col style="width:18.5%">
+                <col style="width:8%">
+                <col style="width:8%">
+                <col style="width:8.5%">
+                <col style="width:8.5%">
+                <col style="width:8.5%">
+                <col style="width:4%">
+                <col style="width:8.5%">
+                <col style="width:4%">
+                <col style="width:4%">
+                <col style="width:6.5%">
+            </colgroup>
             <thead>
                 <tr>
-                    <td>공고기관명</td>
-                    <td>수요기관명</td>
-                    <td>결정방법명</td>
-                    <td>물품수량</td>
-                    <td>물품단가</td>
-                    <td>물품총액</td>
-                    <td>기초금액</td>
-                    <td>추정가격</td>
-                    <td>(추정)기초금액</td>
-                    <td>낙찰가격</td>
-                    <td>낙찰하한율</td>
-                    <td>범위</td>
-                    <td>범위</td>
-                    <td>사정율(기초)</td>
-                    <td>사정율(추정)</td>
+                    <td rowspan="2">조달청</td>
+                    <td rowspan="2">공고번호</td>
+                    <td rowspan="2">공고명</td>
+                    <td rowspan="2">공고기관</td>
+                    <td rowspan="2">수요기관</td>
+                    <td rowspan="2">예정가격</td>
+                    <td rowspan="2">기초가격</td>
+                    <td colspan="2">낙찰</td>
+                    <td colspan="2">투찰</td>
+                    <td rowspan="2">순위</td>
+                    <td rowspan="2">편차</td>
+                </tr>
+                <tr>
+                    <td>가격</td>
+                    <td>사정율</td>
+                    <td>가격</td>
+                    <td>사정율</td>
                 </tr>
             </thead>
             <tbody class="trTest">
-                <tr th:each="result : ${winBidAnalResults}">
-                    <td th:text="${result.ntceInsttNm}"/>
-                    <td th:text="${result.dminsttNm}"/>
-                    <td th:text="${result.prearngPrceDcsnMthdNm}"/>
-                    <td th:text="${result.prdctQty}"/>
-                    <td th:text="${result.prdctUprc}"/>
-                    <td th:text="${result.prdctAmt}"/>
-                    <td th:text="${result.bssamt}"/>
-                    <td th:text="${result.presmptPrce}"/>
-                    <td th:text="${result.presmptBssamt}"/>
-                    <td th:text="${result.sucsfbidAmt}"/>
-                    <td th:text="${result.sucsfbidLwltRate}"/>
-                    <td th:text="${result.rsrvtnPrceRngBgnRate}"/>
-                    <td th:text="${result.rsrvtnPrceRngEndRate}"/>
-                    <td th:text="${result.bssamtRate}"/>
-                    <td th:text="${result.presmptRate}"/>
+                <tr th:each="result : ${bidRecordResults}" >
+                    <td>[[${result.marketNm}]]</td>
+                    <td >[[${result.bidNtceNo}]]</td>
+                    <td th:onclick="goBidRecordWrite([[${result.id}]])" style="cursor: pointer;">[[${result.bidNtceNm}]]</td>
+                    <td>[[${result.ntceInsttNm}]]</td>
+                    <td>[[${result.dminsttNm}]]</td>
+                    <td>[[${result.expectAmt}]]</td>
+                    <td>[[${result.bssamt}]]</td>
+                    <td>[[${result.sucsfbidAmt}]]</td>
+                    <td>[[${result.sucsfbidAmtRate}]]</td>
+                    <td>[[${result.bidAmt}]]</td>
+                    <td>[[${result.bidAmtRate}]]</td>
+                    <td>[[${result.sucsfbidRank}]]</td>
+                    <td>[[${result.bidAmtDiff}]]</td>
                 </tr>
             </tbody>
-
         </table>
     </div>
 <script>
 
-
     $(document).ready(function() {
-       $("#dtilPrdctClsfcNoNm").hide();;
+       searchBidRecordList();
     });
 
-   $("#prdctSelector").change(function(){
-       var check = $(this).val();
-       if(check == 1) {
-           $("#dtilPrdctClsfcNo").show();
-           $("#dtilPrdctClsfcNoNm").hide();;
-       }else{
-           $("#dtilPrdctClsfcNo").hide();;
-           $("#dtilPrdctClsfcNoNm").show();
-       }
-   });
+   function searchBidRecordList(){
+       var bidRecordSearchPayload = $("form[name=bidRecordSearchForm]").serialize() ;
 
-   function searchWinbidAnal(){
-       var winbidAnalSearchPayload = $("form[name=winbidAnalSearchForm]").serialize() ;
-
-       console.log("queryString : "+winbidAnalSearchPayload);
+       console.log("queryString : "+bidRecordSearchPayload);
 
        $.ajax({
-           url: "/api/bidNoti/search/anal",
-           data: winbidAnalSearchPayload,
+           url: "/api/bidRecord/list",
+           data: bidRecordSearchPayload,
            type: 'POST',
            success:function(data){
                console.log("data : "+data);
-               $("#bidNotiAnalTable").replaceWith(data);
+               $("#bidRecordList").replaceWith(data);
            }
        })
    }
 
-   function searchBidNoti(){
-       var bidNotiSearchPayload = $("form[name=bidNotiSearchForm]").serialize() ;
-
-       console.log("queryString : "+bidNotiSearchPayload);
-
-       $.ajax({
-           url: "/api/bidNoti/search",
-           data: bidNotiSearchPayload,
-           type: 'POST',
-           success:function(data){
-               console.log("data : "+data);
-               $("#bidNotiTable").replaceWith(data);
-           }
-       })
-   }
+    function goBidRecordWrite(recordId){
+        location.href = "/bidRecord/write?id="+recordId;
+    }
 </script>
 
 <style>

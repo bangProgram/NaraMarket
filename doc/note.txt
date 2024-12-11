@@ -177,3 +177,19 @@ ex) 물픔코드, 공고기관코드 에 해당하는 입찰정보 가져오기
 입찰금액편차
 낙찰하한율
 예측사정율
+
+전시 컬럼
+id
+bidNtceNo
+bidNtceNm
+ntceInsttNm
+dminsttNm
+bssamt
+presmptPrce
+marketNm
+expectAmt
+sucsfbidAmt
+bidAmt
+sucsfbidRank
+bidAmtDiff
+bidAmtRate

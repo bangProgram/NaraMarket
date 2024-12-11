@@ -1,18 +1,20 @@
 package com.jbproject.narapia.rest.dto.model;
 
 import com.jbproject.narapia.rest.dto.payload.BidRecordCudPayload;
+import com.jbproject.narapia.rest.entity.BidNotiEntity;
+import com.jbproject.narapia.rest.entity.BidRecordEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class BidRecordModel {
 
     @Schema(title = "투찰기록 ID")
     private Long id;
-
     @Schema(title = "조달사이트 코드")
     private String marketCd;
     @Schema(title = "공고번호")
@@ -46,12 +48,39 @@ public class BidRecordModel {
     @Schema(title = "투찰금액")
     private Double bidAmt;
     @Schema(title = "순위")
-    private Integer sucsfbidRank;
+    private String sucsfbidRank;
     @Schema(title = "입찰금액편차")
     private Double bidAmtDiff;
     @Schema(title = "낙찰하한율")
     private Double sucsfbidLwltRate;
-    @Schema(title = "예측사정율")
+    @Schema(title = "투찰예측사정율")
     private Double bidAmtRate;
+    @Schema(title = "예측사정율")
+    private Double sucsfbidAmtRate;
 
+    public BidRecordModel(BidRecordEntity entity) {
+
+        this.id = entity.getId();
+        this.marketCd = entity.getMarketCd();
+        this.bidNtceNo = entity.getBidNtceNo();
+        this.bidNtceOrd = entity.getBidNtceOrd();
+        this.bidClsfcNo = entity.getBidClsfcNo();
+        this.bidNtceNm = entity.getBidNtceNm();
+        this.ntceInsttCd = entity.getNtceInsttCd();
+        this.ntceInsttNm = entity.getNtceInsttNm();
+        this.dminsttCd = entity.getDminsttCd();
+        this.dminsttNm = entity.getDminsttNm();
+        this.bssamt = entity.getBssamt();
+        this.presmptPrce = entity.getPresmptPrce();
+        this.rsrvtnPrceRngRate = entity.getRsrvtnPrceRngRate();
+        this.marketNm = entity.getMarketNm();
+        this.expectAmt = entity.getExpectAmt();
+        this.sucsfbidAmt = entity.getSucsfbidAmt();
+        this.bidAmt = entity.getBidAmt();
+        this.sucsfbidRank = entity.getSucsfbidRank();
+        this.bidAmtDiff = entity.getBidAmtDiff();
+        this.sucsfbidLwltRate = entity.getSucsfbidLwltRate();
+        this.bidAmtRate = entity.getBidAmtRate();
+        this.sucsfbidAmtRate = entity.getSucsfbidAmtRate();
+    }
 }
