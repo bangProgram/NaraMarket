@@ -133,3 +133,33 @@ select
             group by round(a.presmpt_bss_rate,2)
             order by count(1) desc
             ;
+
+
+-- 2024년 3억이상 인천에서 발행한 공고 조회
+select
+    tb.bid_ntce_no
+    ,tbd.bssamt
+    ,tw.sucsfbid_amt
+    ,tb.sucsfbid_lwlt_rate
+    ,(tw.sucsfbid_amt  / tbd.bssamt  / tb.sucsfbid_lwlt_rate * 10000 ) as calc_bid_rate
+    ,tw.sucsfbid_rate
+from tb_bidnoti tb
+inner join tb_bidnoti_detail tbd
+    on tb.bid_ntce_no = tbd.bid_ntce_no
+    and tb.bid_ntce_ord = tbd.bid_ntce_ord
+inner join tb_winbid tw
+    on tbd.bid_ntce_no = tw.bid_ntce_no
+    and tbd.bid_ntce_ord = tw.bid_ntce_ord
+    and tbd.bid_clsfc_no = tw.bid_clsfc_no
+where 1=1
+    tw.sucsfbid_amt > 300000000
+    and tw.bid_ntce_no like '2024%'
+    and tb.ntce_instt_cd in (
+        select
+            tb.ntce_instt_cd
+        from tb_bidnoti tb
+        where tb.ntce_instt_nm like '%인천%'
+        group by
+        tb.ntce_instt_cd
+    )
+order by tw.bid_ntce_no desc
