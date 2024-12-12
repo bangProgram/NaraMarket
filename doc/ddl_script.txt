@@ -116,6 +116,62 @@ select
 ;
 
 
+
+
+
+
+select
+        bne1_0.bid_ntce_no,
+        bne1_0.bid_ntce_ord,
+        we1_0.bid_clsfc_no,
+        bne1_0.bid_ntce_nm,
+        bne1_0.ntce_instt_cd,
+        bne1_0.ntce_instt_nm,
+        bne1_0.dminstt_cd,
+        bne1_0.dminstt_nm,
+        bne1_0.bid_methd_nm,
+        bne1_0.prearng_prce_dcsn_mthd_nm,
+        bne1_0.openg_dt,
+        bne1_0.dtil_prdct_clsfc_no,
+        bne1_0.dtil_prdct_clsfc_no_nm,
+        bne1_0.prdct_qty,
+        bne1_0.prdct_uprc,
+        ifnull((bne1_0.prdct_qty*bne1_0.prdct_uprc),0) as prdct_amt,
+        ifnull(coalesce(bnde1_0.bssamt, wde1_0.bssamt),0) as bssamt, 	-- 기초예가
+        bne1_0.presmpt_prce,											-- 추정금액
+        round(bne1_0.presmpt_prce*1.1,0) as presmpt_bssamt,				-- 추정계산 기초예가
+        wde1_0.plnprc ,													-- 예정가격(신규 추가해야함)
+        we1_0.sucsfbid_amt,												-- 낙찰금액
+        ifnull(nullif(coalesce(bne1_0.sucsfbid_lwlt_rate, we1_0.sucsfbid_rate),0),0) sucsfbid_lwlt_rate, -- 낙찰하한율
+        bnde1_0.rsrvtn_prce_rng_bgn_rate,								-- 예가 시작범위
+        bnde1_0.rsrvtn_prce_rng_end_rate,								-- 예가 종료범위
+        ifnull((((wde1_0.plnprc/nullif(ifnull(coalesce(bnde1_0.bssamt, wde1_0.bssamt),0),0)))*100),0) as bssamt_rate, -- 예정가격 예측사정율
+        ifnull((((we1_0.sucsfbid_amt/nullif(ifnull(coalesce(bnde1_0.bssamt, wde1_0.bssamt),0),0))/ifnull(nullif(coalesce(bne1_0.sucsfbid_lwlt_rate, we1_0.sucsfbid_rate),0),100))*10000),0) as bssamt_rate, -- 낙찰자 예측 사정율
+        ifnull((((we1_0.sucsfbid_amt/nullif(presmpt_prce,0))/nullif(coalesce(bne1_0.sucsfbid_lwlt_rate, we1_0.sucsfbid_rate),0))*10000),0) as presmpt_rate
+    from
+        tb_bidnoti bne1_0
+    join
+        tb_winbid we1_0
+            on bne1_0.bid_ntce_no=we1_0.bid_ntce_no
+            and bne1_0.bid_ntce_ord=we1_0.bid_ntce_ord
+    inner join
+        tb_bidnoti_detail bnde1_0
+            on we1_0.bid_ntce_no=bnde1_0.bid_ntce_no
+            and we1_0.bid_ntce_ord=bnde1_0.bid_ntce_ord
+            and we1_0.bid_clsfc_no=bnde1_0.bid_clsfc_no
+    inner join
+        tb_winbid_detail wde1_0
+            on we1_0.bid_ntce_no=wde1_0.bid_ntce_no
+            and we1_0.bid_ntce_ord=wde1_0.bid_ntce_ord
+            and we1_0.bid_clsfc_no=wde1_0.bid_clsfc_no
+            and wde1_0.compno_rsrvtn_prce_sno = 1
+
+
+
+
+
+
+
 INSERT INTO narapia.tb_bid_record
 (id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
 VALUES(1, '2024-12-11 14:31:12.905788', NULL, '2024-12-11 16:37:40.671340', NULL, 210.95, -1.24, 99.40477, '1', '2025년도 차아염소산나트륨 구매(1권역)', '20241201560', '00', 251.9, 'B551973', '인천환경공단', 251.87, 'MARKET_01', '나라장터', 'B551973', '인천환경공단', 196021818, '3', 212.19, 99.98809, 84.245, '탈락');
