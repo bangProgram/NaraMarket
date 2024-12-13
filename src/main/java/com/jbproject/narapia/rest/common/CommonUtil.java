@@ -122,7 +122,7 @@ public class CommonUtil {
             result += "&inqryEndDt="+payload.getInqryEndDt();
         }
         if(hasText(payload.getBidNtceNo())){
-            result += "&bidNtceNo="+payload.getBidNtceNo();
+            result += "&bidNtceNo="+payload.getBidNtceNo().replaceAll(" ","");
         }
 
         return result;

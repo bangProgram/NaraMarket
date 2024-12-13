@@ -3,12 +3,15 @@ package com.jbproject.narapia.rest.dto.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.jbproject.narapia.rest.entity.WinbidAnalEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -49,29 +52,46 @@ public class WinBidAnalModel {
     @Schema(title = "세부품명")
     private String dtilPrdctClsfcNoNm;
     @Schema(title = "물품수량")
-    private double prdctQty;
+    private Double prdctQty;
     @Schema(title = "물품단가")
-    private double prdctUprc;
+    private Double prdctUprc;
     @Schema(title = "물품총액")
-    private double prdctAmt;
+    private Double prdctAmt;
     @Schema(title = "기초금액")
-    private double bssamt;
+    private Double bssamt;
     @Schema(title = "추정가격")
-    private double presmptPrce;
+    private Double presmptPrce;
     @Schema(title = "추정가격을 통한 기초금액 추정금액")
-    private double presmptBssamt;
+    private Double presmptBssamt;
     @Schema(title = "낙찰가격")
-    private double sucsfbidAmt;
+    private Double sucsfbidAmt;
     @Schema(title = "낙찰하한율")
-    private double sucsfbidLwltRate;
+    private Double sucsfbidLwltRate;
     @Schema(title = "예비가격범위시작률")
     private String rsrvtnPrceRngBgnRate;
     @Schema(title = "예비가격범위종료율")
     private String rsrvtnPrceRngEndRate;
     @Schema(title = "물품가액 ( 결과 객체에 추가할 것 : 물품가액 = 물품수량 * 물품단가 )")
-    private double bssamtRate;
+    private Double bssamtRate;
     @Schema(title = "예측사정율 ( 결과 객체에 추가할 것 : 예측사정율 = 낙찰금액  / 기초금액 / 낙찰하한율 )")
-    private double presmptRate;
+    private Double presmptRate;
+
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Schema(title = "최종 낙찰일")
+    private LocalDate fnlSucsfDate;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Schema(title = "개찰 일자")
+    private LocalDateTime rlOpengDt;
+    @Schema(title = "참가업체수")
+    private Integer prtcptCnum;
+    @Schema(title = "예정가격")
+    private Double plnprc;
+    @Schema(title = "예정가격/예측사정율")
+    private Double plnprcRate;
 
     public static WinBidAnalModel create(WinbidAnalEntity entity) {
         WinBidAnalModel result = new WinBidAnalModel();
