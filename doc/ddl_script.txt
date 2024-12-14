@@ -119,7 +119,16 @@ select
 
 -- 20241213 낙찰분석 테이블 쿼리 수정
 
-sselect
+insert into tb_winbid_anal_real (
+    bid_ntce_no,bid_ntce_ord,bid_clsfc_no,bid_ntce_nm,ntce_instt_cd,ntce_instt_nm,dminstt_cd,dminstt_nm,bid_methd_nm,prearng_prce_dcsn_mthd_nm,openg_dt,
+    fnl_sucsf_date,rl_openg_dt,prtcpt_cnum,
+    dtil_prdct_clsfc_no,dtil_prdct_clsfc_no_nm,prdct_qty,prdct_uprc,prdct_amt,
+    bssamt,presmpt_prce,presmpt_bssamt,
+    plnprc,sucsfbid_amt,sucsfbid_lwlt_rate,
+    rsrvtn_prce_rng_bgn_rate,rsrvtn_prce_rng_end_rate,
+    plnprc_rate,bssamt_rate,presmpt_rate
+)
+select
          we1_0.bid_ntce_no,
          we1_0.bid_ntce_ord,
          we1_0.bid_clsfc_no,

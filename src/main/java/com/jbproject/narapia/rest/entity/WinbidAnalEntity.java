@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Persistable;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -49,6 +50,11 @@ public class WinbidAnalEntity extends BaseEntity implements Persistable<WinbidAn
     private double bssamtRate;
     private double presmptRate;
 
+    private LocalDate fnlSucsfDate;
+    private LocalDateTime rlOpengDt;
+    private Integer prtcptCnum;
+    private Double plnprc;
+    private Double plnprcRate;
 
 
     @Builder
@@ -57,7 +63,8 @@ public class WinbidAnalEntity extends BaseEntity implements Persistable<WinbidAn
             String dminsttNm, String bidMethdNm, String prearngPrceDcsnMthdNm, LocalDateTime opengDt, String dtilPrdctClsfcNo,
             String dtilPrdctClsfcNoNm, double prdctQty, double prdctUprc, double prdctAmt, double bssamt,
             double presmptPrce, double presmptBssamt, double sucsfbidAmt, double sucsfbidLwltRate, String rsrvtnPrceRngBgnRate,
-            String rsrvtnPrceRngEndRate, double bssamtRate, double presmptRate
+            String rsrvtnPrceRngEndRate, double bssamtRate, double presmptRate,
+            LocalDate fnlSucsfDate, LocalDateTime rlOpengDt, Integer prtcptCnum, Double plnprc, Double plnprcRate
     ) {
         this.id = id;
 
@@ -84,6 +91,11 @@ public class WinbidAnalEntity extends BaseEntity implements Persistable<WinbidAn
         this.bssamtRate = bssamtRate;
         this.presmptRate = presmptRate;
 
+        this.fnlSucsfDate = fnlSucsfDate;
+        this.rlOpengDt = rlOpengDt;
+        this.prtcptCnum = prtcptCnum;
+        this.plnprc = plnprc;
+        this.plnprcRate = plnprcRate;
     }
 
     @Override

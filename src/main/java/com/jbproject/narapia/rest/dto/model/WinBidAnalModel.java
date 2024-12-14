@@ -123,6 +123,12 @@ public class WinBidAnalModel {
         result.setBssamtRate(entity.getBssamtRate());
         result.setPresmptRate(entity.getPresmptRate());
 
+        result.setFnlSucsfDate(entity.getFnlSucsfDate());
+        result.setRlOpengDt(entity.getRlOpengDt());
+        result.setPrtcptCnum(entity.getPrtcptCnum());
+        result.setPlnprc(entity.getPlnprc());
+        result.setPlnprcRate(entity.getPlnprcRate());
+
         return result;
     }
 }
