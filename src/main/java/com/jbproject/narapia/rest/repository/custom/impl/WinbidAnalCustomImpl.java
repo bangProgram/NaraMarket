@@ -1,5 +1,6 @@
 package com.jbproject.narapia.rest.repository.custom.impl;
 
+import com.jbproject.narapia.rest.dto.model.WinBidAnalModel;
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
 import com.jbproject.narapia.rest.dto.result.WinBidAnalResult;
 import com.jbproject.narapia.rest.dto.result.WinbidAnalSearchResult;
@@ -20,10 +21,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import static com.jbproject.narapia.rest.entity.QBidNotiEntity.bidNotiEntity;
 import static com.jbproject.narapia.rest.entity.QWinbidAnalEntity.winbidAnalEntity;
@@ -35,6 +33,11 @@ import static org.springframework.util.StringUtils.hasText;
 public class WinbidAnalCustomImpl implements WinbidAnalCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+
+    public List<WinBidAnalModel> getListByRsrvtnAndBssAmt(WinbidAnalSearchPayload payload){
+        return null;
+    }
 
     /*
         public List<WinbidAnalEntity> searchWinbidAnalList(WinbidAnalSearchPayload payload){

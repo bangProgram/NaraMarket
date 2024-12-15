@@ -180,64 +180,42 @@ select
 
 
 
+-- 20241215 낙찰통계 조회
+
+select
+'2억 초과' as gubn, max(replace(rsrvtn_prce_rng_bgn_rate,'-','')) as rsrvtn_prce_rng_bgn_rate, count(1) as cnt, avg(plnprc_rate) as avg_rate
+from tb_winbid_anal_real twar
+where 1=1
+and rsrvtn_prce_rng_bgn_rate = '-2'
+and rsrvtn_prce_rng_end_rate = '+2'
+and bssamt > 200000000
+union all
+select
+'2억 이하' as gubn, max(replace(rsrvtn_prce_rng_bgn_rate,'-','')) as rsrvtn_prce_rng_bgn_rate, count(1) as cnt, avg(plnprc_rate) as avg_rate
+from tb_winbid_anal_real twar
+where 1=1
+and rsrvtn_prce_rng_bgn_rate = '-2'
+and rsrvtn_prce_rng_end_rate = '+2'
+and bssamt <= 200000000
+union all
+select
+'2억 초과' as gubn, max(replace(rsrvtn_prce_rng_bgn_rate,'-','')) as rsrvtn_prce_rng_bgn_rate, count(1) as cnt, avg(plnprc_rate) as avg_rate
+from tb_winbid_anal_real twar
+where 1=1
+and rsrvtn_prce_rng_bgn_rate = '-3'
+and rsrvtn_prce_rng_end_rate = '+3'
+and bssamt > 200000000
+union all
+select
+'2억 이하' as gubn, max(replace(rsrvtn_prce_rng_bgn_rate,'-','')) as rsrvtn_prce_rng_bgn_rate, count(1) as cnt, avg(plnprc_rate) as avg_rate
+from tb_winbid_anal_real twar
+where 1=1
+and rsrvtn_prce_rng_bgn_rate = '-3'
+and rsrvtn_prce_rng_end_rate = '+3'
+and bssamt <= 200000000
+;
 
 
 
 
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(1, '2024-12-11 14:31:12.905788', NULL, '2024-12-11 16:37:40.671340', NULL, 210.95, -1.24, 99.40477, '1', '2025년도 차아염소산나트륨 구매(1권역)', '20241201560', '00', 251.9, 'B551973', '인천환경공단', 251.87, 'MARKET_01', '나라장터', 'B551973', '인천환경공단', 196021818, '3', 212.19, 99.98809, 84.245, '탈락');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(2, '2024-12-11 16:40:13.318513', NULL, '2024-12-11 16:40:13.318513', NULL, 163090614, 122705.26, 99.7891, '1', '화명동 산성로 교량개설공사 관급자재(강판) 구매', '20241209253', '00', 194000000, '3320000', '부산광역시 북구', 193445200, 'MARKET_01', '나라장터', '3320000', '부산광역시 북구', 176363636, '3', 162967908.74, 99.71402, 84.245, '267');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(3, '2024-12-11 16:57:49.442334', NULL, '2024-12-11 17:11:28.888656', NULL, 61867513, -364134.91, 99.8693, '1', '장우산 구입(코레일테크(주) 기관 창립 20주년 기념품)', '20241203606', '00', 70400000, 'Z013121', '코레일테크주식회사', 70721800, 'MARKET_01', '나라장터', 'Z013121', '코레일테크주식회사', 64000000, '2', 62231647.91, 100.4571, 87.995, '탈락');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(4, '2024-12-11 20:45:49.325240', NULL, '2024-12-11 20:45:49.325240', NULL, 38321990, 469061.04, 100.22727, '', '24-항공기주요정비시설 등 CCTV 보강', 'HDM0058', '1', 43448970, 'HDM', '제3629부대', 43014692, 'MARKET_02', '국방전자조달', '', '', 0.0, '2', 37852928.96, 99.00049, 88.0, '3109');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(5, '2024-12-11 20:46:58.896346', NULL, '2024-12-11 20:46:58.896346', NULL, 166004531, -892901.52, 99.7858, '1', '인천예술고(지성관) 냉난방시설개선 기계설비공사 관급자재 GHP실외기 구매', '20241201317', '00', 197472700, '7341000', '인천광역시교육청 인천광역시동부교육지원청', 198109600, 'MARKET_01', '나라장터', '7341000', '인천광역시교육청 인천광역시동부교육지원청', 179520636, '3', 166897432.52, 100.32253, 84.245, '탈락');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(6, '2024-12-11 20:54:06.137872', NULL, '2024-12-11 20:54:06.137872', NULL, 149144353, 1217057.1, 100.2443, '', '영흥 #3,4 비계획손실 예방을 위한 노후 급탄기 저압전동기 구매', 'G062400658', '00', 176605000, '', '사업소 영흥발전본부', 175591781, 'MARKET_03', '한국전력', 'Z005403', '한국남동발전(주)', 160550000, '2', 147927295.9, 99.42628, 84.245, '170');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(7, '2024-12-11 20:55:30.922122', NULL, '2024-12-11 20:55:30.922122', NULL, 10798834, -28957.04, 100.00165, '', '여자축구부 등 공통 훈련용품(축구화 등 39종) 구매', 'MCT0066', '1', 12271200, 'MCT', '국군체육부대', 12304308, 'MARKET_02', '국방전자조달', '', '', 11155636, '2', 10827791.04, 100.2698, 88.0, '탈락');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(8, '2024-12-11 20:57:04.382131', NULL, '2024-12-11 20:57:04.382131', NULL, 63595045, 319283.0, 100.0569, '1', '수질자동측정망 측정장비(다항목수질측정기) 구매', '20241143175', '00', 72226000, 'B552584', '한국환경공단', 71904275, 'MARKET_01', '나라장터', 'B552584', '한국환경공단', 67000000, '2', 63275762, 99.55456, 88.0, '1789');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(9, '2024-12-11 20:58:34.159138', NULL, '2024-12-11 20:58:34.159138', NULL, 16979105, -88555.72, 100.00166, '', '24년 40차 물자획득 안전물자(안전사다리) 구매', 'LHQ0058', '1', 19294118, 'LHQ', '제2작전사령부', 19395069, 'MARKET_02', '국방전자조달', '', '', 20509091, '2', 17067660.72, 100.52322, 88.0, '탈락');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(10, '2024-12-11 21:00:40.183125', NULL, '2024-12-11 21:00:40.183125', NULL, 1518359.16, 6489.54, 99.99388, '1', '2025년 1차 역사 청소용품 구매', '20241132034', '00', 1802424.0, 'Z025466', '(주)서울메트로환경', 1794610.5, 'MARKET_01', '나라장터', 'Z025466', '(주)서울메트로환경', 207546371, '3', 1511869.62, 99.5665, 84.245, '648');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(11, '2024-12-11 21:01:32.119121', NULL, '2024-12-11 21:01:32.119121', NULL, 17478176, -221719.0, 99.42906, '1', '양천자원회수시설 계측장비 등 4종 구매', '20241142029', '00', 19531710, 'Z013723', '환경에너지솔루션 주식회사', 19666550, 'MARKET_01', '나라장터', 'Z013723', '환경에너지솔루션 주식회사', 17756100, '3', 17699895, 100.69036, 90.0, '탈락');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(12, '2024-12-11 21:03:15.630953', NULL, '2024-12-11 21:03:15.630953', NULL, 23650751, 188965.4, 100.4153, '', '샤워기 필터셋 구매', 'SFG0134', '1', 26764700, 'SFG', '제9181부대', 26661120, 'MARKET_02', '국방전자조달', '', '', 27300000, '2', 23461785.6, 99.613, 88.0, '118');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(13, '2024-12-11 21:04:30.492687', NULL, '2024-12-11 21:04:30.492687', NULL, 33358740, 95230.16, 100.32645, '', '24-조-061 개인방호물자 세트', 'UHC0034', '1', 37784313, 'UHC', '공군 작사예하 방포사예하 제2여단', 37799443, 'MARKET_02', '국방전자조달', '', '', 35036364, '2', 33263509.84, 100.04004, 88.0, '1511');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(14, '2024-12-11 21:07:14.439858', NULL, '2024-12-11 21:07:14.439858', NULL, 112902757, 65828.76, 100.13408, '', '강릉안인 2호기 보일러제어설비 초년도 OH 정비자재 구매', 'G062400641', '00', 133837712, '', '사업소 강릉발전본부', 133939021, 'MARKET_03', '한국전력', 'Z005403', '한국남동발전(주)', 121670649, '2', 112836928.24, 100.0757, 84.245, '213');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(15, '2024-12-11 21:08:23.175213', NULL, '2024-12-11 21:08:23.175213', NULL, 21304640, -28490.72, 100.2145, '', '영점사격장 탄두회수블럭 구매', 'LFK0081', '1', 24158000, 'LFK', '육군종합군수학교', 24242194, 'MARKET_02', '국방전자조달', '', '', 0.0, '2', 21333130.72, 100.34851, 88.0, '탈락');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(16, '2024-12-11 21:22:28.913772', NULL, '2024-12-11 21:22:28.913772', NULL, 21597427, 745.96, 100.2145, '', '기타유지물자(롤테이너 등 4종) 구매', 'LGP0168', '1', 24490000, 'LGP', '제5378부대', 24541683, 'MARKET_02', '국방전자조달', '', '', 24490000, '2', 21596681.04, 100.21104, 88.0, '10');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(17, '2024-12-11 21:51:28.320292', NULL, '2024-12-11 21:51:28.320292', NULL, 147154859, 147154859, 99.8635, '1', '한랭질환 예방물품(온열조끼) 사업자 선정', '20241207779', '00', 167450000, 'B554543', '한전엠씨에스주식회사', 0.0, 'MARKET_01', '나라장터', 'B554543', '한전엠씨에스주식회사', 152227273, '2', 0.0, 0.0, 88.0, '미개찰');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(18, '2024-12-11 21:58:16.050739', NULL, '2024-12-11 21:58:16.050739', NULL, 336.52, 336.52, 99.86349, '1', '2025년도 요소수 구매(2권역-송도,단가계약)', '20241210692', '00', 400.0, 'B551973', '인천환경공단', 0.0, 'MARKET_01', '나라장터', 'B551973', '인천환경공단', 200781818, '3', 0.0, 0.0, 84.245, '미개찰');
-INSERT INTO narapia.tb_bid_record
-(id, create_dttm, create_id, update_dttm, update_id, bid_amt, bid_amt_diff, bid_amt_rate, bid_clsfc_no, bid_ntce_nm, bid_ntce_no, bid_ntce_ord, bssamt, dminstt_cd, dminstt_nm, expect_amt, market_cd, market_nm, ntce_instt_cd, ntce_instt_nm, presmpt_prce, rsrvtn_prce_rng_rate, sucsfbid_amt, sucsfbid_amt_rate, sucsfbid_lwlt_rate, sucsfbid_rank)
-VALUES(19, '2024-12-11 22:08:01.576283', NULL, '2024-12-11 22:08:01.576283', NULL, 92.54, 92.54, 99.86026, '1', '2025년도 액상소석회 구매(3권역-신항, 단가계약)', '20241210741', '00', 110.0, 'B551973', '인천환경공단', 0.0, 'MARKET_01', '나라장터', 'B551973', '인천환경공단', 108000000, '3', 0.0, 0.0, 84.245, '미개찰');
+
