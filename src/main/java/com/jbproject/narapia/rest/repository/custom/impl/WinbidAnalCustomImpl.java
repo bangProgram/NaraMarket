@@ -1,6 +1,7 @@
 package com.jbproject.narapia.rest.repository.custom.impl;
 
 import com.jbproject.narapia.rest.dto.model.WinBidAnalModel;
+import com.jbproject.narapia.rest.dto.model.WinbidModel;
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
 import com.jbproject.narapia.rest.dto.result.WinBidAnalResult;
 import com.jbproject.narapia.rest.dto.result.WinbidAnalSearchResult;
@@ -34,6 +35,28 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    public List<WinBidAnalModel> getListToChartData(WinbidAnalSearchPayload payload){
+        BooleanBuilder whereCondition = new BooleanBuilder();
+
+        if(hasText(payload.getDminsttCd())){
+            whereCondition.and(winbidAnalEntity.dminsttCd.eq(payload.getDminsttCd()));
+        }
+
+        return jpaQueryFactory.select(
+                Projections.fields(
+                        WinBidAnalModel.class
+                        ,winbidAnalEntity.opengDt.as("opengDt")
+                        ,winbidAnalEntity.rsrvtnPrceRngBgnRate.as("rsrvtnPrceRngBgnRate")
+                        ,winbidAnalEntity.rsrvtnPrceRngEndRate.as("rsrvtnPrceRngEndRate")
+                        ,winbidAnalEntity.plnprcRate.as("plnprcRate")
+                )
+        ).from(winbidAnalEntity)
+        .where(whereCondition)
+        .orderBy(winbidAnalEntity.opengDt.asc())
+        .fetch();
+
+
+    }
 
     public List<WinBidAnalModel> getListByRsrvtnAndBssAmt(WinbidAnalSearchPayload payload){
         return null;
