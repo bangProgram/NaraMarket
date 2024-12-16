@@ -92,6 +92,8 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
 
         if(hasText(payload.getDminsttCd())){
             whereCondition.and(winbidAnalEntity.dminsttCd.eq(payload.getDminsttCd()));
+        }else{
+            whereCondition.and(winbidAnalEntity.dminsttCd.eq("6280000"));
         }
 
         return jpaQueryFactory.select(

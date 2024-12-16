@@ -148,6 +148,40 @@
         font-size: 17px;
     }
 
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+    /* 기본 테이블 행 색상 */
+    tr {
+        background-color: #fff;
+        transition: background-color 0.3s ease;
+    }
+
+    /* 테이블 행에 마우스를 올렸을 때 */
+    tr:hover {
+        background-color: #f0f8ff; /* 호버 시 색상 */
+        transform: scale(1.02); /* 살짝 확대 효과 */
+    }
+
+    /* 호버 시 텍스트 색상 변경 */
+    tr:hover td {
+        color: #333; /* 텍스트 색상 변경 */
+    }
+</style>
+
 </style>
 
 </body>

@@ -9,11 +9,20 @@
     <meta charset="UTF-8">
     <title>검색 화면 입니다.</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
 </head>
 <body>
     <div>
-        <h1>날짜별 사정율 변화 그래프</h1>
-        <canvas id="myChart" width="400" height="100"></canvas>
+        <form name="datePerRateChart" method="post"  th:object="${winbidAnalSearchPayload}" >
+            <div style="display: flex;">
+                <h1 style="flex: 8;">날짜별 사정율 변화 그래프</h1>
+                <div>평균값 : <label id="avgText"></label></div>
+                <input type="hidden" th:field="*{dtilPrdctClsfcNo}" placeholder="품명 번호">
+                <input type="text" th:field="*{dminsttCd}" placeholder="품명 번호" style="flex: 1;">
+                <button type="button" th:onclick="getDatePerRateChart()" style="flex: 1;">차트 업데이트</button>
+            </div>
+            <canvas id="myChart" width="400" height="100"></canvas>
+        </form>
     </div>
     <div id="analTotalDiv">
         <div>
@@ -183,21 +192,24 @@
     // JSON 데이터를 파싱하여 labels와 dataValues로 나누기
     dataModels.forEach(function(item) {
         labels.push(item.opengDt);  // X축에 표시할 날짜 (LocalDateTime)
-        dataValues.push(item.plnprcRate);  // Y축에 표시할 예측 사정율 (plnprcRate)
+        dataValues.push(item.plnprcRate);  // Y축에 표시할 예측 사정율 (plnprcRate)D168341
     });
 
     // Chart.js를 사용하여 그래프 그리기
     var ctx = document.getElementById('myChart').getContext('2d');
+    var sum = dataValues.reduce((a, b) => a + b, 0);
+    var average = sum / dataValues.length;  // 평균값
+
     var myChart = new Chart(ctx, {
-        type: 'line', // 라인 차트
+        type: 'line',
         data: {
-            labels: labels, // X축 값 (날짜)
+            labels: labels,
             datasets: [{
                 label: '사정율 변화',
-                data: dataValues, // Y축 값 (가격)
-                borderColor: 'rgba(75, 192, 192, 1)', // 선 색상
+                data: dataValues,
+                borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1,
-                fill: false // 선 아래를 채우지 않음
+                fill: false
             }]
         },
         options: {
@@ -216,10 +228,83 @@
                         text: '가격'
                     }
                 }
+            },
+            plugins: {
+                tooltip: {
+                    enabled: true, // 기본 툴팁 비활성화
+                    mode: 'nearest', // 가까운 데이터에 대한 툴팁을 표시
+                    intersect: false, // 그래프 라인 위에서 툴팁을 표시하도록 설정
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            return '';  // 툴팁 제목은 비워둡니다.
+                        },
+                        label: function(tooltipItem) {
+                            // 평균값 라인에 대한 툴팁만 활성화
+                            // 툴팁이 평균값 라인에 호버할 때만 평균값을 표시하도록 설정
+                             if (tooltipItem.datasetIndex !== undefined) {
+                                return tooltipItem.raw;  // 해당 데이터의 값 표시
+                            }
+
+                            // 평균값 라인에 호버하면 평균값 표시
+                            return '평균값: ' + average.toFixed(5);
+                        }
+                    }
+                },
+                annotation: {
+                    annotations: {
+                        averageLine: {
+                            type: 'line',
+                            yMin: average,  // 평균값
+                            yMax: average,  // 평균값
+                            borderColor: 'red',  // 선 색상
+                            borderWidth: 2,
+                            label: {
+                                enabled: false  // 레이블을 표시하지 않음 (툴팁만 사용)
+                            }
+                        }
+                    }
+                }
             }
         }
     });
 
+
+    function getDatePerRateChart() {
+        var winbidAnalSearchPayload = $("form[name=datePerRateChart]").serialize() ;
+
+        // AJAX 요청
+        $.ajax({
+            url: '/api/winbidAnal/datePerRateChart',
+            type: 'POST',
+            data: winbidAnalSearchPayload,  // 폼 데이터 전송
+            success: function(data) {
+                var dataModels = JSON.parse(data);
+                var labels = [];
+                var dataValues = [];
+
+                // 서버에서 받은 JSON 데이터를 사용하여 labels와 dataValues를 설정
+                dataModels.forEach(function(item) {
+                    labels.push(item.opengDt);  // X축: 날짜
+                    dataValues.push(item.plnprcRate);  // Y축: 예측 사정율
+                });
+
+                // 기존 차트 업데이트
+                myChart.data.labels = labels;
+                myChart.data.datasets[0].data = dataValues;
+                sum = dataValues.reduce((a, b) => a + b, 0);
+                average = sum / dataValues.length;  // 평균값
+
+                $("#avgText").text(average.toFixed(5));
+
+                myChart.update();  // 차트 새로 고침
+
+
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    }
 
     function befLevelChk(type, level) {
         if(level == 1) {

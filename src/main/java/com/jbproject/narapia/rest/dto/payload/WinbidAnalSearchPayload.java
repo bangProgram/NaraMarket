@@ -1,9 +1,13 @@
 package com.jbproject.narapia.rest.dto.payload;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class WinbidAnalSearchPayload {
 
     @Schema(title = "품명 번호", description = "물품분류번호(8자리) + 물품식별번호(앞2자리) [물품목록정보의 관리 및 이용에 관한 규정 제12조]")
