@@ -1,6 +1,7 @@
 package com.jbproject.narapia;
 
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
+import com.jbproject.narapia.rest.dto.result.RsrvtnPrceRngChartResult;
 import com.jbproject.narapia.rest.dto.result.WinbidAnalChartResult;
 import com.jbproject.narapia.rest.service.WinbidAnalService;
 import org.junit.jupiter.api.Test;
@@ -22,5 +23,13 @@ public class WinBidAnalTests {
 
         List<WinbidAnalChartResult> results = winbidAnalService.getListToChartData(payload);
         System.out.println("results : "+results);
+    }
+
+    @Test
+    void getRsrvtnPrceRngChartList(){
+
+        List<RsrvtnPrceRngChartResult> results = winbidAnalService.getRsrvtnPrceRngChartList("2");
+        System.out.println("results : "+results);
+
     }
 }
