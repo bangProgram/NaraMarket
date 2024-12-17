@@ -7,6 +7,7 @@ import com.jbproject.narapia.rest.repository.WinbidAnalRepository;
 import com.jbproject.narapia.rest.service.WinbidAnalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,11 @@ import java.util.List;
 public class WinbidAnalServiceImpl implements WinbidAnalService {
 
     private final WinbidAnalRepository winbidAnalRepository;
+    private final JpaResultMapper jpaResultMapper = new JpaResultMapper();
 
+    public List<BssamtPerRateChartResult> getBssamtPerRateChartChartList2(String dminsttCd, String rsrvtnPrceRng){
+        return winbidAnalRepository.getRsrvtnPrceRngChartList2(dminsttCd, rsrvtnPrceRng);
+    }
     public List<BssamtPerRateChartResult> getBssamtPerRateChartChartList(String rsrvtnPrceRng){
         return winbidAnalRepository.getRsrvtnPrceRngChartList(rsrvtnPrceRng);
     }
