@@ -24,6 +24,16 @@
             <canvas id="myChart" width="400" height="100"></canvas>
         </form>
     </div>
+    <div style="display: flex;">
+        <div style="flex: 1;">
+            <h1 style="flex: 8;">금액별 사정율 그래프 (하한:2%)</h1>
+            <canvas id="chartResultsTwo" width="400" height="200"></canvas>
+        </div>
+        <div style="flex: 1;">
+            <h1 style="flex: 8;">금액별 사정율 그래프 (하한:3%)</h1>
+            <canvas id="chartResultsThree" width="400" height="200"></canvas>
+        </div>
+    </div>
     <div id="analTotalDiv">
         <div>
             전체 통계 검색
@@ -185,20 +195,129 @@
     });
 
     // Thymeleaf에서 전달한 JSON 데이터를 JavaScript 변수로 변환
-    var dataModels = JSON.parse([[${chartResults}]]);
+    var chartResultsTwoData = JSON.parse([[${chartResultsTwo}]]);
+    var chartResultsThreeData = JSON.parse([[${chartResultsThree}]]);
+
+    var sum = 0;
+    var average = 0;
     var labels = [];
+    var chartResultsTwoLabels = [];
+    var chartResultsThreeLabels = [];
     var dataValues = [];
+    var chartResultsTwoValues = [];
+    var chartResultsThreeValues = [];
+
 
     // JSON 데이터를 파싱하여 labels와 dataValues로 나누기
-    dataModels.forEach(function(item) {
-        labels.push(item.opengDt);  // X축에 표시할 날짜 (LocalDateTime)
-        dataValues.push(item.plnprcRate);  // Y축에 표시할 예측 사정율 (plnprcRate)D168341
+    chartResultsTwoData.forEach(function(item) {
+        chartResultsTwoLabels.push(item.bssamtGroup);  // X축에 표시할 금액그룹 (bssamtGroup)
+        chartResultsTwoValues.push(item.plnprcRate);  // Y축에 표시할 예측 사정율 (plnprcRate)
     });
+    chartResultsThreeData.forEach(function(item) {
+        chartResultsThreeLabels.push(item.bssamtGroup);  // X축에 표시할 금액그룹 (bssamtGroup)
+        chartResultsThreeValues.push(item.plnprcRate);  // Y축에 표시할 예측 사정율 (plnprcRate)
+    });
+
 
     // Chart.js를 사용하여 그래프 그리기
     var ctx = document.getElementById('myChart').getContext('2d');
-    var sum = dataValues.reduce((a, b) => a + b, 0);
-    var average = sum / dataValues.length;  // 평균값
+    var chartResultsTwo = document.getElementById('chartResultsTwo').getContext('2d');
+    var chartResultsThree = document.getElementById('chartResultsThree').getContext('2d');
+
+    var chartResultsTwoChart = new Chart(chartResultsTwo, {
+        type: 'line',
+        data: {
+            labels: chartResultsTwoLabels,
+            datasets: [{
+                label: '사정율 변화',
+                data: chartResultsTwoValues,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'category',
+                    title: {
+                        display: true,
+                        text: '금액'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: '사정율'
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    enabled: true, // 기본 툴팁 비활성화
+                    mode: 'nearest', // 가까운 데이터에 대한 툴팁을 표시
+                    intersect: false, // 그래프 라인 위에서 툴팁을 표시하도록 설정
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            return '';  // 툴팁 제목은 비워둡니다.
+                        },
+                        label: function(tooltipItem) {
+                            return tooltipItem.raw.toFixed(5);  // 해당 데이터의 값 표시
+                        }
+                    }
+                },
+            }
+        }
+    });
+
+    var chartResultsThreeChart = new Chart(chartResultsThree, {
+        type: 'line',
+        data: {
+            labels: chartResultsThreeLabels,
+            datasets: [{
+                label: '사정율 변화',
+                data: chartResultsThreeValues,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'category',
+                    title: {
+                        display: true,
+                        text: '금액'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: '사정율'
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    enabled: true, // 기본 툴팁 비활성화
+                    mode: 'nearest', // 가까운 데이터에 대한 툴팁을 표시
+                    intersect: false, // 그래프 라인 위에서 툴팁을 표시하도록 설정
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            return '';  // 툴팁 제목은 비워둡니다.
+                        },
+                        label: function(tooltipItem) {
+                            return tooltipItem.raw.toFixed(5);  // 해당 데이터의 값 표시
+                        }
+                    }
+                },
+            }
+        }
+    });
+
 
     var myChart = new Chart(ctx, {
         type: 'line',
@@ -242,7 +361,7 @@
                             // 평균값 라인에 대한 툴팁만 활성화
                             // 툴팁이 평균값 라인에 호버할 때만 평균값을 표시하도록 설정
                              if (tooltipItem.datasetIndex !== undefined) {
-                                return tooltipItem.raw;  // 해당 데이터의 값 표시
+                                return tooltipItem.raw.toFixed(5);  // 해당 데이터의 값 표시
                             }
 
                             // 평균값 라인에 호버하면 평균값 표시
@@ -294,11 +413,12 @@
                 sum = dataValues.reduce((a, b) => a + b, 0);
                 average = sum / dataValues.length;  // 평균값
 
+                myChart.options.plugins.annotation.annotations.averageLine.yMin = average;
+                myChart.options.plugins.annotation.annotations.averageLine.yMax = average;
+
                 $("#avgText").text(average.toFixed(5));
 
                 myChart.update();  // 차트 새로 고침
-
-
             },
             error: function(error) {
                 console.error('Error:', error);

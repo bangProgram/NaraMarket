@@ -4,10 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jbproject.narapia.rest.dto.payload.BidNotiSearchPayload;
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
-import com.jbproject.narapia.rest.dto.result.BidNotiResult;
-import com.jbproject.narapia.rest.dto.result.WinBidAnalResult;
-import com.jbproject.narapia.rest.dto.result.WinbidAnalChartResult;
-import com.jbproject.narapia.rest.dto.result.WinbidAnalSearchResult;
+import com.jbproject.narapia.rest.dto.result.*;
 import com.jbproject.narapia.rest.service.WinbidAnalService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -32,13 +29,14 @@ public class WinbidAnalController {
             HttpServletRequest request, Model model
             , WinbidAnalSearchPayload winbidAnalSearchPayload
     ) throws JsonProcessingException {
-        winbidAnalSearchPayload.setDminsttCd("6280000");
-        List<WinbidAnalChartResult> chartResults = winbidAnalService.getListToChartData(winbidAnalSearchPayload);
-        String jsonData = objectMapper.writeValueAsString(chartResults);
+        List<BssamtPerRateChartResult> chartResultsTwo = winbidAnalService.getBssamtPerRateChartChartList("2");
+        List<BssamtPerRateChartResult> chartResultsThree = winbidAnalService.getBssamtPerRateChartChartList("3");
+        String jsonDataTwo = objectMapper.writeValueAsString(chartResultsTwo);
+        String jsonDataThree = objectMapper.writeValueAsString(chartResultsThree);
 
         model.addAttribute("winbidAnalSearchPayload", winbidAnalSearchPayload);
-        System.out.println("Json : "+jsonData);
-        model.addAttribute("chartResults", jsonData);
+        model.addAttribute("chartResultsTwo", jsonDataTwo);
+        model.addAttribute("chartResultsThree", jsonDataThree);
 
         return "/winbidAnal/main";
     }

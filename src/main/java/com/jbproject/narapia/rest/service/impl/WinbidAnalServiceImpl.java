@@ -1,8 +1,7 @@
 package com.jbproject.narapia.rest.service.impl;
 
-import com.jbproject.narapia.rest.dto.model.WinBidAnalModel;
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
-import com.jbproject.narapia.rest.dto.result.RsrvtnPrceRngChartResult;
+import com.jbproject.narapia.rest.dto.result.BssamtPerRateChartResult;
 import com.jbproject.narapia.rest.dto.result.WinbidAnalChartResult;
 import com.jbproject.narapia.rest.repository.WinbidAnalRepository;
 import com.jbproject.narapia.rest.service.WinbidAnalService;
@@ -19,7 +18,7 @@ public class WinbidAnalServiceImpl implements WinbidAnalService {
 
     private final WinbidAnalRepository winbidAnalRepository;
 
-    public List<RsrvtnPrceRngChartResult> getRsrvtnPrceRngChartList(String rsrvtnPrceRng){
+    public List<BssamtPerRateChartResult> getBssamtPerRateChartChartList(String rsrvtnPrceRng){
         return winbidAnalRepository.getRsrvtnPrceRngChartList(rsrvtnPrceRng);
     }
 

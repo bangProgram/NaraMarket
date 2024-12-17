@@ -1,23 +1,14 @@
 package com.jbproject.narapia.rest.repository.custom.impl;
 
 import com.jbproject.narapia.rest.dto.model.WinBidAnalModel;
-import com.jbproject.narapia.rest.dto.model.WinbidModel;
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
-import com.jbproject.narapia.rest.dto.result.RsrvtnPrceRngChartResult;
-import com.jbproject.narapia.rest.dto.result.WinBidAnalResult;
+import com.jbproject.narapia.rest.dto.result.BssamtPerRateChartResult;
 import com.jbproject.narapia.rest.dto.result.WinbidAnalSearchResult;
-import com.jbproject.narapia.rest.entity.WinbidAnalEntity;
-import com.jbproject.narapia.rest.entity.keys.WinbidAnalKey;
 import com.jbproject.narapia.rest.repository.custom.WinbidAnalCustom;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.TemplateExpression;
-import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.SimpleTemplate;
-import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +18,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
-import static com.jbproject.narapia.rest.entity.QBidNotiEntity.bidNotiEntity;
 import static com.jbproject.narapia.rest.entity.QWinbidAnalEntity.winbidAnalEntity;
+import static com.jbproject.narapia.rest.entity.views.QBssamrPerRateView.bssamrPerRateView;
 import static org.springframework.util.StringUtils.hasText;
 
 @Repository
@@ -38,53 +29,22 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<RsrvtnPrceRngChartResult> getRsrvtnPrceRngChartList(String rsrvtnPrceRng) {
-
-        StringExpression caseBuilder = new CaseBuilder()
-            .when(winbidAnalEntity.bssamt.loe(10000000)).then("0.1억 이하")
-            .when(winbidAnalEntity.bssamt.between(10000001, 20000000)).then("0.2억 이하")
-            .when(winbidAnalEntity.bssamt.between(20000001, 30000000)).then("0.3억 이하")
-            .when(winbidAnalEntity.bssamt.between(30000001, 40000000)).then("0.4억 이하")
-            .when(winbidAnalEntity.bssamt.between(40000001, 50000000)).then("0.5억 이하")
-            .when(winbidAnalEntity.bssamt.between(50000001, 60000000)).then("0.6억 이하")
-            .when(winbidAnalEntity.bssamt.between(60000001, 70000000)).then("0.7억 이하")
-            .when(winbidAnalEntity.bssamt.between(70000001, 80000000)).then("0.8억 이하")
-            .when(winbidAnalEntity.bssamt.between(80000001, 90000000)).then("0.9억 이하")
-            .when(winbidAnalEntity.bssamt.between(90000001, 100000000)).then("1.0억 이하")
-            .when(winbidAnalEntity.bssamt.between(100000001, 110000000)).then("1.1억 이하")
-            .when(winbidAnalEntity.bssamt.between(110000001, 120000000)).then("1.2억 이하")
-            .when(winbidAnalEntity.bssamt.between(120000001, 130000000)).then("1.3억 이하")
-            .when(winbidAnalEntity.bssamt.between(130000001, 140000000)).then("1.4억 이하")
-            .when(winbidAnalEntity.bssamt.between(140000001, 150000000)).then("1.5억 이하")
-            .when(winbidAnalEntity.bssamt.between(150000001, 160000000)).then("1.6억 이하")
-            .when(winbidAnalEntity.bssamt.between(160000001, 170000000)).then("1.7억 이하")
-            .when(winbidAnalEntity.bssamt.between(170000001, 180000000)).then("1.8억 이하")
-            .when(winbidAnalEntity.bssamt.between(180000001, 190000000)).then("1.9억 이하")
-            .when(winbidAnalEntity.bssamt.between(190000001, 200000000)).then("2.0억 이하")
-            .otherwise("2억 초과");
-
-
-
-        jpaQueryFactory.select(
-                Projections.fields(
-                        RsrvtnPrceRngChartResult.class
-                        ,caseBuilder.as("bssamtGroup")
-                        ,winbidAnalEntity.prtcptCnum.avg().as("prtcptCnumAvg")
-                        ,Expressions.stringTemplate("REPLACE({0}, {1}, {2})", winbidAnalEntity.rsrvtnPrceRngBgnRate, "-", "").max().as("rsrvtnPrceRngRate")
-                        ,winbidAnalEntity.count().as("cnt")
-                        ,winbidAnalEntity.plnprcRate.avg().as("plnprcRate")
+    public List<BssamtPerRateChartResult> getRsrvtnPrceRngChartList(String rsrvtnPrceRng) {
+        return jpaQueryFactory.select(
+                        Projections.fields(
+                                BssamtPerRateChartResult.class
+                                ,bssamrPerRateView.bssamtGroup.as("bssamtGroup")
+                                ,bssamrPerRateView.prtcptCnumAvg.as("prtcptCnumAvg")
+                                ,bssamrPerRateView.rsrvtnPrceRngRate.as("rsrvtnPrceRngRate")
+                                ,bssamrPerRateView.cnt.as("cnt")
+                                ,bssamrPerRateView.plnprcRate.as("plnprcRate")
+                        )
+                ).from(bssamrPerRateView)
+                .where(
+                        bssamrPerRateView.rsrvtnPrceRngRate.eq(rsrvtnPrceRng)
                 )
-        ).from(winbidAnalEntity)
-        .where(
-                winbidAnalEntity.rsrvtnPrceRngBgnRate.eq("-"+rsrvtnPrceRng)
-                .and(winbidAnalEntity.rsrvtnPrceRngEndRate.eq("+"+rsrvtnPrceRng))
-        )
-        .groupBy(caseBuilder)
-        .orderBy(caseBuilder.asc())
-        .fetch();
-
-
-        return null;
+                .orderBy(bssamrPerRateView.bssamtGroup.asc())
+                .fetch();
     }
 
     public List<WinBidAnalModel> getListToChartData(WinbidAnalSearchPayload payload){
