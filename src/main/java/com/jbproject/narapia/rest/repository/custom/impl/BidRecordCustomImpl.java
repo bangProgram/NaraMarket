@@ -73,6 +73,9 @@ public class BidRecordCustomImpl implements BidRecordCustom {
         if(hasText(payload.getDminsttCd())){
             where.and(bidRecordEntity.dminsttCd.eq(payload.getDminsttCd()));
         }
+        if(hasText(payload.getSucsfbidRank())){
+            where.and(bidRecordEntity.sucsfbidRank.eq(payload.getSucsfbidRank()));
+        }
 
         return where;
     }

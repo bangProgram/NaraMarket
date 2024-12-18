@@ -46,6 +46,14 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>
+                        순위
+                    </td>
+                    <td colspan="3">
+                        <input type="text" th:field="*{sucsfbidRank}" placeholder="순위">
+                    </td>
+                </tr>
+                <tr>
                     <td colspan="4" style="padding: 8px 30px;">
                         <button type="button" th:onclick="searchBidRecordList()" style="float: right; width: 150px;">조회</button>
                     </td>
@@ -148,36 +156,36 @@
         font-size: 17px;
     }
 
-    table {
+    #bidRecordList {
         width: 100%;
         border-collapse: collapse;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    th, td {
+    #bidRecordList > tbody > th, td {
         padding: 12px;
         text-align: left;
         border-bottom: 1px solid #ddd;
     }
 
-    th {
+    #bidRecordList > tbody > th {
         background-color: #f4f4f4;
     }
 
     /* 기본 테이블 행 색상 */
-    tr {
+    #bidRecordList > tbody > tr {
         background-color: #fff;
         transition: background-color 0.3s ease;
     }
 
     /* 테이블 행에 마우스를 올렸을 때 */
-    tr:hover {
+    #bidRecordList > tbody > tr:hover {
         background-color: #f0f8ff; /* 호버 시 색상 */
         transform: scale(1.02); /* 살짝 확대 효과 */
     }
 
     /* 호버 시 텍스트 색상 변경 */
-    tr:hover td {
+    #bidRecordList > tbody > tr:hover td {
         color: #333; /* 텍스트 색상 변경 */
     }
 </style>

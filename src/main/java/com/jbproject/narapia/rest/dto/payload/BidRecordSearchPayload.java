@@ -14,4 +14,6 @@ public class BidRecordSearchPayload {
     private String ntceInsttCd;
     @Schema(title = "수요기관코드")
     private String dminsttCd;
+    @Schema(title="순위")
+    private String sucsfbidRank;
 }
