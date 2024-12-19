@@ -1,15 +1,16 @@
 package com.jbproject.narapia.rest.dto.result;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.jbproject.narapia.rest.dto.BssamtPerRateChart;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BssamtPerRateChartResult {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class BssamtPerRateChartResult extends DefaultChartModel{
 
     @Schema(title = "기초금액 그룹")
     private String bssamtGroup;

@@ -19,7 +19,7 @@
                 <div>평균값 : <label id="avgText"></label></div>
                 <input type="hidden" th:field="*{dtilPrdctClsfcNo}" placeholder="품명 번호">
                 <input type="text" th:field="*{dminsttCd}" placeholder="품명 번호" style="flex: 1;">
-                <button type="button" th:onclick="getDatePerRateChart()" style="flex: 1;">차트 업데이트</button>
+                <button type="button" th:onclick="testClick()" style="flex: 1;">차트 업데이트</button>
             </div>
             <canvas id="myChart" width="400" height="100"></canvas>
         </form>
@@ -319,73 +319,11 @@
     });
 
 
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: '사정율 변화',
-                data: dataValues,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                fill: false
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    type: 'category',
-                    title: {
-                        display: true,
-                        text: '날짜'
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: '가격'
-                    }
-                }
-            },
-            plugins: {
-                tooltip: {
-                    enabled: true, // 기본 툴팁 비활성화
-                    mode: 'nearest', // 가까운 데이터에 대한 툴팁을 표시
-                    intersect: false, // 그래프 라인 위에서 툴팁을 표시하도록 설정
-                    callbacks: {
-                        title: function(tooltipItems) {
-                            return '';  // 툴팁 제목은 비워둡니다.
-                        },
-                        label: function(tooltipItem) {
-                            // 평균값 라인에 대한 툴팁만 활성화
-                            // 툴팁이 평균값 라인에 호버할 때만 평균값을 표시하도록 설정
-                             if (tooltipItem.datasetIndex !== undefined) {
-                                return tooltipItem.raw.toFixed(5);  // 해당 데이터의 값 표시
-                            }
+    var myChart = createChart(ctx, null, '날짜', '사정율', 'Y');
 
-                            // 평균값 라인에 호버하면 평균값 표시
-                            return '평균값: ' + average.toFixed(5);
-                        }
-                    }
-                },
-                annotation: {
-                    annotations: {
-                        averageLine: {
-                            type: 'line',
-                            yMin: average,  // 평균값
-                            yMax: average,  // 평균값
-                            borderColor: 'red',  // 선 색상
-                            borderWidth: 2,
-                            label: {
-                                enabled: false  // 레이블을 표시하지 않음 (툴팁만 사용)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    });
+    function testClick() {
+        updateChartData(myChart, 'datePerRateChart', 'Y');
+    }
 
 
     function getDatePerRateChart() {
