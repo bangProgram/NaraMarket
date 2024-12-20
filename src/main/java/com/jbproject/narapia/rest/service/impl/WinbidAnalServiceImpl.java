@@ -23,8 +23,8 @@ public class WinbidAnalServiceImpl implements WinbidAnalService {
     public List<BssamtPerRateChartResult> getBssamtPerRateChartChartList2(String dminsttCd, String rsrvtnPrceRng){
         return winbidAnalRepository.getRsrvtnPrceRngChartList2(dminsttCd, rsrvtnPrceRng);
     }
-    public List<BssamtPerRateChartResult> getBssamtPerRateChartChartList(String rsrvtnPrceRng){
-        return winbidAnalRepository.getRsrvtnPrceRngChartList(rsrvtnPrceRng);
+    public List<BssamtPerRateChartResult> getBssamtPerRateChartChartList(String rsrvtnPrceRng, String dminsttCd ){
+        return winbidAnalRepository.getRsrvtnPrceRngChartList(rsrvtnPrceRng, dminsttCd);
     }
 
     public List<WinbidAnalChartResult> getListToChartData(WinbidAnalSearchPayload payload) {

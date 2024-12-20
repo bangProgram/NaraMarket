@@ -23,7 +23,7 @@ import java.math.RoundingMode;
 import java.util.*;
 
 import static com.jbproject.narapia.rest.entity.QWinbidAnalEntity.winbidAnalEntity;
-import static com.jbproject.narapia.rest.entity.views.QBssamrPerRateView.bssamrPerRateView;
+import static com.jbproject.narapia.rest.entity.views.QBssamtPerRateView.bssamtPerRateView;
 import static org.springframework.util.StringUtils.hasText;
 
 @Repository
@@ -35,21 +35,39 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<BssamtPerRateChartResult> getRsrvtnPrceRngChartList(String rsrvtnPrceRng) {
+    public List<BssamtPerRateChartResult> getRsrvtnPrceRngChartList(String rsrvtnPrceRng, String dminsttCd) {
+
+        BooleanBuilder whereCondition = new BooleanBuilder();
+
+        if(hasText(rsrvtnPrceRng)){
+           whereCondition.and(bssamtPerRateView.rsrvtnPrceRngRate.eq(rsrvtnPrceRng));
+        }
+        if(hasText(dminsttCd)){
+            whereCondition.and(bssamtPerRateView.bssamtPerRatekey.dminsttCd.eq(dminsttCd));
+        }else{
+            whereCondition.and(bssamtPerRateView.bssamtPerRatekey.dminsttCd.eq("ALL"));
+        }
+
+
         return jpaQueryFactory.select(
                         Projections.fields(
                                 BssamtPerRateChartResult.class
-                                ,bssamrPerRateView.bssamtGroup.as("bssamtGroup")
-                                ,bssamrPerRateView.prtcptCnumAvg.as("prtcptCnumAvg")
-                                ,bssamrPerRateView.rsrvtnPrceRngRate.as("rsrvtnPrceRngRate")
-                                ,bssamrPerRateView.cnt.as("cnt")
-                                ,bssamrPerRateView.plnprcRate.as("plnprcRate")
+                                ,bssamtPerRateView.bssamtPerRatekey.bssamtGroup.as("xDataGroup")
+                                ,bssamtPerRateView.plnprcRate.as("yDataGroup")
+                                ,bssamtPerRateView.bssamtPerRatekey.bssamtGroup.as("bssamtGroup")
+                                ,bssamtPerRateView.bssamtPerRatekey.dminsttCd.as("dminsttCd")
+                                ,bssamtPerRateView.dminsttNm.as("dminsttNm")
+                                ,bssamtPerRateView.prtcptCnumAvg.as("prtcptCnumAvg")
+                                ,bssamtPerRateView.rsrvtnPrceRngRate.as("rsrvtnPrceRngRate")
+                                ,bssamtPerRateView.cnt.as("cnt")
+                                ,bssamtPerRateView.plnprcRate.as("plnprcRate")
                         )
-                ).from(bssamrPerRateView)
-                .where(
-                        bssamrPerRateView.rsrvtnPrceRngRate.eq(rsrvtnPrceRng)
+                ).from(bssamtPerRateView)
+                .where(whereCondition)
+                .orderBy(
+                        bssamtPerRateView.bssamtPerRatekey.dminsttCd.asc()
+                        , bssamtPerRateView.bssamtPerRatekey.bssamtGroup.asc()
                 )
-                .orderBy(bssamrPerRateView.bssamtGroup.asc())
                 .fetch();
     }
 

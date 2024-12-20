@@ -29,10 +29,12 @@ public class WinbidAnalController {
             HttpServletRequest request, Model model
             , WinbidAnalSearchPayload winbidAnalSearchPayload
     ) throws JsonProcessingException {
-        List<BssamtPerRateChartResult> chartResultsTwo = winbidAnalService.getBssamtPerRateChartChartList("2");
-        List<BssamtPerRateChartResult> chartResultsThree = winbidAnalService.getBssamtPerRateChartChartList("3");
+        List<BssamtPerRateChartResult> chartResultsTwo = winbidAnalService.getBssamtPerRateChartChartList("2","");
+        List<BssamtPerRateChartResult> chartResultsThree = winbidAnalService.getBssamtPerRateChartChartList("3","");
         String jsonDataTwo = objectMapper.writeValueAsString(chartResultsTwo);
         String jsonDataThree = objectMapper.writeValueAsString(chartResultsThree);
+
+        System.out.println("jsonDataTwo : "+jsonDataTwo);
 
         model.addAttribute("winbidAnalSearchPayload", winbidAnalSearchPayload);
         model.addAttribute("chartResultsTwo", jsonDataTwo);

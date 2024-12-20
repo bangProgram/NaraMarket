@@ -43,7 +43,7 @@ public class WinbidAnalChartResult extends DefaultChartModel {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
         result.setXDataGroup(model.getOpengDt().format(formatter));
-        result.setYDataGroup(String.valueOf(model.getPlnprcRate()));
+        result.setYDataGroup(model.getPlnprcRate());
 
         result.setOpengDt(model.getOpengDt());
         result.setRsrvtnPrceRngBgnRate(model.getRsrvtnPrceRngBgnRate());

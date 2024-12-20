@@ -10,6 +10,6 @@ import java.util.List;
 public interface WinbidAnalService {
 
     List<BssamtPerRateChartResult> getBssamtPerRateChartChartList2(String dminsttCd, String rsrvtnPrceRng);
-    List<BssamtPerRateChartResult> getBssamtPerRateChartChartList(String rsrvtnPrceRng);
+    List<BssamtPerRateChartResult> getBssamtPerRateChartChartList(String rsrvtnPrceRng, String dminsttCd);
     List<WinbidAnalChartResult> getListToChartData(WinbidAnalSearchPayload payload);
 }

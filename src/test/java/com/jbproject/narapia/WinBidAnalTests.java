@@ -30,7 +30,7 @@ public class WinBidAnalTests {
     @Test
     void getRsrvtnPrceRngChartList(){
 
-        List<BssamtPerRateChartResult> results = winbidAnalService.getBssamtPerRateChartChartList("2");
+        List<BssamtPerRateChartResult> results = winbidAnalService.getBssamtPerRateChartChartList("2","");
         System.out.println("results : "+results);
 
     }

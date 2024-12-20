@@ -10,5 +10,5 @@ import lombok.Setter;
 public class DefaultChartModel {
 
     private String xDataGroup;
-    private String yDataGroup;
+    private Double yDataGroup;
 }

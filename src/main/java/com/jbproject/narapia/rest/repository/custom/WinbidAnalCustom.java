@@ -14,7 +14,7 @@ import java.util.List;
 public interface WinbidAnalCustom  {
 //    List<WinbidAnalEntity> searchWinbidAnalList(WinbidAnalSearchPayload payload);
 
-    List<BssamtPerRateChartResult> getRsrvtnPrceRngChartList(String rsrvtnPrceRng);
+    List<BssamtPerRateChartResult> getRsrvtnPrceRngChartList(String rsrvtnPrceRng, String dminsttCd);
     List<WinBidAnalModel> getListToChartData(WinbidAnalSearchPayload payload);
     List<WinbidAnalSearchResult> searchWinbidAnalList(WinbidAnalSearchPayload payload);
 

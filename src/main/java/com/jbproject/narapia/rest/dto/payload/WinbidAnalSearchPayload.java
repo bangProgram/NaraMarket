@@ -17,7 +17,7 @@ public class WinbidAnalSearchPayload {
     @Schema(title = "공고기관코드", description = "공고를 하는 기관의 코드로 행자부코드(행정자치부에서 부여한 기관코드)")
     private String ntceInsttCd;
     @Schema(title = "수요기관코드", description = "실제 수요기관의 코드로 행자부코드(행정자치부에서 부여한 기관코드)")
-    private String dminsttCd;
+    private String dminsttCd = "ALL";
 
     @Schema(title = "숫자")
     private Double bssamtRate;

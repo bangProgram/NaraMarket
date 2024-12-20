@@ -15,25 +15,36 @@
     <div>
         <form name="datePerRateChart" method="post"  th:object="${winbidAnalSearchPayload}" >
             <div style="display: flex;">
-                <h1 style="flex: 8;">날짜별 사정율 변화 그래프</h1>
+                <div style="flex: 1;">
+                    <h3 style="flex: 8;">기관 전체 사정율 통계 (하한:2%)</h3>
+                    <canvas id="chartResultsTwo" width="300" height="100"></canvas>
+                </div>
+                <div style="flex: 1;">
+                    <h3 style="flex: 8;">기관 전체 사정율 통계 (하한:3%)</h3>
+                    <canvas id="chartResultsThree" width="300" height="100"></canvas>
+                </div>
+            </div>
+            <div style="display: flex;">
+                <h3 style="flex: 8;">날짜별 사정율 변화 그래프</h3>
                 <div>평균값 : <label id="avgText"></label></div>
                 <input type="hidden" th:field="*{dtilPrdctClsfcNo}" placeholder="품명 번호">
                 <input type="text" th:field="*{dminsttCd}" placeholder="품명 번호" style="flex: 1;">
-                <button type="button" th:onclick="testClick()" style="flex: 1;">차트 업데이트</button>
+                <button type="button" th:onclick="getDatePerRateChart()" style="flex: 1;">차트 업데이트</button>
             </div>
-            <canvas id="myChart" width="400" height="100"></canvas>
+            <canvas id="myChart" width="500" height="100"></canvas>
+            <div style="display: flex;">
+                <div style="flex: 1;" id="dminsttResultsTwoDiv">
+                    <h3 style="flex: 8;"><label class="dminsttNmLabel"></label> 사정율 통계 (하한:2%)</h3>
+                    <canvas id="dminsttResultsTwo" width="550" height="100"></canvas>
+                </div>
+                <div style="flex: 1;" id="dminsttResultsThreeDiv">
+                    <h3 style="flex: 8;"><label class="dminsttNmLabel"></label> 사정율 통계 (하한:3%)</h3>
+                    <canvas id="dminsttResultsThree" width="550" height="100"></canvas>
+                </div>
+            </div>
         </form>
     </div>
-    <div style="display: flex;">
-        <div style="flex: 1;">
-            <h1 style="flex: 8;">금액별 사정율 그래프 (하한:2%)</h1>
-            <canvas id="chartResultsTwo" width="400" height="200"></canvas>
-        </div>
-        <div style="flex: 1;">
-            <h1 style="flex: 8;">금액별 사정율 그래프 (하한:3%)</h1>
-            <canvas id="chartResultsThree" width="400" height="200"></canvas>
-        </div>
-    </div>
+
     <div id="analTotalDiv">
         <div>
             전체 통계 검색
@@ -198,171 +209,28 @@
     var chartResultsTwoData = JSON.parse([[${chartResultsTwo}]]);
     var chartResultsThreeData = JSON.parse([[${chartResultsThree}]]);
 
-    var sum = 0;
-    var average = 0;
-    var labels = [];
-    var chartResultsTwoLabels = [];
-    var chartResultsThreeLabels = [];
-    var dataValues = [];
-    var chartResultsTwoValues = [];
-    var chartResultsThreeValues = [];
-
-
-    // JSON 데이터를 파싱하여 labels와 dataValues로 나누기
-    chartResultsTwoData.forEach(function(item) {
-        chartResultsTwoLabels.push(item.bssamtGroup);  // X축에 표시할 금액그룹 (bssamtGroup)
-        chartResultsTwoValues.push(item.plnprcRate);  // Y축에 표시할 예측 사정율 (plnprcRate)
-    });
-    chartResultsThreeData.forEach(function(item) {
-        chartResultsThreeLabels.push(item.bssamtGroup);  // X축에 표시할 금액그룹 (bssamtGroup)
-        chartResultsThreeValues.push(item.plnprcRate);  // Y축에 표시할 예측 사정율 (plnprcRate)
-    });
-
-
     // Chart.js를 사용하여 그래프 그리기
-    var ctx = document.getElementById('myChart').getContext('2d');
     var chartResultsTwo = document.getElementById('chartResultsTwo').getContext('2d');
     var chartResultsThree = document.getElementById('chartResultsThree').getContext('2d');
 
-    var chartResultsTwoChart = new Chart(chartResultsTwo, {
-        type: 'line',
-        data: {
-            labels: chartResultsTwoLabels,
-            datasets: [{
-                label: '사정율 변화',
-                data: chartResultsTwoValues,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                fill: false
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    type: 'category',
-                    title: {
-                        display: true,
-                        text: '금액'
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: '사정율'
-                    }
-                }
-            },
-            plugins: {
-                tooltip: {
-                    enabled: true, // 기본 툴팁 비활성화
-                    mode: 'nearest', // 가까운 데이터에 대한 툴팁을 표시
-                    intersect: false, // 그래프 라인 위에서 툴팁을 표시하도록 설정
-                    callbacks: {
-                        title: function(tooltipItems) {
-                            return '';  // 툴팁 제목은 비워둡니다.
-                        },
-                        label: function(tooltipItem) {
-                            return tooltipItem.raw.toFixed(5);  // 해당 데이터의 값 표시
-                        }
-                    }
-                },
-            }
-        }
-    });
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var dminsttResultsTwo = document.getElementById('dminsttResultsTwo').getContext('2d');
+    var dminsttResultsThree = document.getElementById('dminsttResultsThree').getContext('2d');
 
-    var chartResultsThreeChart = new Chart(chartResultsThree, {
-        type: 'line',
-        data: {
-            labels: chartResultsThreeLabels,
-            datasets: [{
-                label: '사정율 변화',
-                data: chartResultsThreeValues,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                fill: false
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    type: 'category',
-                    title: {
-                        display: true,
-                        text: '금액'
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: '사정율'
-                    }
-                }
-            },
-            plugins: {
-                tooltip: {
-                    enabled: true, // 기본 툴팁 비활성화
-                    mode: 'nearest', // 가까운 데이터에 대한 툴팁을 표시
-                    intersect: false, // 그래프 라인 위에서 툴팁을 표시하도록 설정
-                    callbacks: {
-                        title: function(tooltipItems) {
-                            return '';  // 툴팁 제목은 비워둡니다.
-                        },
-                        label: function(tooltipItem) {
-                            return tooltipItem.raw.toFixed(5);  // 해당 데이터의 값 표시
-                        }
-                    }
-                },
-            }
-        }
-    });
 
+    // Chart 생성
+    var chartResultsTwoChart = createChart(chartResultsTwo, chartResultsTwoData, '금액', '사정율', 'N');
+    var chartResultsThreeChart = createChart(chartResultsThree, chartResultsThreeData, '금액', '사정율', 'N');
 
     var myChart = createChart(ctx, null, '날짜', '사정율', 'Y');
-
-    function testClick() {
-        updateChartData(myChart, 'datePerRateChart', 'Y');
-    }
-
+    var dminsttResultsTwoChart = createChart(dminsttResultsTwo, null, '금액', '사정율', 'N');
+    var dminsttResultsThreeChart = createChart(dminsttResultsThree, null, '금액', '사정율', 'N');
 
     function getDatePerRateChart() {
-        var winbidAnalSearchPayload = $("form[name=datePerRateChart]").serialize() ;
+        updateChartData(myChart, dminsttResultsTwoChart, dminsttResultsThreeChart, 'Y');
 
-        // AJAX 요청
-        $.ajax({
-            url: '/api/winbidAnal/datePerRateChart',
-            type: 'POST',
-            data: winbidAnalSearchPayload,  // 폼 데이터 전송
-            success: function(data) {
-                var dataModels = JSON.parse(data);
-                var labels = [];
-                var dataValues = [];
-
-                // 서버에서 받은 JSON 데이터를 사용하여 labels와 dataValues를 설정
-                dataModels.forEach(function(item) {
-                    labels.push(item.opengDt);  // X축: 날짜
-                    dataValues.push(item.plnprcRate);  // Y축: 예측 사정율
-                });
-
-                // 기존 차트 업데이트
-                myChart.data.labels = labels;
-                myChart.data.datasets[0].data = dataValues;
-                sum = dataValues.reduce((a, b) => a + b, 0);
-                average = sum / dataValues.length;  // 평균값
-
-                myChart.options.plugins.annotation.annotations.averageLine.yMin = average;
-                myChart.options.plugins.annotation.annotations.averageLine.yMax = average;
-
-                $("#avgText").text(average.toFixed(5));
-
-                myChart.update();  // 차트 새로 고침
-            },
-            error: function(error) {
-                console.error('Error:', error);
-            }
-        });
     }
+
 
     function befLevelChk(type, level) {
         if(level == 1) {

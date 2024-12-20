@@ -3,6 +3,8 @@ package com.jbproject.narapia.rest.controller.apiController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
+import com.jbproject.narapia.rest.dto.result.BssamtPerRateChartResult;
+import com.jbproject.narapia.rest.dto.result.ChartResults;
 import com.jbproject.narapia.rest.dto.result.WinbidAnalChartResult;
 import com.jbproject.narapia.rest.dto.result.WinbidAnalSearchResult;
 import com.jbproject.narapia.rest.service.BidNotiService;
@@ -52,9 +54,12 @@ public class WinbidAnalApiController {
     ) throws JsonProcessingException {
         // 폼 데이터를 기반으로 chartResults 데이터 생성
 
-        System.out.println("test : "+winbidAnalSearchPayload);
-        List<WinbidAnalChartResult> chartResults = winbidAnalService.getListToChartData(winbidAnalSearchPayload);
-        String jsonData = objectMapper.writeValueAsString(chartResults); // 예시: 해당 코드로 데이터를 생성
-        return jsonData;  // JSON으로 반환
+        ChartResults results = new ChartResults();
+
+        results.setChartResults( winbidAnalService.getListToChartData(winbidAnalSearchPayload));
+        results.setDminsttResultsTwo(winbidAnalService.getBssamtPerRateChartChartList("2",winbidAnalSearchPayload.getDminsttCd()));
+        results.setDminsttResultsThree(winbidAnalService.getBssamtPerRateChartChartList("3",winbidAnalSearchPayload.getDminsttCd()));
+
+        return objectMapper.writeValueAsString(results); // 예시: 해당 코드로 데이터를 생성
     }
 }

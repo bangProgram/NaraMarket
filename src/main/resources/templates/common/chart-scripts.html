@@ -6,26 +6,23 @@
 </head>
 <body>
 <script>
-    let myChart1, myChart2;
-
-    function initializeCharts() {
-        const ctx1 = document.getElementById('myChart1').getContext('2d');
-        myChart1 = createChart(ctx1, 'bar', initialData, options);
-
-        const ctx2 = document.getElementById('myChart2').getContext('2d');
-        myChart2 = createChart(ctx2, 'line', initialData, options);
-    }
+    var sum = 0;
+    var average = 0;
 
     // 차트 생성 함수
     function createChart(ctx, dataModels, xTitle, yTitle, avgYn) {
 
         var labels = [];
         var dataValues = [];
+        var cntValues = [];
 
         if(dataModels != null) {
             dataModels.forEach(function(item) {
-                labels.push(item.xDataGroup);  // X축에 표시할 데이터
-                dataValues.push(item.yDataGroup);  // Y축에 표시할 데이터
+                labels.push(item.xdataGroup);  // X축에 표시할 데이터
+                dataValues.push(item.ydataGroup);  // Y축에 표시할 데이터
+                if(avgYn == 'N'){
+                    cntValues.push(item.cnt);  // 툴팁에 표시할 데이터 : count
+                }
             });
         }
 
@@ -56,7 +53,14 @@
                             return '';  // 툴팁 제목은 비워둡니다.
                         },
                         label: function(tooltipItem) {
-                            return tooltipItem.raw.toFixed(5);  // 해당 데이터의 값 표시
+                            const value = tooltipItem.raw.toFixed(5); // 데이터 값
+                            const index = tooltipItem.dataIndex; // 현재 데이터의 인덱스
+                            const countValue = cntValues[index];
+
+                            return [
+                                `사정율 : ${value}`,
+                                `건수 : ${countValue}`
+                            ]  // 해당 데이터의 값 표시
                         }
                     }
                 },
@@ -84,7 +88,7 @@
                 plugins: {
                     tooltip: {
                         enabled: true, // 기본 툴팁 비활성화
-                        mode: 'point', // 선택된 데이터에 대한 툴팁을 표시
+                        mode: 'nearest', // 선택된 데이터에 대한 툴팁을 표시
                         intersect: false, // 그래프 라인 위에서 툴팁을 표시하도록 설정
                         callbacks: {
                             title: function(tooltipItems) {
@@ -94,7 +98,11 @@
                                 // 평균값 라인에 대한 툴팁만 활성화
                                 // 툴팁이 평균값 라인에 호버할 때만 평균값을 표시하도록 설정
                                  if (tooltipItem.datasetIndex !== undefined) {
-                                    return tooltipItem.raw.toFixed(5);  // 해당 데이터의 값 표시
+                                    const value = tooltipItem.raw.toFixed(5); // 데이터 값
+
+                                    return [
+                                        `사정율 : ${value}`
+                                    ]  // 해당 데이터의 값 표시
                                 }
 
                                 // 평균값 라인에 호버하면 평균값 표시
@@ -136,67 +144,110 @@
         });
     }
 
-    // 차트 데이터 및 옵션 설정
-    const initialData = {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    };
-
-    function updateChartData(chart, path, avgYn) {
+    function updateChartData(myChart, dminsttResultsTwoChart, dminsttResultsThreeChart, avgYn) {
         var winbidAnalSearchPayload = $("form[name=datePerRateChart]").serialize();
 
         $.ajax({
-            url: '/api/winbidAnal/'+path,
+            url: '/api/winbidAnal/datePerRateChart',
             type: 'POST',
             data: winbidAnalSearchPayload,
             success: function(data) {
                 var dataModels = JSON.parse(data);
+
                 var labels = [];
                 var dataValues = [];
+                var dminsttResultsTwoLabels = [];
+                var dminsttResultsTwoValues = [];
+                var dminsttResultsTwoCnt = [];
+                var dminsttResultsThreeLabels = [];
+                var dminsttResultsThreeValues = [];
+                var dminsttResultsThreeCnt = [];
+
+                var chartResults = dataModels.chartResults;
+                var dminsttResultsTwo = dataModels.dminsttResultsTwo;
+                var dminsttResultsThree = dataModels.dminsttResultsThree;
 
                 // 서버에서 받은 JSON 데이터를 사용하여 labels와 dataValues를 설정
-                console.log('dataModels : '+dataModels);
-                dataModels.forEach(function(item) {
-                    console.log('item.yDataGroup : '+item.yDataGroup);
-                    console.log('item.xDataGroup : '+item.xDataGroup);
-                    labels.push(item.xDataGroup);  // X축: 날짜
-                    dataValues.push(item.yDataGroup);  // Y축: 예측 사정율
+                chartResults.forEach(function(item) {
+                    labels.push(item.xdataGroup);  // X축: 날짜
+                    dataValues.push(item.ydataGroup);  // Y축: 예측 사정율
                 });
 
+                // 기존 차트 라벨, 데이터 세팅
+                myChart.data.labels = labels;
+                myChart.data.datasets[0].data = dataValues;
+
+                // 평균값 계산 및 차트 평균값 수정
+                sum = dataValues.reduce((a, b) => a + b, 0);
+                average = sum / dataValues.length;  // 평균값
+
+                myChart.options.plugins.annotation.annotations.averageLine.yMin = average;
+                myChart.options.plugins.annotation.annotations.averageLine.yMax = average;
+                $("#avgText").text(average.toFixed(5));
+
                 // 기존 차트 업데이트
-                chart.data.labels = labels;
-                chart.data.datasets[0].data = dataValues;
+                myChart.update();
 
-                if(avgYn == 'Y') {
-                    sum = dataValues.reduce((a, b) => a + b, 0);
-                    average = sum / dataValues.length;  // 평균값
+                if(dminsttResultsTwo != '') {
+                    dminsttResultsTwo.forEach(function(item) {
+                        dminsttResultsTwoLabels.push(item.xdataGroup);  // X축: 날짜
+                        dminsttResultsTwoValues.push(item.ydataGroup);  // Y축: 예측 사정율
+                        dminsttResultsTwoCnt.push(item.cnt); // 툴팁용 건수 데이터
+                    });
 
-                    chart.options.plugins.annotation.annotations.averageLine.yMin = average;
-                    chart.options.plugins.annotation.annotations.averageLine.yMax = average;
-                    $("#avgText").text(average.toFixed(5));
+                    dminsttResultsTwoChart.data.labels = dminsttResultsTwoLabels;
+                    dminsttResultsTwoChart.data.datasets[0].data = dminsttResultsTwoValues;
+
+                    dminsttResultsTwoChart.options.plugins.tooltip.callbacks.label = function(tooltipItem) {
+                        const value = tooltipItem.raw.toFixed(5); // 데이터 값
+                        const index = tooltipItem.dataIndex; // 현재 데이터의 인덱스
+                        const countValue = dminsttResultsTwoCnt[index];
+
+                        return [
+                            `사정율 : ${value}`,
+                            `건수 : ${countValue}`
+                        ]  // 해당 데이터의 값 표시
+                    };
+
+                    var dinsttNm = dminsttResultsTwo[0].dminsttNm;
+
+                    $(".dminsttNmLabel").text(dinsttNm);
+                    $("#dminsttResultsTwoDiv").show();
+                    dminsttResultsTwoChart.update();
+                }else{
+                    $("#dminsttResultsTwoDiv").hide();
                 }
 
-                chart.update();
+                if(dminsttResultsThree != '') {
+                    dminsttResultsThree.forEach(function(item) {
+                        dminsttResultsThreeLabels.push(item.xdataGroup);  // X축: 날짜
+                        dminsttResultsThreeValues.push(item.ydataGroup);  // Y축: 예측 사정율
+                        dminsttResultsThreeCnt.push(item.cnt); // 툴팁용 건수 데이터
+                    });
+
+                    dminsttResultsThreeChart.data.labels = dminsttResultsThreeLabels;
+                    dminsttResultsThreeChart.data.datasets[0].data = dminsttResultsThreeValues;
+
+                    dminsttResultsThreeChart.options.plugins.tooltip.callbacks.label = function(tooltipItem) {
+                        const value = tooltipItem.raw.toFixed(5); // 데이터 값
+                        const index = tooltipItem.dataIndex; // 현재 데이터의 인덱스
+                        const countValue = dminsttResultsThreeCnt[index];
+
+                        return [
+                            `사정율 : ${value}`,
+                            `건수 : ${countValue}`
+                        ]  // 해당 데이터의 값 표시
+                    };
+
+                    var dinsttNm = dminsttResultsThree[0].dminsttNm;
+
+                    $(".dminsttNmLabel").text(dinsttNm);
+                    $("#dminsttResultsThreeDiv").show();
+                    dminsttResultsThreeChart.update();
+                }else{
+                    $("#dminsttResultsThreeDiv").hide();
+                }
+
             },
             error: function(err) {
                 console.error('Error fetching data:', err);
