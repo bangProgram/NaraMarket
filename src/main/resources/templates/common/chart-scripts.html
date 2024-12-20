@@ -8,6 +8,8 @@
 <script>
     var sum = 0;
     var average = 0;
+    var upperAvg = 0;
+    var lowerAvg = 0;
 
     // 차트 생성 함수
     function createChart(ctx, dataModels, xTitle, yTitle, avgYn) {
@@ -121,6 +123,26 @@
                                 label: {
                                     enabled: false  // 레이블을 표시하지 않음 (툴팁만 사용)
                                 }
+                            },
+                            upperAvg: {
+                                type: 'line',
+                                yMin: upperAvg,    // 첫 번째 추가 라인
+                                yMax: upperAvg,    // 첫 번째 추가 라인
+                                borderColor: 'blue',  // 선 색상
+                                borderWidth: 1,
+                                label: {
+                                    enabled: false  // 레이블을 표시하지 않음
+                                }
+                            },
+                            lowerAvg: {
+                                type: 'line',
+                                yMin: lowerAvg,    // 두 번째 추가 라인
+                                yMax: lowerAvg,    // 두 번째 추가 라인
+                                borderColor: 'green',  // 선 색상
+                                borderWidth: 1,
+                                label: {
+                                    enabled: false  // 레이블을 표시하지 않음
+                                }
                             }
                         }
                     }
@@ -181,9 +203,36 @@
                 sum = dataValues.reduce((a, b) => a + b, 0);
                 average = sum / dataValues.length;  // 평균값
 
+                upperSum = 0;
+                upperCnt = 0;
+                lowerSum = 0;
+                lowerCnt = 0;
+
+                dataValues.forEach(function(item) {
+                    if(item >= average) {
+                        upperCnt++;
+                        upperSum += item;
+                    }else{
+                        lowerCnt++;
+                        lowerSum += item;
+                    }
+                });
+
+                upperAvg = upperSum / upperCnt;
+                lowerAvg = lowerSum / lowerCnt;
+
                 myChart.options.plugins.annotation.annotations.averageLine.yMin = average;
                 myChart.options.plugins.annotation.annotations.averageLine.yMax = average;
+
+                myChart.options.plugins.annotation.annotations.upperAvg.yMin = upperAvg;
+                myChart.options.plugins.annotation.annotations.upperAvg.yMax = upperAvg;
+                myChart.options.plugins.annotation.annotations.lowerAvg.yMin = lowerAvg;
+                myChart.options.plugins.annotation.annotations.lowerAvg.yMax = lowerAvg;
+
                 $("#avgText").text(average.toFixed(5));
+                $("#upperAvgText").text(upperAvg.toFixed(5));
+                $("#lowerAvgText").text(lowerAvg.toFixed(5));
+
 
                 // 기존 차트 업데이트
                 myChart.update();
