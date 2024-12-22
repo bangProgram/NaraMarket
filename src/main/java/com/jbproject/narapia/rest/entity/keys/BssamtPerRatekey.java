@@ -16,5 +16,5 @@ import java.io.Serializable;
 public class BssamtPerRatekey implements Serializable {
 
     private String dminsttCd;
-    private String bssamtGroup;
+    private String presmptPrceGroup;
 }

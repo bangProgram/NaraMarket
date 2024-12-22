@@ -1,6 +1,5 @@
 package com.jbproject.narapia;
 
-import com.jbproject.narapia.rest.dto.BssamtPerRateChart;
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
 import com.jbproject.narapia.rest.dto.result.BssamtPerRateChartResult;
 import com.jbproject.narapia.rest.dto.result.WinbidAnalChartResult;
@@ -31,14 +30,6 @@ public class WinBidAnalTests {
     void getRsrvtnPrceRngChartList(){
 
         List<BssamtPerRateChartResult> results = winbidAnalService.getBssamtPerRateChartChartList("2","");
-        System.out.println("results : "+results);
-
-    }
-
-    @Test
-    void getRsrvtnPrceRngChartList2(){
-
-        List<BssamtPerRateChartResult> results = winbidAnalService.getBssamtPerRateChartChartList2("B553766","3");
         System.out.println("results : "+results);
 
     }

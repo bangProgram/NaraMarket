@@ -17,6 +17,4 @@ public interface WinbidAnalCustom  {
     List<BssamtPerRateChartResult> getRsrvtnPrceRngChartList(String rsrvtnPrceRng, String dminsttCd);
     List<WinBidAnalModel> getListToChartData(WinbidAnalSearchPayload payload);
     List<WinbidAnalSearchResult> searchWinbidAnalList(WinbidAnalSearchPayload payload);
-
-    List<BssamtPerRateChartResult> getRsrvtnPrceRngChartList2(String dminsttCd, String rsrvtnPrceRngRate );
 }
