@@ -8,6 +8,6 @@ import groovy.lang.Tuple;
 import java.util.List;
 
 public interface WinbidAnalService {
-    List<BssamtPerRateChartResult> getBssamtPerRateChartChartList(String rsrvtnPrceRng, String dminsttCd);
+    List<BssamtPerRateChartResult> getRsrvtnPrceRngChartList(String rsrvtnPrceRng, WinbidAnalSearchPayload payload);
     List<WinbidAnalChartResult> getListToChartData(WinbidAnalSearchPayload payload);
 }

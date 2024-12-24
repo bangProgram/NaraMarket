@@ -20,8 +20,8 @@ public class WinbidAnalServiceImpl implements WinbidAnalService {
     private final WinbidAnalRepository winbidAnalRepository;
     private final JpaResultMapper jpaResultMapper = new JpaResultMapper();
 
-    public List<BssamtPerRateChartResult> getBssamtPerRateChartChartList(String rsrvtnPrceRng, String dminsttCd ){
-        return winbidAnalRepository.getRsrvtnPrceRngChartList(rsrvtnPrceRng, dminsttCd);
+    public List<BssamtPerRateChartResult> getRsrvtnPrceRngChartList(String rsrvtnPrceRng, WinbidAnalSearchPayload payload ){
+        return winbidAnalRepository.getRsrvtnPrceRngChartList(rsrvtnPrceRng, payload);
     }
 
     public List<WinbidAnalChartResult> getListToChartData(WinbidAnalSearchPayload payload) {

@@ -16,8 +16,12 @@ public class WinbidAnalSearchPayload {
     private String dtilPrdctClsfcNoNm;
     @Schema(title = "공고기관코드", description = "공고를 하는 기관의 코드로 행자부코드(행정자치부에서 부여한 기관코드)")
     private String ntceInsttCd;
+    @Schema(title = "공고기관명", description = "공고를 하는 기관의 코드로 행자부명(행정자치부에서 부여한 기관명)")
+    private String ntceInsttNm;
     @Schema(title = "수요기관코드", description = "실제 수요기관의 코드로 행자부코드(행정자치부에서 부여한 기관코드)")
     private String dminsttCd = "ALL";
+    @Schema(title = "수요기관명", description = "실제 수요기관의 코드로 행자부명(행정자치부에서 부여한 기관명)")
+    private String dminsttNm;
 
     @Schema(title = "숫자")
     private Double bssamtRate;

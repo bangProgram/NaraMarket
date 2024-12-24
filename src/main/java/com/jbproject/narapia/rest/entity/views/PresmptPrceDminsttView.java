@@ -1,12 +1,9 @@
 package com.jbproject.narapia.rest.entity.views;
 
-import com.jbproject.narapia.rest.entity.keys.BssamtPerRatekey;
+import com.jbproject.narapia.rest.entity.keys.PresmptPrceDminsttKey;
 import groovy.transform.Immutable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Subselect;
@@ -44,7 +41,6 @@ import org.hibernate.annotations.Subselect;
                 ", count(1) as cnt, avg(plnprc_rate) as plnprc_rate\r\n" +
                 "from tb_winbid_anal_real twar\r\n" +
                 "where 1=1\r\n" +
-                "-- and replace(rsrvtn_prce_rng_bgn_rate,'-','') = '2' \r\n" +
                 "group by \r\n" +
                 "replace(rsrvtn_prce_rng_bgn_rate,'-',''),\r\n" +
                 "CASE \r\n" +
@@ -102,7 +98,6 @@ import org.hibernate.annotations.Subselect;
                 ", count(1) as cnt, avg(plnprc_rate) as plnprc_rate\r\n" +
                 "from tb_winbid_anal_real twar\r\n" +
                 "where 1=1\r\n" +
-                "-- and replace(rsrvtn_prce_rng_bgn_rate,'-','') = '2' \r\n" +
                 "group by \r\n" +
                 "replace(rsrvtn_prce_rng_bgn_rate,'-',''),\r\n" +
                 "CASE \r\n" +
@@ -135,10 +130,10 @@ import org.hibernate.annotations.Subselect;
 @Immutable
 @Getter
 @Setter
-public class BssamtPerRateView {
+public class PresmptPrceDminsttView {
 
     @EmbeddedId
-    private BssamtPerRatekey bssamtPerRatekey;
+    private PresmptPrceDminsttKey key;
 
     private String dminsttNm;
     private Double prtcptCnumAvg;

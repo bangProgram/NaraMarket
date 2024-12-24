@@ -38,8 +38,8 @@
                         <option value="4">공고기관 명</option>
                     </select>
                     <input type="text" th:field="*{dminsttCd}" placeholder="수요기관 코드" style="flex: 1;">
-                    <input type="text" th:field="*{ntceInsttCd}" placeholder="공고기관 코드" style="flex: 1;">
                     <input type="text" th:field="*{dminsttNm}" placeholder="수요기관 명" style="flex: 1;">
+                    <input type="text" th:field="*{ntceInsttCd}" placeholder="공고기관 코드" style="flex: 1;">
                     <input type="text" th:field="*{ntceInsttNm}" placeholder="공고기관 명" style="flex: 1;">
                 </div>
                 <button type="button" th:onclick="getDatePerRateChart()" style="flex: 1;">차트 업데이트</button>
@@ -56,6 +56,161 @@
                 </div>
             </div>
         </form>
+    </div>
+
+    <div id="analTotalDiv">
+        <div>
+            전체 통계 검색
+            <form name="totalForm" method="post"  th:object="${winbidAnalSearchPayload}" >
+                <input type="hidden" th:field="*{bssamtRate}" id="total_bssamtRate" placeholder="예측사정율">
+                <input type="hidden" th:field="*{rateLevel}" id="total_rateLevel" placeholder="사정율 레벨">
+                <input type="hidden" name="searchType" value="total">
+                <table>
+                    <tr>
+                        <td id="total_befButton" class="befButton">
+                            <a type="button" th:onclick="goBefLevel('total')" ><- 이전</a>
+                        </td>
+                        <td><button type="button" th:onclick="searchWinbidAnal('total')" >조회</button></td>
+                    </tr>
+                </table>
+            </form>
+
+            <table id="total_winbidAnalTable">
+                <thead>
+                <tr>
+                    <td>예측사정율</td>
+                    <td>통계건수</td>
+                </tr>
+                </thead>
+                <tbody class="trTest">
+                <tr th:each="result : ${winbidAnalSearchResults}">
+                    <td>
+                        <a th:onclick="goNextLevel('total',[[${result.bssamtRate}]])" style="color: blue;">
+                            [[${result.bssamtRate}]]
+                        </a>
+                    </td>
+                    <td th:text="${result.rateCount}"/>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            물품번호 통계 검색
+            <form name="prdctForm" method="post"  th:object="${winbidAnalSearchPayload}" >
+                <input type="hidden" th:field="*{bssamtRate}" id="prdct_bssamtRate" placeholder="예측사정율">
+                <input type="hidden" th:field="*{rateLevel}" id="prdct_rateLevel" placeholder="사정율 레벨">
+                <input type="hidden" name="searchType" value="prdct">
+                <table>
+                    <tr>
+                        <td id="prdct_befButton" class="befButton">
+                            <a type="button" th:onclick="goBefLevel('prdct')" ><- 이전</a>
+                        </td>
+                        <td>
+                            <input type="text" th:field="*{dtilPrdctClsfcNo}" placeholder="품명 번호">
+                        </td>
+                        <td><button type="button" th:onclick="searchWinbidAnal('prdct')" >조회</button></td>
+                    </tr>
+                </table>
+            </form>
+
+            <table id="prdct_winbidAnalTable">
+                <thead>
+                <tr>
+                    <td>예측사정율</td>
+                    <td>통계건수</td>
+                </tr>
+                </thead>
+                <tbody class="trTest">
+                <tr th:each="result : ${winbidAnalSearchResults}">
+                    <td>
+                        <a th:onclick="goNextLevel('prdct',[[${result.bssamtRate}]])" style="color: blue;">
+                            [[${result.bssamtRate}]]
+                        </a>
+                    </td>
+                    <td th:text="${result.rateCount}"/>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            공고기관 통계 검색
+            <form name="ntceInsttForm" method="post"  th:object="${winbidAnalSearchPayload}" >
+                <input type="hidden" th:field="*{bssamtRate}" id="ntceInstt_bssamtRate" placeholder="예측사정율">
+                <input type="hidden" th:field="*{rateLevel}" id="ntceInstt_rateLevel" placeholder="사정율 레벨">
+                <input type="hidden" name="searchType" value="ntceInstt">
+                <table>
+                    <tr>
+                        <td id="ntceInstt_befButton" class="befButton">
+                            <a type="button" th:onclick="goBefLevel('ntceInstt')" ><- 이전</a>
+                        </td>
+                        <td>
+                            <input type="text" th:field="*{ntceInsttCd}" placeholder="품명 번호">
+                        </td>
+                        <td><button type="button" th:onclick="searchWinbidAnal('ntceInstt')" >조회</button></td>
+                    </tr>
+                </table>
+            </form>
+
+            <table id="ntceInstt_winbidAnalTable">
+                <thead>
+                <tr>
+                    <td>예측사정율</td>
+                    <td>통계건수</td>
+                </tr>
+                </thead>
+                <tbody class="trTest">
+                <tr th:each="result : ${winbidAnalSearchResults}">
+                    <td>
+                        <a th:onclick="goNextLevel('ntceInstt',[[${result.bssamtRate}]])" style="color: blue;">
+                            [[${result.bssamtRate}]]
+                        </a>
+                    </td>
+                    <td th:text="${result.rateCount}"/>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            수요기관 통계 검색
+            <form name="dminsttForm" method="post"  th:object="${winbidAnalSearchPayload}" >
+                <input type="hidden" th:field="*{bssamtRate}" id="dminstt_bssamtRate" placeholder="예측사정율">
+                <input type="hidden" th:field="*{rateLevel}" id="dminstt_rateLevel" placeholder="사정율 레벨">
+                <input type="hidden" name="searchType" value="dminstt">
+                <table>
+                    <tr>
+                        <td id="dminstt_befButton" class="befButton">
+                            <a type="button" th:onclick="goBefLevel('dminstt')" ><- 이전</a>
+                        </td>
+                        <td>
+                            <input type="text" th:field="*{dminsttCd}" placeholder="품명 번호">
+                        </td>
+                        <td><button type="button" th:onclick="searchWinbidAnal('dminstt')" >조회</button></td>
+                    </tr>
+                </table>
+            </form>
+
+            <table id="dminstt_winbidAnalTable">
+                <thead>
+                <tr>
+                    <td>예측사정율</td>
+                    <td>통계건수</td>
+                </tr>
+                </thead>
+                <tbody class="trTest">
+                <tr th:each="result : ${winbidAnalSearchResults}">
+                    <td>
+                        <a th:onclick="goNextLevel('dminstt','[[${result.bssamtRate}]]')" style="color: blue;">
+                            [[${result.bssamtRate}]]
+                        </a>
+                    </td>
+                    <td th:text="${result.rateCount}"/>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 <script th:inline="javascript">
@@ -152,23 +307,23 @@
 
         if($(this).val() == 1) {
             $("#dminsttCd").show();
-            $("#ntceInsttCd").hide();
             $("#dminsttNm").hide();
+            $("#ntceInsttCd").hide();
             $("#ntceInsttNm").hide();
         } else if($(this).val() == 2) {
             $("#dminsttCd").hide();
-            $("#ntceInsttCd").show();
-            $("#dminsttNm").hide();
+            $("#dminsttNm").show();
+            $("#ntceInsttCd").hide();
             $("#ntceInsttNm").hide();
         } else if($(this).val() == 3) {
             $("#dminsttCd").hide();
-            $("#ntceInsttCd").hide();
-            $("#dminsttNm").show();
+            $("#dminsttNm").hide();
+            $("#ntceInsttCd").show();
             $("#ntceInsttNm").hide();
         } else if($(this).val() == 4) {
             $("#dminsttCd").hide();
-            $("#ntceInsttCd").hide();
             $("#dminsttNm").hide();
+            $("#ntceInsttCd").hide();
             $("#ntceInsttNm").show();
         }
     });

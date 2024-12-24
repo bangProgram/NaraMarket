@@ -57,8 +57,8 @@ public class WinbidAnalApiController {
         ChartResults results = new ChartResults();
 
         results.setChartResults( winbidAnalService.getListToChartData(winbidAnalSearchPayload));
-        results.setDminsttResultsTwo(winbidAnalService.getBssamtPerRateChartChartList("2",winbidAnalSearchPayload.getDminsttCd()));
-        results.setDminsttResultsThree(winbidAnalService.getBssamtPerRateChartChartList("3",winbidAnalSearchPayload.getDminsttCd()));
+        results.setDminsttResultsTwo(winbidAnalService.getRsrvtnPrceRngChartList("2",winbidAnalSearchPayload));
+        results.setDminsttResultsThree(winbidAnalService.getRsrvtnPrceRngChartList("3",winbidAnalSearchPayload));
 
         return objectMapper.writeValueAsString(results); // 예시: 해당 코드로 데이터를 생성
     }

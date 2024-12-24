@@ -1,9 +1,7 @@
 package com.jbproject.narapia.rest.entity.keys;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Id;
 import lombok.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 
@@ -13,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Builder
-public class BssamtPerRatekey implements Serializable {
+public class PresmptPrceDminsttKey implements Serializable {
 
     private String dminsttCd;
     private String presmptPrceGroup;

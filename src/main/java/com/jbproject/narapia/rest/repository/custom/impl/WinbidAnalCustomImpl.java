@@ -23,7 +23,8 @@ import java.math.RoundingMode;
 import java.util.*;
 
 import static com.jbproject.narapia.rest.entity.QWinbidAnalEntity.winbidAnalEntity;
-import static com.jbproject.narapia.rest.entity.views.QBssamtPerRateView.bssamtPerRateView;
+import static com.jbproject.narapia.rest.entity.views.QPresmptPrceDminsttView.presmptPrceDminsttView;
+import static com.jbproject.narapia.rest.entity.views.QPresmptPrceNtceinsttView.presmptPrceNtceinsttView;
 import static org.springframework.util.StringUtils.hasText;
 
 @Repository
@@ -35,40 +36,92 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<BssamtPerRateChartResult> getRsrvtnPrceRngChartList(String rsrvtnPrceRng, String dminsttCd) {
+    public List<BssamtPerRateChartResult> getRsrvtnPrceRngChartList(String rsrvtnPrceRng, WinbidAnalSearchPayload payload) {
 
         BooleanBuilder whereCondition = new BooleanBuilder();
 
         if(hasText(rsrvtnPrceRng)){
-           whereCondition.and(bssamtPerRateView.rsrvtnPrceRngRate.eq(rsrvtnPrceRng));
+           whereCondition.and(presmptPrceDminsttView.rsrvtnPrceRngRate.eq(rsrvtnPrceRng));
         }
-        if(hasText(dminsttCd)){
-            whereCondition.and(bssamtPerRateView.bssamtPerRatekey.dminsttCd.eq(dminsttCd));
+
+        if(hasText(payload.getDminsttCd()) || hasText(payload.getDminsttNm())){
+            if(hasText(payload.getDminsttCd())){
+                whereCondition.and(presmptPrceDminsttView.key.dminsttCd.eq(payload.getDminsttCd()));
+            }else if(hasText(payload.getDminsttNm())){
+                whereCondition.and(presmptPrceDminsttView.dminsttNm.eq(payload.getDminsttNm()));
+            }
+
+            return jpaQueryFactory.select(
+                            Projections.fields(
+                                    BssamtPerRateChartResult.class
+                                    ,presmptPrceDminsttView.key.presmptPrceGroup.as("xDataGroup")
+                                    ,presmptPrceDminsttView.plnprcRate.as("yDataGroup")
+                                    ,presmptPrceDminsttView.key.presmptPrceGroup.as("presmptPrceGroup")
+                                    ,presmptPrceDminsttView.key.dminsttCd.as("dminsttCd")
+                                    ,presmptPrceDminsttView.dminsttNm.as("dminsttNm")
+                                    ,presmptPrceDminsttView.prtcptCnumAvg.as("prtcptCnumAvg")
+                                    ,presmptPrceDminsttView.rsrvtnPrceRngRate.as("rsrvtnPrceRngRate")
+                                    ,presmptPrceDminsttView.cnt.as("cnt")
+                                    ,presmptPrceDminsttView.plnprcRate.as("plnprcRate")
+                            )
+                    ).from(presmptPrceDminsttView)
+                    .where(whereCondition)
+                    .orderBy(
+                            presmptPrceDminsttView.key.dminsttCd.asc()
+                            , presmptPrceDminsttView.key.presmptPrceGroup.asc()
+                    )
+                    .fetch();
+        }else if(hasText(payload.getNtceInsttCd()) || hasText(payload.getNtceInsttNm())){
+            if(hasText(payload.getDminsttCd())){
+                whereCondition.and(presmptPrceNtceinsttView.key.dminsttCd.eq(payload.getNtceInsttCd()));
+            }else if(hasText(payload.getDminsttNm())){
+                whereCondition.and(presmptPrceNtceinsttView.dminsttNm.eq(payload.getNtceInsttNm()));
+            }
+
+            return jpaQueryFactory.select(
+                            Projections.fields(
+                                    BssamtPerRateChartResult.class
+                                    ,presmptPrceNtceinsttView.key.presmptPrceGroup.as("xDataGroup")
+                                    ,presmptPrceNtceinsttView.plnprcRate.as("yDataGroup")
+                                    ,presmptPrceNtceinsttView.key.presmptPrceGroup.as("presmptPrceGroup")
+                                    ,presmptPrceNtceinsttView.key.dminsttCd.as("dminsttCd")
+                                    ,presmptPrceNtceinsttView.dminsttNm.as("dminsttNm")
+                                    ,presmptPrceNtceinsttView.prtcptCnumAvg.as("prtcptCnumAvg")
+                                    ,presmptPrceNtceinsttView.rsrvtnPrceRngRate.as("rsrvtnPrceRngRate")
+                                    ,presmptPrceNtceinsttView.cnt.as("cnt")
+                                    ,presmptPrceNtceinsttView.plnprcRate.as("plnprcRate")
+                            )
+                    ).from(presmptPrceNtceinsttView)
+                    .where(whereCondition)
+                    .orderBy(
+                            presmptPrceNtceinsttView.key.dminsttCd.asc()
+                            , presmptPrceNtceinsttView.key.presmptPrceGroup.asc()
+                    )
+                    .fetch();
         }else{
-            whereCondition.and(bssamtPerRateView.bssamtPerRatekey.dminsttCd.eq("ALL"));
+            whereCondition.and(presmptPrceDminsttView.key.dminsttCd.eq("ALL"));
+
+            return jpaQueryFactory.select(
+                    Projections.fields(
+                            BssamtPerRateChartResult.class
+                            ,presmptPrceDminsttView.key.presmptPrceGroup.as("xDataGroup")
+                            ,presmptPrceDminsttView.plnprcRate.as("yDataGroup")
+                            ,presmptPrceDminsttView.key.presmptPrceGroup.as("presmptPrceGroup")
+                            ,presmptPrceDminsttView.key.dminsttCd.as("dminsttCd")
+                            ,presmptPrceDminsttView.dminsttNm.as("dminsttNm")
+                            ,presmptPrceDminsttView.prtcptCnumAvg.as("prtcptCnumAvg")
+                            ,presmptPrceDminsttView.rsrvtnPrceRngRate.as("rsrvtnPrceRngRate")
+                            ,presmptPrceDminsttView.cnt.as("cnt")
+                            ,presmptPrceDminsttView.plnprcRate.as("plnprcRate")
+                    )
+            ).from(presmptPrceDminsttView)
+            .where(whereCondition)
+            .orderBy(
+                    presmptPrceDminsttView.key.dminsttCd.asc()
+                    , presmptPrceDminsttView.key.presmptPrceGroup.asc()
+            )
+            .fetch();
         }
-
-
-        return jpaQueryFactory.select(
-                        Projections.fields(
-                                BssamtPerRateChartResult.class
-                                ,bssamtPerRateView.bssamtPerRatekey.presmptPrceGroup.as("xDataGroup")
-                                ,bssamtPerRateView.plnprcRate.as("yDataGroup")
-                                ,bssamtPerRateView.bssamtPerRatekey.presmptPrceGroup.as("presmptPrceGroup")
-                                ,bssamtPerRateView.bssamtPerRatekey.dminsttCd.as("dminsttCd")
-                                ,bssamtPerRateView.dminsttNm.as("dminsttNm")
-                                ,bssamtPerRateView.prtcptCnumAvg.as("prtcptCnumAvg")
-                                ,bssamtPerRateView.rsrvtnPrceRngRate.as("rsrvtnPrceRngRate")
-                                ,bssamtPerRateView.cnt.as("cnt")
-                                ,bssamtPerRateView.plnprcRate.as("plnprcRate")
-                        )
-                ).from(bssamtPerRateView)
-                .where(whereCondition)
-                .orderBy(
-                        bssamtPerRateView.bssamtPerRatekey.dminsttCd.asc()
-                        , bssamtPerRateView.bssamtPerRatekey.presmptPrceGroup.asc()
-                )
-                .fetch();
     }
 
     public List<WinBidAnalModel> getListToChartData(WinbidAnalSearchPayload payload){
@@ -76,8 +129,12 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
 
         if(hasText(payload.getDminsttCd())){
             whereCondition.and(winbidAnalEntity.dminsttCd.eq(payload.getDminsttCd()));
-        }else{
-            whereCondition.and(winbidAnalEntity.dminsttCd.eq("6280000"));
+        }else if(hasText(payload.getDminsttNm())){
+            whereCondition.and(winbidAnalEntity.dminsttNm.eq(payload.getDminsttNm()));
+        }else if(hasText(payload.getNtceInsttCd())){
+            whereCondition.and(winbidAnalEntity.ntceInsttCd.eq(payload.getNtceInsttCd()));
+        }else if(hasText(payload.getNtceInsttNm())){
+            whereCondition.and(winbidAnalEntity.ntceInsttNm.eq(payload.getNtceInsttNm()));
         }
 
         return jpaQueryFactory.select(

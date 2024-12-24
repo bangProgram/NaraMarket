@@ -28,8 +28,8 @@ public class WinBidAnalTests {
 
     @Test
     void getRsrvtnPrceRngChartList(){
-
-        List<BssamtPerRateChartResult> results = winbidAnalService.getBssamtPerRateChartChartList("2","");
+        WinbidAnalSearchPayload payload = new WinbidAnalSearchPayload();
+        List<BssamtPerRateChartResult> results = winbidAnalService.getRsrvtnPrceRngChartList("2",payload);
         System.out.println("results : "+results);
 
     }
