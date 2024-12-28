@@ -1,5 +1,7 @@
 package com.jbproject.narapia.rest.dto.result;
 
+import com.jbproject.narapia.rest.dto.model.BidRecordModel;
+import com.jbproject.narapia.rest.dto.model.WinBidAnalModel;
 import lombok.Data;
 
 import java.util.List;
@@ -7,8 +9,9 @@ import java.util.List;
 @Data
 public class ChartResults {
 
-    List<WinbidAnalChartResult> chartResults;
-    List<BssamtPerRateChartResult> dminsttResultsTwo;
-    List<BssamtPerRateChartResult> dminsttResultsThree;
+    private List<WinbidAnalChartResult> chartResults;
+    private List<BssamtPerRateChartResult> dminsttResultsTwo;
+    private List<BssamtPerRateChartResult> dminsttResultsThree;
+    private List<BidRecordModel> bidRecordModels;
 
 }

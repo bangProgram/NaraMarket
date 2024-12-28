@@ -1,15 +1,19 @@
 package com.jbproject.narapia;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jbproject.narapia.rest.dto.model.BidRecordModel;
 import com.jbproject.narapia.rest.dto.payload.BidRecordCudPayload;
+import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
 import com.jbproject.narapia.rest.dto.result.BidNotiResult;
 import com.jbproject.narapia.rest.entity.BidRecordEntity;
 import com.jbproject.narapia.rest.repository.BidRecordRepository;
+import com.jbproject.narapia.rest.service.BidRecordService;
 import groovy.util.logging.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -17,6 +21,9 @@ import java.util.Optional;
 public class BidRecordTests {
     @Autowired
     private BidRecordRepository bidRecordRepository;
+
+    @Autowired
+    private BidRecordService bidRecordService;
 
     @Test
     void test(){
@@ -27,6 +34,16 @@ public class BidRecordTests {
             BidRecordCudPayload result = objectMapper.readValue(serialData, BidRecordCudPayload.class);
         }catch (Exception e){
             System.out.println("error : "+e.getMessage());
+        }
+    }
+
+    @Test
+    void getLatestBidRecord(){
+        WinbidAnalSearchPayload payload = new WinbidAnalSearchPayload();
+        List<BidRecordModel> result = bidRecordService.getLatestBidRecord(payload);
+        System.out.println("result1 : "+result);
+        if(!result.isEmpty()){
+            System.out.println("result2 : "+result.getFirst());
         }
     }
 

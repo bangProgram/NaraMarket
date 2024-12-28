@@ -26,9 +26,7 @@
             </div>
             <div style="display: flex;">
                 <h3 style="flex: 8;">날짜별 사정율 변화 그래프</h3>
-                <div>하위 평균값 : <label id="lowerAvgText"></label> / </div>
-                <div>평균값 : <label id="avgText"></label> / </div>
-                <div>상위 평균값 : <label id="upperAvgText"></label></div>
+
                 <input type="hidden" th:field="*{dtilPrdctClsfcNo}" placeholder="품명 번호">
                 <div>
                     <select id="searchType">
@@ -44,7 +42,25 @@
                 </div>
                 <button type="button" th:onclick="getDatePerRateChart()" style="flex: 1;">차트 업데이트</button>
             </div>
-            <canvas id="myChart" width="500" height="100"></canvas>
+            <div style="display: flex;">
+                <div style="flex: 1;">
+                    <div>
+                        하위 : <label id="lowerAvgText"></label> / 평균값 : <label id="avgText"></label> / 상위 : <label id="upperAvgText"></label>
+                    </div>
+                    <div>
+                        <canvas id="myChart" width="300" height="100"></canvas>
+                    </div>
+                </div>
+                <div style="flex: 1;">
+                    <div>
+                        투찰 사정율 : <label id="latestBidRate"></label> / 낙찰 사정율 : <label id="latestSucRate"></label>
+                    </div>
+                    <div>
+                        <canvas id="rankChart" width="300" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+
             <div style="display: flex;">
                 <div style="flex: 1;" id="dminsttResultsTwoDiv">
                     <h3 style="flex: 8;"><label class="dminsttNmLabel"></label> 사정율 통계 (하한:2%)</h3>
@@ -60,7 +76,6 @@
 
 <script th:inline="javascript">
     $(document).ready(function(){
-        $(".befButton").hide();
         $("#dminsttNm").hide();
         $("#ntceInsttCd").hide();
         $("#ntceInsttNm").hide();
@@ -77,6 +92,8 @@
     var ctx = document.getElementById('myChart').getContext('2d');
     var dminsttResultsTwo = document.getElementById('dminsttResultsTwo').getContext('2d');
     var dminsttResultsThree = document.getElementById('dminsttResultsThree').getContext('2d');
+    var rank = document.getElementById('rankChart').getContext('2d');
+
 
 
     // Chart 생성
@@ -86,63 +103,13 @@
     var myChart = createChart(ctx, null, '날짜', '사정율', 'Y');
     var dminsttResultsTwoChart = createChart(dminsttResultsTwo, null, '금액', '사정율', 'N');
     var dminsttResultsThreeChart = createChart(dminsttResultsThree, null, '금액', '사정율', 'N');
+    var rankChart = createChart(rank, null, '날짜', '순위', 'N');
 
     function getDatePerRateChart() {
-        updateChartData(myChart, dminsttResultsTwoChart, dminsttResultsThreeChart, 'Y');
+        updateChartData(myChart, dminsttResultsTwoChart, dminsttResultsThreeChart, rankChart, 'Y');
 
     }
 
-
-    function befLevelChk(type, level) {
-        if(level == 1) {
-            $("#"+type+"_bssamtRate").val('');
-            $("#"+type+"_befButton").hide();
-        }else{
-            $("#"+type+"_befButton").show();
-        }
-    }
-
-    function goBefLevel(type) {
-        var bssamtRate = $("#"+type+"_bssamtRate").val();
-        var newRate = bssamtRate.slice(0, -1);
-         $("#"+type+"_bssamtRate").val(newRate);
-
-        var befLevel = Number($("#"+type+"_rateLevel").val()) - 1;
-        $("#"+type+"_rateLevel").val(befLevel)
-
-        var winbidAnalSearchPayload = $("form[name="+type+"Form]").serialize() ;
-
-        befLevelChk(type, befLevel);
-        searchWinbidAnal(type);
-   }
-
-   function goNextLevel(type, bssamtRate) {
-        $("#"+type+"_bssamtRate").val(bssamtRate);
-        var nextLevel = Number($("#"+type+"_rateLevel").val()) + 1;
-        $("#"+type+"_rateLevel").val(nextLevel)
-
-        var winbidAnalSearchPayload = $("form[name="+type+"Form]").serialize() ;
-
-        befLevelChk(type, nextLevel);
-        searchWinbidAnal(type);
-   }
-
-   function searchWinbidAnal(type){
-
-       var winbidAnalSearchPayload = $("form[name="+type+"Form]").serialize() ;
-
-       console.log("queryString : "+winbidAnalSearchPayload);
-
-       $.ajax({
-           url: "/api/winbidAnal/search/anal",
-           data: winbidAnalSearchPayload,
-           type: 'POST',
-           success:function(data){
-               $("#"+type+"_winbidAnalTable").replaceWith(data);
-           }
-       })
-
-   }
 
     $("#searchType").change(function(){
         $("#dminsttCd").val("");

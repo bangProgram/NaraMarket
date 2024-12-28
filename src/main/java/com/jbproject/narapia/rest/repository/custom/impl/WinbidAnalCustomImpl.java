@@ -40,11 +40,12 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
 
         BooleanBuilder whereCondition = new BooleanBuilder();
 
-        if(hasText(rsrvtnPrceRng)){
-           whereCondition.and(presmptPrceDminsttView.rsrvtnPrceRngRate.eq(rsrvtnPrceRng));
-        }
+
 
         if(hasText(payload.getDminsttCd()) || hasText(payload.getDminsttNm())){
+            if(hasText(rsrvtnPrceRng)){
+                whereCondition.and(presmptPrceDminsttView.rsrvtnPrceRngRate.eq(rsrvtnPrceRng));
+            }
             if(hasText(payload.getDminsttCd())){
                 whereCondition.and(presmptPrceDminsttView.key.dminsttCd.eq(payload.getDminsttCd()));
             }else if(hasText(payload.getDminsttNm())){
@@ -72,9 +73,12 @@ public class WinbidAnalCustomImpl implements WinbidAnalCustom {
                     )
                     .fetch();
         }else if(hasText(payload.getNtceInsttCd()) || hasText(payload.getNtceInsttNm())){
-            if(hasText(payload.getDminsttCd())){
+            if(hasText(rsrvtnPrceRng)){
+                whereCondition.and(presmptPrceNtceinsttView.rsrvtnPrceRngRate.eq(rsrvtnPrceRng));
+            }
+            if(hasText(payload.getNtceInsttCd())){
                 whereCondition.and(presmptPrceNtceinsttView.key.dminsttCd.eq(payload.getNtceInsttCd()));
-            }else if(hasText(payload.getDminsttNm())){
+            }else if(hasText(payload.getNtceInsttNm())){
                 whereCondition.and(presmptPrceNtceinsttView.dminsttNm.eq(payload.getNtceInsttNm()));
             }
 

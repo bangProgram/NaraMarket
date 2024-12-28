@@ -166,7 +166,7 @@
         });
     }
 
-    function updateChartData(myChart, dminsttResultsTwoChart, dminsttResultsThreeChart, avgYn) {
+    function updateChartData(myChart, dminsttResultsTwoChart, dminsttResultsThreeChart, rankChart, avgYn) {
         var winbidAnalSearchPayload = $("form[name=datePerRateChart]").serialize();
 
         $.ajax({
@@ -184,12 +184,56 @@
                 var dminsttResultsThreeLabels = [];
                 var dminsttResultsThreeValues = [];
                 var dminsttResultsThreeCnt = [];
+                var bidRecordModelsLabels = [];
+                var bidRecordModelsValues = [];
+                var bidRecordModelsRates = [];
 
                 var chartResults = dataModels.chartResults;
                 var dminsttResultsTwo = dataModels.dminsttResultsTwo;
                 var dminsttResultsThree = dataModels.dminsttResultsThree;
+                var bidRecordModels = dataModels.bidRecordModels;
+
+
 
                 // 서버에서 받은 JSON 데이터를 사용하여 labels와 dataValues를 설정
+                if(bidRecordModels != ''){
+                    $("#latestBidRate").text(bidRecordModels[0].bidAmtRate);
+                    $("#latestSucRate").text(bidRecordModels[0].sucsfbidAmtRate);
+                }
+
+                bidRecordModels.forEach(function(item) {
+                    var rank = 0;
+                    const map = new Map();
+                    bidRecordModelsLabels.push(item.createDttm);  // X축: 날짜 ymd
+                    if(item.sucsfbidRank == '탈락') {
+                        rank = 0;
+                    }else{
+                        rank = Number(item.sucsfbidRank);
+                    }
+                    bidRecordModelsValues.push(rank);  // Y축: 순위
+
+                    map.set('bidAmtRate', item.bidAmtRate);
+                    map.set('sucsfbidAmtRate', item.sucsfbidAmtRate);
+                    bidRecordModelsRates.push(map); // 툴팁정보 : 사정율
+                });
+
+                rankChart.data.labels = bidRecordModelsLabels;
+                rankChart.data.datasets[0].data = bidRecordModelsValues;
+
+                rankChart.options.plugins.tooltip.callbacks.label = function(tooltipItem) {
+                    const rank = tooltipItem.raw; // 데이터 값
+                    const index = tooltipItem.dataIndex; // 현재 데이터의 인덱스
+                    const bidAmtRate = bidRecordModelsRates[index].get('bidAmtRate');
+                    const sucsfbidAmtRate = bidRecordModelsRates[index].get('sucsfbidAmtRate');
+
+                    return [
+                        `투찰 사정율 : ${bidAmtRate}`,
+                        `낙찰 사정율 : ${sucsfbidAmtRate}`,
+                        `순위 : ${rank}`
+                    ]  // 해당 데이터의 값 표시
+                };
+                rankChart.update();
+
                 chartResults.forEach(function(item) {
                     labels.push(item.xdataGroup);  // X축: 날짜
                     dataValues.push(item.ydataGroup);  // Y축: 예측 사정율

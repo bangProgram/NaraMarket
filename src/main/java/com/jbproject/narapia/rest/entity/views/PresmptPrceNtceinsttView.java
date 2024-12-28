@@ -3,6 +3,7 @@ package com.jbproject.narapia.rest.entity.views;
 import com.jbproject.narapia.rest.entity.keys.PresmptPrceDminsttKey;
 import com.jbproject.narapia.rest.entity.keys.PresmptPrceNtceinsttKey;
 import groovy.transform.Immutable;
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -12,8 +13,8 @@ import org.hibernate.annotations.Subselect;
 
 @Subselect(
         "select \r\n" +
-                "'ALL' as dminstt_cd\r\n" +
-                ", '전체' as dminstt_nm\r\n" +
+                "'ALL' as ntce_instt_cd\r\n" +
+                ", '전체' as ntce_instt_nm\r\n" +
                 ",CASE \r\n" +
                 "    WHEN presmpt_prce <= 10000000 THEN '0.1억 이하'\r\n" +
                 "    WHEN 10000000< presmpt_prce and presmpt_prce <= 20000000 THEN '0.2억 이하'\r\n" +
@@ -69,8 +70,8 @@ import org.hibernate.annotations.Subselect;
                 "end\r\n" +
                 "union all\r\n" +
                 "select \r\n" +
-                "twar.ntce_instt_cd as dinstt_cd\r\n" +
-                ", twar.ntce_instt_nm  as dminstt_nm\r\n" +
+                "twar.ntce_instt_cd\r\n" +
+                ", twar.ntce_instt_nm\r\n" +
                 ",CASE \r\n" +
                 "    WHEN presmpt_prce <= 10000000 THEN '0.1억 이하'\r\n" +
                 "    WHEN 10000000< presmpt_prce and presmpt_prce <= 20000000 THEN '0.2억 이하'\r\n" +
@@ -136,6 +137,7 @@ public class PresmptPrceNtceinsttView {
     @EmbeddedId
     private PresmptPrceNtceinsttKey key;
 
+    @Column(name = "ntce_instt_nm")
     private String dminsttNm;
     private Double prtcptCnumAvg;
     private String rsrvtnPrceRngRate;

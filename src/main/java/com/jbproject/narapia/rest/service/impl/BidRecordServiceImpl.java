@@ -4,6 +4,7 @@ import com.jbproject.narapia.rest.constants.ServerErrorConstant;
 import com.jbproject.narapia.rest.dto.model.BidRecordModel;
 import com.jbproject.narapia.rest.dto.payload.BidRecordCudPayload;
 import com.jbproject.narapia.rest.dto.payload.BidRecordSearchPayload;
+import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
 import com.jbproject.narapia.rest.dto.result.BidRecordResult;
 import com.jbproject.narapia.rest.entity.BidRecordEntity;
 import com.jbproject.narapia.rest.exception.ExceptionProvider;
@@ -74,5 +75,9 @@ public class BidRecordServiceImpl implements BidRecordService {
         }
 
 
+    }
+
+    public List<BidRecordModel> getLatestBidRecord(WinbidAnalSearchPayload payload){
+        return bidRecordRepository.getLatestBidRecord(payload).stream().map(BidRecordModel::create).toList();
     }
 }

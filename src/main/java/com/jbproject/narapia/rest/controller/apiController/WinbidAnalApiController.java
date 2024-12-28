@@ -2,12 +2,14 @@ package com.jbproject.narapia.rest.controller.apiController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jbproject.narapia.rest.dto.model.BidRecordModel;
 import com.jbproject.narapia.rest.dto.payload.WinbidAnalSearchPayload;
 import com.jbproject.narapia.rest.dto.result.BssamtPerRateChartResult;
 import com.jbproject.narapia.rest.dto.result.ChartResults;
 import com.jbproject.narapia.rest.dto.result.WinbidAnalChartResult;
 import com.jbproject.narapia.rest.dto.result.WinbidAnalSearchResult;
 import com.jbproject.narapia.rest.service.BidNotiService;
+import com.jbproject.narapia.rest.service.BidRecordService;
 import com.jbproject.narapia.rest.service.WinbidAnalService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class WinbidAnalApiController {
 
     private final BidNotiService bidNotiService;
     private final WinbidAnalService winbidAnalService;
+    private final BidRecordService bidRecordService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @PostMapping("/search/anal")
@@ -59,6 +62,7 @@ public class WinbidAnalApiController {
         results.setChartResults( winbidAnalService.getListToChartData(winbidAnalSearchPayload));
         results.setDminsttResultsTwo(winbidAnalService.getRsrvtnPrceRngChartList("2",winbidAnalSearchPayload));
         results.setDminsttResultsThree(winbidAnalService.getRsrvtnPrceRngChartList("3",winbidAnalSearchPayload));
+        results.setBidRecordModels(bidRecordService.getLatestBidRecord(winbidAnalSearchPayload));
 
         return objectMapper.writeValueAsString(results); // 예시: 해당 코드로 데이터를 생성
     }

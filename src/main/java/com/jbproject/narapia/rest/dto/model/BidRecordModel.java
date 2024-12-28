@@ -9,6 +9,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Data
 @NoArgsConstructor
 public class BidRecordModel {
@@ -57,6 +62,8 @@ public class BidRecordModel {
     private Double bidAmtRate;
     @Schema(title = "예측사정율")
     private Double sucsfbidAmtRate;
+    @Schema(title = "작성일자")
+    private String createDttm;
 
     public BidRecordModel(BidRecordEntity entity) {
 
@@ -82,5 +89,35 @@ public class BidRecordModel {
         this.sucsfbidLwltRate = entity.getSucsfbidLwltRate();
         this.bidAmtRate = entity.getBidAmtRate();
         this.sucsfbidAmtRate = entity.getSucsfbidAmtRate();
+    }
+
+    public static BidRecordModel create(BidRecordEntity entity){
+        BidRecordModel result = new BidRecordModel();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm");
+
+        result.setId(entity.getId());
+        result.setMarketCd(entity.getMarketCd());
+        result.setBidNtceNo(entity.getBidNtceNo());
+        result.setBidNtceOrd(entity.getBidNtceOrd());
+        result.setBidClsfcNo(entity.getBidClsfcNo());
+        result.setBidNtceNm(entity.getBidNtceNm());
+        result.setNtceInsttCd(entity.getNtceInsttCd());
+        result.setNtceInsttNm(entity.getNtceInsttNm());
+        result.setDminsttCd(entity.getDminsttCd());
+        result.setDminsttNm(entity.getDminsttNm());
+        result.setBssamt(entity.getBssamt());
+        result.setPresmptPrce(entity.getPresmptPrce());
+        result.setRsrvtnPrceRngRate(entity.getRsrvtnPrceRngRate());
+        result.setMarketNm(entity.getMarketNm());
+        result.setExpectAmt(entity.getExpectAmt());
+        result.setSucsfbidAmt(entity.getSucsfbidAmt());
+        result.setBidAmt(entity.getBidAmt());
+        result.setSucsfbidRank(entity.getSucsfbidRank());
+        result.setBidAmtDiff(entity.getBidAmtDiff());
+        result.setSucsfbidLwltRate(entity.getSucsfbidLwltRate());
+        result.setBidAmtRate(entity.getBidAmtRate());
+        result.setSucsfbidAmtRate(entity.getSucsfbidAmtRate());
+        result.setCreateDttm(entity.getCreateDttm().format(formatter));
+        return result;
     }
 }
