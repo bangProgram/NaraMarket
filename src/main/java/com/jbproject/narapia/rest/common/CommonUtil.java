@@ -76,12 +76,12 @@ public class CommonUtil {
         URI request = new URI(requestUri);
 
         RestTemplate restTemplate = new RestTemplate();
-//        System.out.println("test : "+request);
+        System.out.println("test : "+request);
         String responseEntity = restTemplate.getForObject(request, String.class);
-//        System.out.println("test : "+responseEntity);
+        System.out.println("test : "+responseEntity);
 
         Map responseModel = objectMapper.readValue(responseEntity,Map.class);
-//        System.out.println("test : "+responseModel);
+        System.out.println("test : "+responseModel);
 
         TypeReference<ApiResponseModel<T>> typeReference = createTypeReference(type);
         return objectMapper.readValue(objectMapper.writeValueAsString(responseModel.get(rootName)), typeReference);
