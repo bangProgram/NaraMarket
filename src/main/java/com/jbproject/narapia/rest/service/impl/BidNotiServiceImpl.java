@@ -67,6 +67,7 @@ public class BidNotiServiceImpl implements BidNotiService {
                 result.setPrearngPrceDcsnMthdNm(bidNotiModel.getPrearngPrceDcsnMthdNm());
                 result.setPresmptPrce(CommonUtil.convertDouble(bidNotiModel.getPresmptPrce()));
                 result.setSucsfbidLwltRate(bidNotiModel.getSucsfbidLwltRate());
+                result.setBssamt(CommonUtil.convertDouble(bidNotiModel.getAsignBdgtAmt()));
 
                 result.setDtilPrdctClsfcNo(bidNotiModel.getDtilPrdctClsfcNo());
                 result.setDtilPrdctClsfcNoNm(bidNotiModel.getDtilPrdctClsfcNoNm());
@@ -75,14 +76,17 @@ public class BidNotiServiceImpl implements BidNotiService {
                 result.setPrdctUnit(bidNotiModel.getPrdctUnit());
                 result.setPrdctUprc(CommonUtil.convertDouble(bidNotiModel.getPrdctUprc()));
             }
+            System.out.println("test1 : "+(bidNotiDetailRes.getBody().getItems() != null) + " / ");
             if(bidNotiDetailRes.getBody().getItems() != null) {
-                BidNotiDetailModel bidNotiDetailModel = bidNotiDetailRes.getBody().getItems().getFirst();
+                if(!bidNotiDetailRes.getBody().getItems().isEmpty()){
+                    BidNotiDetailModel bidNotiDetailModel = bidNotiDetailRes.getBody().getItems().getFirst();
 
-                result.setBidClsfcNo(bidNotiDetailModel.getBidClsfcNo());
-                result.setBidNtceNm(bidNotiDetailModel.getBidNtceNm());
-                result.setBssamt(CommonUtil.convertDouble(bidNotiDetailModel.getBssamt()));
-                result.setRsrvtnPrceRngBgnRate(bidNotiDetailModel.getRsrvtnPrceRngBgnRate());
-                result.setRsrvtnPrceRngEndRate(bidNotiDetailModel.getRsrvtnPrceRngEndRate());
+                    result.setBidClsfcNo(bidNotiDetailModel.getBidClsfcNo());
+                    result.setBidNtceNm(bidNotiDetailModel.getBidNtceNm());
+                    result.setBssamt(CommonUtil.convertDouble(bidNotiDetailModel.getBssamt()));
+                    result.setRsrvtnPrceRngBgnRate(bidNotiDetailModel.getRsrvtnPrceRngBgnRate());
+                    result.setRsrvtnPrceRngEndRate(bidNotiDetailModel.getRsrvtnPrceRngEndRate());
+                }
             }
 
             return result;
