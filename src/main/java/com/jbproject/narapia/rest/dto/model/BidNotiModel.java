@@ -63,7 +63,7 @@ public class BidNotiModel {
     private String exctvNm;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @Schema(title = "(방위사업청 오픈API 연계데이터 포함)입찰참가등록이란 입찰사무를 효과적으로 집행하기 위하여 사전에 입찰참가자격등록을 해두었다가 필요 시 입찰에 참여하는 제도로 해당 공고에 대한 입찰참가자격의 등록이 완료되어야 하는 시점을 의미함 “YYYY-MM-DD HH:MM:SS”")
     private LocalDateTime bidQlfctRgstDt;
     private String cmmnSpldmdAgrmntRcptdocMethd;
