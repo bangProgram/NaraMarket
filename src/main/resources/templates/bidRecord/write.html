@@ -203,6 +203,12 @@
             calcSucsfbidAmtRate();
             calcSucsfbidAmt();
         });
+
+        $("#sucsfbidAmt").change(function(){
+            calcExpectAmtForSucsfbidAmt();
+            calcSucsfbidAmtRate();
+        });
+
         $("#bssamt").change(function(){
             calcBidAmtRate();
         });
@@ -312,6 +318,29 @@
             var calcValue = Number(expectAmt) * Number(sucsfbidLwltRate) / 100;
             var format = decimalFormatter(calcValue,2);
             $("#sucsfbidAmt").val(format);
+
+            calcBidAmtDiff();
+        }
+
+        function calcExpectAmtForSucsfbidAmt(){
+
+            var sucsfbidAmt = $("#sucsfbidAmt").val();
+            var sucsfbidLwltRate = $("#sucsfbidLwltRate").val();
+
+            if(sucsfbidAmt != null || sucsfbidAmt != ""){
+                sucsfbidAmt = sucsfbidAmt.replaceAll(",","");
+            }else{
+                sucsfbidAmt = 0;
+            }
+            if(sucsfbidLwltRate != null || sucsfbidLwltRate != ""){
+                sucsfbidLwltRate = sucsfbidLwltRate.replaceAll(",","");
+            }else{
+                sucsfbidLwltRate = 0;
+            }
+
+            var calcValue = Number(sucsfbidAmt) * 100 / Number(sucsfbidLwltRate);
+            var format = decimalFormatter(calcValue,2);
+            $("#expectAmt").val(format);
 
             calcBidAmtDiff();
         }
